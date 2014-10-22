@@ -1,3 +1,63 @@
+This is the documentation of [Hugo](http://gohugo.io/) condensed into one long page. I did this to make the documentation easier to search and navigate. This page was automatically generated using a Python script using the documentation available at Hugo's GitHub repository.
+
+# Index
+
+## overview
+
+  * <a href="#overview.introduction.md">Introduction</a>
+  * <a href="#overview.quickstart.md">Quickstart</a>
+  * <a href="#overview.installing.md">Installing Hugo</a>
+  * <a href="#overview.usage.md">Using Hugo</a>
+  * <a href="#overview.configuration.md">Configuration</a>
+  * <a href="#overview.source-directory.md">Source Organization</a>
+
+## content
+
+  * <a href="#content.organization.md">Organization</a>
+  * <a href="#content.front-matter.md">Front Matter</a>
+  * <a href="#content.sections.md">Sections</a>
+  * <a href="#content.types.md">Types</a>
+  * <a href="#content.archetypes.md">Archetypes</a>
+  * <a href="#content.ordering.md">Ordering</a>
+  * <a href="#content.example.md">Example</a>
+
+## templates
+
+  * <a href="#templates.overview.md">Overview</a>
+  * <a href="#templates.go-templates.md">Go Template Primer</a>
+  * <a href="#templates.functions.md">Functions</a>
+  * <a href="#templates.content.md">Single Content</a>
+  * <a href="#templates.list.md">List of Content</a>
+  * <a href="#templates.homepage.md">Homepage</a>
+  * <a href="#templates.terms.md">Taxonomy Terms</a>
+  * <a href="#templates.views.md">Content Views</a>
+  * <a href="#templates.partials.md">Partial Templates</a>
+  * <a href="#templates.rss.md">RSS</a>
+  * <a href="#templates.sitemap.md">Sitemap</a>
+  * <a href="#templates.404.md">404</a>
+
+## taxonomies
+
+  * <a href="#taxonomies.overview.md">Overview</a>
+  * <a href="#taxonomies.usage.md">Usage</a>
+  * <a href="#taxonomies.displaying.md">Displaying</a>
+  * <a href="#taxonomies.templates.md">Templates</a>
+  * <a href="#taxonomies.ordering.md">Ordering</a>
+  * <a href="#taxonomies.methods.md">Structure & Methods</a>
+
+## extras
+
+  * <a href="#extras.aliases.md">Aliases</a>
+  * <a href="#extras.builders.md">Builders</a>
+  * <a href="#extras.comments.md">Comments</a>
+  * <a href="#extras.livereload.md">Live Reload</a>
+  * <a href="#extras.menus.md">Menus</a>
+  * <a href="#extras.permalinks.md">Permalinks</a>
+  * <a href="#extras.shortcodes.md">Shortcodes</a>
+  * <a href="#extras.highlighting.md">Syntax Highlighting</a>
+  * <a href="#extras.toc.md">Table of Contents</a>
+  * <a href="#extras.urls.md">URLs</a>
+
 <a name="overview.introduction.md"></a>
 
 #Introduction to Hugo
@@ -117,7 +177,6 @@ as I have writing it.
  * [Join the Mailing List](#community.mailing-list.md)
  * [Star us on GitHub](http://github.com/spf13/hugo)
  * [Discussion Forum](http://discuss.gohugo.io)
-
 
 <a name="overview.quickstart.md"></a>
 
@@ -271,7 +330,6 @@ Things to try:
  * Define your own field in [front matter](#content.front-matter.md)
  * Display that [field in the template](#layout.variables.md)
  * Create a [new content type](#content.types.md)
-
 <a name="overview.installing.md"></a>
 
 #Installing Hugo
@@ -332,7 +390,6 @@ placed in your path.
 ## Contributing
 
 Please see the [contributing guide](#doc.contributing.md).
-
 <a name="overview.usage.md"></a>
 
 #Using Hugo
@@ -413,7 +470,6 @@ all browsers (including mobile).
        0 tags created
        in 18 ms
 
-
 <a name="overview.configuration.md"></a>
 
 #Configuring Hugo
@@ -474,7 +530,6 @@ Here is a yaml configuration file which sets a few more options
 Config changes do not reflect with [Live Reload](#extras.livereload.md).
 
 Please restart `hugo server --watch` whenever you make a config change.
-
 <a name="overview.source-directory.md"></a>
 
 #Source Organization
@@ -556,7 +611,6 @@ This directory structure tells us a lot about this site:
 1. The website intends to have two different types of content: posts and quotes.
 2. It will also apply two different indexes to that content: categories and tags.
 3. It will be displaying content in 3 different views: a list, a summary and a full page view.
-
 <a name="content.organization.md"></a>
 
 #Content Organization
@@ -712,7 +766,6 @@ When a url is provided it will be used exactly. Using url will ignore the
 * defined in front matter
 * overrides all the above
 
-
 <a name="content.front-matter.md"></a>
 
 #Front Matter
@@ -800,7 +853,6 @@ Field names are always normalized to lowercase (e.g. `camelCase: true` is availa
 
 *If neither slug or url is present, the filename will be used.*
 
-
 <a name="content.sections.md"></a>
 
 #Sections
@@ -843,7 +895,6 @@ in the front matter.
 
 If a layout for a given type hasn't been provided, a default type template will
 be used instead provided it exists.
-
 
 
 <a name="content.types.md"></a>
@@ -915,7 +966,6 @@ that a template exists in each layout/type directory with the same name.
 Create a file called `type`.md in the /archetypes directory *Eg /archetypes/post.md*.
 
 More details about archetypes can be found at the [archetypes docs](#content.archetypes.md)
-
 <a name="content.archetypes.md"></a>
 
 #Archetypes
@@ -985,7 +1035,6 @@ file name) and the date based on `now()`.
 Content type is automatically detected based on the path. You are welcome to declare which 
 type to create using the `--kind` flag during creation.
 
-
 <a name="content.ordering.md"></a>
 
 #Ordering Content
@@ -1018,7 +1067,6 @@ guaranteed.
 ## Ordering Content Within Taxonomies
 
 Please see the [Taxonomy Ordering Documentation](#taxonomies.ordering.md).
-
 <a name="content.example.md"></a>
 
 #Example Content File
@@ -1056,7 +1104,6 @@ Some things are better shown than explained. The following is a very basic examp
         $ go get github.com/spf13/nitro
 
     Next include nitro in your application.
-
 
 
 <a name="templates.overview.md"></a>
@@ -1118,7 +1165,6 @@ Used to render the XML sitemap
 
 ### [404](#templates.404.md)
 This template will create a 404.html page used when hosting on GitHub Pages
-
 
 
 <a name="templates.go-templates.md"></a>
@@ -1491,7 +1537,6 @@ the future:
         </li>
       {{ end }}
     {{ end }}
-
 <a name="templates.functions.md"></a>
 
 #Hugo Template Functions
@@ -1647,7 +1692,6 @@ e.g. {{title "BatMan"}} → "Batman"
 ### highlight
 Take a string of code and a language, uses Pygments to return the syntax
 highlighted code in HTML. Used in the [highlight shortcode](#extras.highlighting.md).
-
 <a name="templates.content.md"></a>
 
 #Single Content Template
@@ -1800,7 +1844,6 @@ to this template. This doesn't need to be defined ahead of time. If the key is
 present in the front matter than it can be used in the template. To
 easily generate new content of this type with these keys ready use
 [content archetypes](#content.archetypes.md).
-
 <a name="templates.list.md"></a>
 
 #Content List Template
@@ -2130,7 +2173,6 @@ If `where` or `first` receives invalid input or a field name that doesn’t exis
 These are both template functions and work on not only
 [lists](#templates.list.md), but [taxonomies](#taxonomies.displaying.md),
 [terms](#templates.terms.md) and [groups](#templates.list.md).
-
 <a name="templates.homepage.md"></a>
 
 #Homepage
@@ -2200,7 +2242,6 @@ It makes use of [partial templates](#templates.partials.md) and uses a similar a
     </section>
 
     {{ partial "footer.html" }}
-
 <a name="templates.terms.md"></a>
 
 #Taxonomy Terms Template
@@ -2350,7 +2391,6 @@ number of content assigned to that key or alphabetically.
 
     {{ partial "footer.html" }}
 
-
 <a name="templates.views.md"></a>
 
 #Content Views
@@ -2470,7 +2510,6 @@ This content template is used for [spf13.com](http://spf13.com).
     </article>
 
 
-
 <a name="templates.partials.md"></a>
 
 #Partial Templates
@@ -2566,7 +2605,6 @@ This footer template is used for [spf13.com](http://spf13.com):
 
 **For examples of referencing these templates, see [single content
 templates](#templates.content.md), [list templates](#templates.list.md) and [homepage templates](#templates.homepage.md).**
-
 <a name="templates.rss.md"></a>
 
 #RSS (feed) Templates
@@ -2657,7 +2695,6 @@ ATOM 2.0 Spec.
 on render… please don't include this in the template as it's not valid HTML.*
 
     <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-
 <a name="templates.sitemap.md"></a>
 
 #Sitemap Template
@@ -2700,7 +2737,6 @@ Protocol](http://www.sitemaps.org/protocol.html).
 on render...please don't include this in the template as it's not valid HTML.*
 
     <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-
 <a name="templates.404.md"></a>
 
 #404.html Templates
@@ -2731,7 +2767,6 @@ This is a basic example of a 404.html template:
     </section>
 
     {{ partial "footer.html" }}
-
 
 <a name="taxonomies.overview.md"></a>
 
@@ -2813,7 +2848,6 @@ the data and labels used are the same:
             Wes Anderson        <- Term
         ...
 
-
 <a name="taxonomies.usage.md"></a>
 
 #Using Taxonomies
@@ -2879,7 +2913,6 @@ and assign all terms you want to apply to this content.
         "slug": "hugo",
         "project_url": "http://github.com/spf13/hugo"
     }
-
 <a name="taxonomies.displaying.md"></a>
 
 #Displaying Taxonomies
@@ -2990,7 +3023,6 @@ This example will list all taxonomies, each of their keys and all the content as
       </ul>
     </section>
 
-
 <a name="taxonomies.templates.md"></a>
 
 #Taxonomy Templates
@@ -3006,7 +3038,6 @@ all the automatically created taxonomy pages.
 
 A [taxonomy terms template](#templates.terms.md) is a template used to
 generate the list of terms for a given template.
-
 
 <a name="taxonomies.ordering.md"></a>
 
@@ -3075,7 +3106,6 @@ It has also been assigned the weight of 44 when rendering the 'd' category.
 With this the same piece of content can appear in different positions in different taxonomies.
 
 Currently taxonomies only support the default ordering of content which is weight -> date.
-
 <a name="taxonomies.methods.md"></a>
 
 #Using Taxonomies
@@ -3123,7 +3153,6 @@ WeightedPages is simply a slice of WeightedPage.
 
 
 
-
 <a name="extras.aliases.md"></a>
 
 #Aliases
@@ -3154,7 +3183,6 @@ complete filename or directory.*
 
 2. *Aliases are rendered prior to any content and will be overwritten by
 any content with the same location.*
-
 <a name="extras.builders.md"></a>
 
 #Hugo Builders
@@ -3206,7 +3234,6 @@ path starts from your content directory.
 
 I typically keep two different terminals open, one to run `hugo server
 --watch`, and another to use the builders to create new content.
-
 
 
 <a name="extras.comments.md"></a>
@@ -3302,7 +3329,6 @@ It is in early development but shows promise. If you have interest,
 please help by contributing whether via a pull request, an issue or even
 just a tweet. Everything helps.
 
-
 <a name="extras.livereload.md"></a>
 
 #Live Reload
@@ -3353,7 +3379,6 @@ instantly display any updated content, we’ve made it easy to disable the
 live reload functionality.
 
     hugo server --watch --disableLiveReload
-
 
 
 
@@ -3531,7 +3556,6 @@ The following is an example:
         </div>
     </aside>
     <!--sidebar end-->
-
 <a name="extras.permalinks.md"></a>
 
 #Permalinks
@@ -3575,7 +3599,6 @@ All references to time are dependent on the content's date.
   * **:title** the content's title
   * **:slug** the content's slug (or title if no slug)
   * **:filename** the content's filename (without extension)
-
 
 <a name="extras.shortcodes.md"></a>
 
@@ -3806,7 +3829,6 @@ Please notice that this template makes use of a Hugo-specific template function
 called `highlight` which uses Pygments to add the highlighting code.
 
 More shortcode examples can be found at [spf13.com](https://github.com/spf13/spf13.com/tree/master/layouts/shortcodes).
-
 <a name="extras.highlighting.md"></a>
 
 #Syntax Highlighting
@@ -3901,7 +3923,6 @@ You can of course use your own copy of these files, typically in `./static/`.
 [Yandex]: http://yandex.ru/
 
 Please see individual libraries documentation for how to implement the JavaScript-based libraries.
-
 <a name="extras.toc.md"></a>
 
 #Table of Contents
@@ -3931,7 +3952,6 @@ This is example code of a [single.html template](#layout.content.md).
         <h1>{{ .Title }}</h1>
         {{ .Content }}
     {{ partial "footer.html" . }}
-
 
 
 <a name="extras.urls.md"></a>
@@ -3970,198 +3990,4 @@ client-side without issues.
 Benefits of non-canonicalization include being able to have resource inclusion
 be scheme-relative, so that http vs https can be decided based on how this
 page was retrieved.
-
-<a name="tutorials.github_pages_blog.md"></a>
-
-#Hosting on GitHub Pages
-
-
-## Intro
-
-Many Hugo users have expressed interest in seeing a tutorial for how to set up a blog that generated by Hugo and hosted on GitHub Pages. This tutorial will do just that. We only require that the reader has Hugo installed correctly and is comfortable with git and GitHub.
-
-During this tutorial, I will walk you through the main steps I took to create an example blog available at [http://spencerlyon2.github.io/hugo_gh_blog](http://spencerlyon2.github.io/hugo_gh_blog). The source code for this blog is on [GitHub](https://github.com/spencerlyon2/hugo_gh_blog). Readers are encouraged to download the example repository and follow along.
-
-### Find a Home for Your Files
-
-As our goal is to host a website using GitHub Pages, it is natural for us to host the content of the page in a GitHub repository. Thus, the first step is to either create a new repository on GitHub or create a new directory within an existing repository where the content of the website will live. To do this I created the repository [spencerlyon2/hugo_gh_blog](https://github.com/spencerlyon2/hugo_gh_blog).
-
-## Create the Blog
-
-### Write a `config.yaml` File
-
-The very first step in creating a new Hugo site is to [write the config file](#overview.configuration.md). This config file is important for at least two reasons: (1) this is where site-wide settings (like the websites `baseurl`) go and (2) the config file dictates to some extent how Hugo will generate the website. For the example website I created a file `config.yaml` with the following contents
-
-    ---
-    contentdir: "content"
-    layoutdir: "layouts"
-    publishdir: "public"
-    indexes:
-      category: "categories"
-    baseurl: "http://spencerlyon2.github.io/hugo_gh_blog"
-    title: "Hugo Blog Template for GitHub Pages"
-    ...
-
-### Define Structure of Website
-
-Hugo assumes that you organize the content of your site in a meaningful way and uses the same structure to render the website. Notice that we have the line `contentdir: "content"` in our configuration file. This means that all the actual content of the website should be placed somewhere within a folder named `content`. Hugo treats all directories in `content` as sections. For our example we only need one section: a place to hold our blog posts. So we created two new folders:
-
-```
-▾ <root>/
-    ▾ content/
-        ▾ posts/
-```
-
-### Create html Templates
-
-The next step is to define the look and feel of your new website. Because Hugo will generate the site using html templates written by the user (you), this step is very subjective. I will merely present one possible theme that could be used to generate a blog. I decided to base the example project on a Jekyll theme called [lanyon](http://lanyon.getpoole.com). The lanyon theme is pure css and a slightly modified version of the css is in the `/static/css` directory of the example repository. If you are following along, you should grab the `static` folder from the example repository and put it alongside the `content` folder you just created.
-
-Because there are so many files needed to fully compose a complete website, I will not be able to go trough each of them here. I will, however, show what the directory structure should look like when all is said and done:
-
-```
-▾ <root>/
-    ▾ content/
-        ▾ posts/
-            <blog posts>.md
-    ▾ static/
-        ▾ css/
-            lanyon.css
-            poole.css
-    ▾ layouts/
-        ▾ partials/
-            <templates to be used in other files>.html
-        ▾ posts/
-            li.html
-            single.html
-            summary.html
-        ▾ indexes/
-            category.html
-            indexes.html
-            posts.html
-        index.html
-    README.md
-```
-
-Each of the files in the example repository is well commented with a description of what the file as a whole does as well as an explanation of all major components in the file. If you are new to web development and/or Hugo I encourage you to search through these files to get a feel for how Hugo templates work and how the site is stitched together.
-
-### Add Some Content
-
-The final step in creating the blog is to add some actual blog posts. To do this simply create one markdown file (with extension .md) for each new blog post. At the top of each file you should include a metadata section that tells Hugo some things about the post (see [docs](#content.front-matter.md)). For example, consider the yaml metadata section from the top of the file `/content/posts/newest.md` from the example repository
-
-    ---
-    title: "Just another sample post"
-    date: "2014-03-29"
-    description: "This should be a more useful description"
-    categories: 
-        - "hugo"
-        - "fun"
-        - "test"
-    ---
-
-The keys set in this section are the mandatory `title` and `date` as well as the optional `description` and `categories`. Each of these items is used throughout the templates found in the `/layouts` directory and gives Hugo information about the post from other pages in the website.
-
-## Configure `git` Workflow
-
-Once the site is set up and working properly, we need to push it to the correct branch of a GitHub repository so the website can be served through GitHub Pages. There are many ways to do this. Here I will show the workflow I currently use to manage my websites that are hosted through GitHub Pages.
-
-GitHub Pages will serve up a website for any repository that has a branch called `gh-pages` with a valid `index.html` file at that branch's root. A typical workflow might be to keep the content of a website on the `master` branch of a repository and the generated website on the `gh-pages` branch. This provides nice separation between input and output, but can be very tedious to work with. As a workaround we will use the `git subtree` family of commands to have the `public` directory (or whatever `publishdir` is set to in your `config.yaml`) mirror the root of the `gh-pages` branch of the repository. This will allow us to do all our work on the `master` branch, run Hugo have have the site output into the `public` directory, and then push that directory directly to the correct place for GitHub Pages to serve our site.
-
-To get this properly set up we will execute a series of commands at the terminal. I will include all of them in one place here for easy copy and paste, and will explain what each line does via comments. Note that this is to be run from the `<root>` directory (wherever the `content` and `layout` folders of your Hugo project live). Also note that you will need to change the commands that have the example repository GitHub address so that they point to your repo.
-
-    # Create a new orphand branch (no commit history) named gh-pages
-    git checkout --orphan gh-pages
-
-    # Unstage all files
-    git rm --cached $(git ls-files)
-
-    # Grab one file from the master branch so we can make a commit
-    git checkout master README.md
-
-    # Add and commit that file
-    git add .
-    git commit -m "INIT: initial commit on gh-pages branch"
-
-    # Push to remote gh-pages branch 
-    git push origin gh-pages
-
-    # Return to master branch
-    git checkout master
-
-    # Remove the public folder to make room for the gh-pages subtree
-    rm -rf public
-
-    # Add the gh-pages branch of the repository. It will look like a folder named public
-    git subtree add --prefix public git@github.com:spencerlyon2/hugo_gh_blog.git gh-pages --squash
-
-    # Pull down the file we just committed. This helps avoid merge conflicts
-    git subtree pull --prefix=public
-
-    # Run hugo. Generated site will be placed in public directory (or omit -t ThemeName if you're not using a theme)
-    hugo -t ThemeName
-
-
-    # Add everything
-    git add -A
-
-    # Commit and push to master
-    git commit -m "Updating site" && git push origin master
-
-    # Push the public subtree to the gh-pages branch
-    git subtree push --prefix=public git@github.com:spencerlyon2/hugo_gh_blog.git gh-pages
-
-After executing these commands and waiting for the GitHub servers to update, the website we just created was live at [http://spencerlyon2.github.io/hugo_gh_blog](http://spencerlyon2.github.io/hugo_gh_blog). 
-
-### `deploy.sh`
-
-Now, as you add new posts to your blog, you will follow steps that look something like the following:
- 
-* Create the markdown source for the new post within the `content/posts` directory
-* Preview your work by running Hugo in server mode with `hugo server --watch`
-* Run Hugo not in server mode so that the generated urls will be correct for the website
-* Add and commit the new post in `master` branch
-* Push the `master` branch
-* Push the public subtree to the remote `gh-pages` branch
-
-The first two items in the previous list are simply a way to conveniently preview your content as you write. This is a dynamic and fairly streamlined process. All the remaining items, however, are the same every time you want to add new content to the website. To make this repetitive process easier, I have adapted a script from the source repository for the [Chimer Arta & Maker Space](https://github.com/chimera/chimeraarts.org) website that is highlighted in the [Hugo Showcase](#showcase). The script lives in a file called `deploy.sh` and has the following contents:
-
-**Note:**
-
-The first command `hugo` assumes you are running with all the default settings. 
-
-To use a theme, make sure to specify it with `-t ThemeName` instead (or include the theme in the config file).
-
-    hugo -t ThemeName
-
-To build all draft posts *(If you only have drafts, no site will be generated)*
-
-    hugo --buildDrafts
-
-**Deploy.sh:**
-
-    #!.bin/bash
-
-    echo -e "\033[0;32mDeploying updates to GitHub...\033[0m"
-
-    # Build the project. 
-    hugo
-    
-    # Add changes to git.
-    git add -A
-
-    # Commit changes.
-    msg="rebuilding site `date`"
-    if [ $# -eq 1 ]
-      then msg="$1"
-    fi
-    git commit -m "$msg"
-
-    # Push source and build repos.
-    git push origin master
-    git subtree push --prefix=public git@github.com:spencerlyon2/hugo_gh_blog.git gh-pages
-
-Now I can replace the last four items from our workflow list with a single command `bash deploy.sh`. This script accepts as an optional argument the commit message that git should use when committing your changes. If you wish to include a custom commit message, do so by putting it quotes after calling bash on the script: `bash deploy.sh "<my commit msg>"`. If you choose not to specify the commit message, one will be generated for you using the current time.
-
-## Conclusion
-
-Hopefully this tutorial helped you get your website off its feet and out into the open! If you have any further questions feel free to contact the community through the [mailing lists](/community/mailing-list.md).
 
