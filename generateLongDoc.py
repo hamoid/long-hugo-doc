@@ -1,8 +1,15 @@
 #! /usr/bin/env python3.4
 # -*- coding: UTF-8 -*-
 
-import re, yaml, os, datetime
-from os.path import isfile, isdir
+# To generate the one page documentation:
+# 1. Get the hugo source from https://github.com/spf13/hugo
+# 2. Place this script into docs/content/
+# 3. Run this script with: ./generateLongDoc.py > hugodoc.md
+
+# Why? I find one long doc easier to navigate (less clicks) and
+# it's also searchable within the browser (CTRL+F)
+
+import re, os
 
 folders = ["overview", "content", "templates", "taxonomies", "extras", "tutorials"]
 
