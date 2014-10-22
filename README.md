@@ -1,6 +1,7 @@
+<a name="overview.introduction.md"></a>
+
 #Introduction to Hugo
 
-<a name="overview.introduction.md"></a>
 
 ## What is Hugo?
 
@@ -118,12 +119,13 @@ as I have writing it.
  * [Discussion Forum](http://discuss.gohugo.io)
 
 
-#Hugo Quickstart Guide
-
 <a name="overview.quickstart.md"></a>
 
+#Hugo Quickstart Guide
+
+
 _This quickstart depends on features introduced in hugo v0.11. If you
-have an earlier version of hugo you will need to [upgrade](#overview.installing/.md) before
+have an earlier version of hugo you will need to [upgrade](#overview.installing.md) before
 proceeding._
 
 ## Step 1. Install Hugo
@@ -133,7 +135,7 @@ appropriate version for your os and architecture.
 
 Save it somewhere specific as we will be using it in the next step.
 
-More complete instructions are available at [Installing Hugo](#overview.installing/.md)
+More complete instructions are available at [Installing Hugo](#overview.installing.md)
 
 ## Step 2. Have Hugo Create a site for you
 
@@ -262,17 +264,18 @@ The best way to learn something is to play with it.
 
 Things to try:
 
- * Add a [new content file](#content.organization/.md)
- * Create a [new section](#content.sections/.md)
- * Modify [a template](#layout.templates/.md)
- * Create content with [TOML front matter](#content.front-matter/.md)
- * Define your own field in [front matter](#content.front-matter/.md)
- * Display that [field in the template](#layout.variables/.md)
- * Create a [new content type](#content.types/.md)
+ * Add a [new content file](#content.organization.md)
+ * Create a [new section](#content.sections.md)
+ * Modify [a template](#layout.templates.md)
+ * Create content with [TOML front matter](#content.front-matter.md)
+ * Define your own field in [front matter](#content.front-matter.md)
+ * Display that [field in the template](#layout.variables.md)
+ * Create a [new content type](#content.types.md)
+
+<a name="overview.installing.md"></a>
 
 #Installing Hugo
 
-<a name="overview.installing.md"></a>
 
 Hugo is written in Go with support for Windows, Linux, FreeBSD and OS&nbsp;X.
 
@@ -330,9 +333,10 @@ placed in your path.
 
 Please see the [contributing guide](#doc.contributing.md).
 
+<a name="overview.usage.md"></a>
+
 #Using Hugo
 
-<a name="overview.usage.md"></a>
 
 Make sure either hugo is in your path or provide a path to it.
 
@@ -410,9 +414,10 @@ all browsers (including mobile).
        in 18 ms
 
 
+<a name="overview.configuration.md"></a>
+
 #Configuring Hugo
 
-<a name="overview.configuration.md"></a>
 
 The directory structure and templates provide the majority of the
 configuration for a site. In fact, a config file isn't even needed for many
@@ -470,9 +475,10 @@ Config changes do not reflect with [Live Reload](#extras.livereload.md).
 
 Please restart `hugo server --watch` whenever you make a config change.
 
+<a name="overview.source-directory.md"></a>
+
 #Source Organization
 
-<a name="overview.source-directory.md"></a>
 
 Hugo takes a single directory and uses it as the input for creating a complete
 website.
@@ -551,9 +557,10 @@ This directory structure tells us a lot about this site:
 2. It will also apply two different indexes to that content: categories and tags.
 3. It will be displaying content in 3 different views: a list, a summary and a full page view.
 
+<a name="content.organization.md"></a>
+
 #Content Organization
 
-<a name="content.organization.md"></a>
 
 Hugo uses markdown files with headers commonly called the front matter. Hugo
 respects the organization that you provide for your content to minimize any
@@ -706,9 +713,10 @@ When a url is provided it will be used exactly. Using url will ignore the
 * overrides all the above
 
 
+<a name="content.front-matter.md"></a>
+
 #Front Matter
 
-<a name="content.front-matter.md"></a>
 
 The front matter is one of the features that gives Hugo its strength. It enables
 you to include the meta data of the content right with it. Hugo supports a few
@@ -793,9 +801,10 @@ Field names are always normalized to lowercase (e.g. `camelCase: true` is availa
 *If neither slug or url is present, the filename will be used.*
 
 
+<a name="content.sections.md"></a>
+
 #Sections
 
-<a name="content.sections.md"></a>
 
 Hugo thinks that you organize your content with a purpose. The same structure
 that works to organize your source content is used to organize the rendered
@@ -837,9 +846,10 @@ be used instead provided it exists.
 
 
 
+<a name="content.types.md"></a>
+
 #Content Types
 
-<a name="content.types.md"></a>
 
 Hugo has full support for different types of content. A content type can have a
 unique set of meta data, template and can be automatically created by the new
@@ -906,9 +916,10 @@ Create a file called `type`.md in the /archetypes directory *Eg /archetypes/post
 
 More details about archetypes can be found at the [archetypes docs](#content.archetypes.md)
 
+<a name="content.archetypes.md"></a>
+
 #Archetypes
 
-<a name="content.archetypes.md"></a>
 
 Hugo v0.11 introduced the concept of a content builder. Using the
 command: `hugo new [relative new content path]` you can start a content file
@@ -975,9 +986,10 @@ Content type is automatically detected based on the path. You are welcome to dec
 type to create using the `--kind` flag during creation.
 
 
+<a name="content.ordering.md"></a>
+
 #Ordering Content
 
-<a name="content.ordering.md"></a>
 
 Hugo provides you with all the flexibility you need to organize how your content is ordered.
 
@@ -1005,11 +1017,12 @@ guaranteed.
 
 ## Ordering Content Within Taxonomies
 
-Please see the [Taxonomy Ordering Documentation](#taxonomies.ordering/.md).
+Please see the [Taxonomy Ordering Documentation](#taxonomies.ordering.md).
+
+<a name="content.example.md"></a>
 
 #Example Content File
 
-<a name="content.example.md"></a>
 
 Some things are better shown than explained. The following is a very basic example of a content file:
 
@@ -1046,9 +1059,10 @@ Some things are better shown than explained. The following is a very basic examp
 
 
 
+<a name="templates.overview.md"></a>
+
 #Hugo Templates
 
-<a name="templates.overview.md"></a>
 
 Hugo uses the excellent Go html/template library for its template engine.
 It is an extremely lightweight engine that provides a very small amount of
@@ -1065,7 +1079,7 @@ If you are new to Go's templates, the [Go Template Primer](#layout.go-templates.
 is a great place to start.
 
 If you are familiar with Go’s templates, Hugo provides some [additional
-template functions](/templates/functions) and [variables](#templates.variables.md) you will want to be familiar
+template functions](#templates.functions.md) and [variables](#templates.variables.md) you will want to be familiar
 with.
 
 ## Primary Template roles
@@ -1078,7 +1092,7 @@ Render a single piece of content
 ### [List](#templates.list.md)
 Page that list multiple pieces of content
 
-### [Homepage](#templates.homepage/.md)
+### [Homepage](#templates.homepage.md)
 The homepage of your site
 
 ## Supporting Template Roles (optional)
@@ -1096,10 +1110,10 @@ A list of the terms used for a specific taxonomy, e.g. a Tag cloud
 
 ## Other Templates (generally unnecessary)
 
-### [RSS](#templates.rss/.md)
+### [RSS](#templates.rss.md)
 Used to render all rss documents
 
-### [Sitemap](#templates.sitemap/.md)
+### [Sitemap](#templates.sitemap.md)
 Used to render the XML sitemap
 
 ### [404](#templates.404.md)
@@ -1107,9 +1121,10 @@ This template will create a 404.html page used when hosting on GitHub Pages
 
 
 
+<a name="templates.go-templates.md"></a>
+
 #Go Template Primer
 
-<a name="templates.go-templates.md"></a>
 
 Hugo uses the excellent [Go][] [html/template][gohtmltemplate] library for
 its template engine. It is an extremely lightweight engine that provides a very
@@ -1181,7 +1196,7 @@ Variables can also be defined and referenced.
 Go template ships with a few functions which provide basic functionality. The Go
 template system also provides a mechanism for applications to extend the
 available functions with their own. [Hugo template
-functions](/layout/functions) provide some additional functionality we believe
+functions](#layout.functions.md) provide some additional functionality we believe
 are useful for building websites. Functions are called by using their name
 followed by the required parameters separated by spaces. Template
 functions cannot be added without recompiling Hugo.
@@ -1209,7 +1224,7 @@ the /layout/ directory within Hugo.
     {{ template "partials/header.html" . }}
 
 And, starting with Hugo v0.12, you may also use the `partial` call
-for [partial templates](#templates.partials/.md):
+for [partial templates](#templates.partials.md):
 
     {{ partial "header.html" . }}
 
@@ -1477,9 +1492,10 @@ the future:
       {{ end }}
     {{ end }}
 
+<a name="templates.functions.md"></a>
+
 #Hugo Template Functions
 
-<a name="templates.functions.md"></a>
 
 Hugo uses the excellent Go html/template library for its template engine.
 It is an extremely lightweight engine that provides a very small amount of
@@ -1515,7 +1531,7 @@ e.g.
 ### first
 Slices an array to only the first X elements.
 
-Works on [lists](#templates.list/.md), [taxonomies](#taxonomies.displaying/.md), [terms](#templates.terms/.md), [groups](#templates.list/.md)
+Works on [lists](#templates.list.md), [taxonomies](#taxonomies.displaying.md), [terms](#templates.terms.md), [groups](#templates.list.md)
 
 e.g.
     {{ range first 10 .Data.Pages }}
@@ -1525,7 +1541,7 @@ e.g.
 ### where
 Filters an array to only elements containing a matching value for a given field.
 
-Works on [lists](#templates.list/.md), [taxonomies](#taxonomies.displaying/.md), [terms](#templates.terms/.md), [groups](#templates.list/.md)
+Works on [lists](#templates.list.md), [taxonomies](#taxonomies.displaying.md), [terms](#templates.terms.md), [groups](#templates.list.md)
 
 e.g.
 
@@ -1632,9 +1648,10 @@ e.g. {{title "BatMan"}} → "Batman"
 Take a string of code and a language, uses Pygments to return the syntax
 highlighted code in HTML. Used in the [highlight shortcode](#extras.highlighting.md).
 
+<a name="templates.content.md"></a>
+
 #Single Content Template
 
-<a name="templates.content.md"></a>
 
 The primary view of content in Hugo is the single view. Hugo, for every
 Markdown file provided, will render it with a single template.
@@ -1666,8 +1683,8 @@ it will be used instead of `section`.
 ## Example Single Template File
 
 Content pages are of the type "page" and have all the [page
-variables](/layout/variables/) and [site
-variables](/templates/variables/) available to use in the templates.
+variables](#layout.variables.md) and [site
+variables](#templates.variables.md) available to use in the templates.
 
 In the following examples we have created two different content types as well as
 a default content type.
@@ -1784,9 +1801,10 @@ present in the front matter than it can be used in the template. To
 easily generate new content of this type with these keys ready use
 [content archetypes](#content.archetypes.md).
 
+<a name="templates.list.md"></a>
+
 #Content List Template
 
-<a name="templates.list.md"></a>
 
 A list template is any template that will be used to render multiple pieces of
 content in a single HTML page (with the exception of the [homepage](#layout.homepage.md) which has a
@@ -1868,8 +1886,8 @@ can have different RSS files for each section and taxonomy.
 ## Variables
 
 List pages are of the type "node" and have all the [node
-variables](/templates/variables/) and [site
-variables](/templates/variables/) available to use in the templates. 
+variables](#templates.variables.md) and [site
+variables](#templates.variables.md) available to use in the templates. 
 
 Taxonomy pages will additionally have:
 
@@ -1880,7 +1898,7 @@ Taxonomy pages will additionally have:
 ### Example section template (post.html)
 This content template is used for [spf13.com](http://spf13.com).
 It makes use of [partial templates](#templates.partials.md). All examples use a
-[view](#templates.views/.md) called either "li" or "summary" which this example site
+[view](#templates.views.md) called either "li" or "summary" which this example site
 defined.
 
     {{ partial "header.html" . }}
@@ -1902,7 +1920,7 @@ defined.
 ### Example taxonomy template (tag.html)
 This content template is used for [spf13.com](http://spf13.com).
 It makes use of [partial templates](#templates.partials.md). All examples use a
-[view](#templates.views/.md) called either "li" or "summary" which this example site
+[view](#templates.views.md) called either "li" or "summary" which this example site
 defined.
 
     {{ partial "header.html" . }}
@@ -1922,7 +1940,7 @@ defined.
 ## Ordering Content
 
 In the case of Hugo each list will render the content based on metadata provided in the [front
-matter](/content/front-matter). See [ordering content](#content.ordering.md) for more information.
+matter](#content.front-matter.md). See [ordering content](#content.ordering.md) for more information.
 
 Here are a variety of different ways you can order the content items in
 your list templates:
@@ -2110,19 +2128,20 @@ Using both together can be very powerful.
 If `where` or `first` receives invalid input or a field name that doesn’t exist they will provide an error and stop site generation.
 
 These are both template functions and work on not only
-[lists](#templates.list/.md), but [taxonomies](#taxonomies.displaying/.md),
-[terms](#templates.terms/.md) and [groups](#templates.list/.md).
+[lists](#templates.list.md), but [taxonomies](#taxonomies.displaying.md),
+[terms](#templates.terms.md) and [groups](#templates.list.md).
+
+<a name="templates.homepage.md"></a>
 
 #Homepage
 
-<a name="templates.homepage.md"></a>
 
 The home page of a website is often formatted differently than the other
 pages. In Hugo you can define your own homepage template. 
 
 Homepage is of the type "node" and have all the [node
-variables](/templates/variables/) and [site
-variables](/templates/variables/) available to use in the templates.
+variables](#templates.variables.md) and [site
+variables](#templates.variables.md) available to use in the templates.
 
 *This is the only required template for building a site and useful when
 bootstrapping a new site and template. It is also the only required
@@ -2130,7 +2149,7 @@ template when using a single page site.*
 
 In addition to the standard node variables, the homepage has access to
 all site content accessible from `.Data.Pages`. Details on how to use the
-list of pages can be found in the [Lists Template](#templates.list/.md).
+list of pages can be found in the [Lists Template](#templates.list.md).
 
 ## Which Template will be rendered?
 Hugo uses a set of rules to figure out which template to use when
@@ -2152,7 +2171,7 @@ the list will be needed.
 ## Example index.html
 This content template is used for [spf13.com](http://spf13.com).
 
-It makes use of [partial templates](#templates.partials.md) and uses a similar approach as a [List](#templates.list/.md).
+It makes use of [partial templates](#templates.partials.md) and uses a similar approach as a [List](#templates.list.md).
 
     <!DOCTYPE html>
     <html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
@@ -2182,12 +2201,13 @@ It makes use of [partial templates](#templates.partials.md) and uses a similar a
 
     {{ partial "footer.html" }}
 
-#Taxonomy Terms Template
-
 <a name="templates.terms.md"></a>
 
+#Taxonomy Terms Template
+
+
 A unique template is needed to create a list of the terms for a given
-taxonomy. This is different from the [list template](#templates.list/.md)
+taxonomy. This is different from the [list template](#templates.list.md)
 as that template is a list of content, where this is a list of meta data.
 
 ## Which Template will be rendered?
@@ -2214,8 +2234,8 @@ dedicated page for the terms.
 ## Variables
 
 Taxonomy Terms pages are of the type "node" and have all the [node
-variables](/templates/variables/) and [site
-variables](/templates/variables/) available to use in the templates.
+variables](#templates.variables.md) and [site
+variables](#templates.variables.md) available to use in the templates.
 
 Taxonomy Terms pages will additionally have:
 
@@ -2228,8 +2248,8 @@ Taxonomy Terms pages will additionally have:
 ## Example terms.html file
 
 List pages are of the type "node" and have all the [node
-variables](/templates/variables/) and [site
-variables](/templates/variables/) available to use in the templates.
+variables](#templates.variables.md) and [site
+variables](#templates.variables.md) available to use in the templates.
 
 This content template is used for [spf13.com](http://spf13.com).
 It makes use of [partial templates](#templates.partials.md). The list of indexes
@@ -2331,11 +2351,12 @@ number of content assigned to that key or alphabetically.
     {{ partial "footer.html" }}
 
 
-#Content Views
-
 <a name="templates.views.md"></a>
 
-In addition to the [single content template](#templates.content/.md), Hugo can render alternative views of
+#Content Views
+
+
+In addition to the [single content template](#templates.content.md), Hugo can render alternative views of
 your content. These are especially useful in [list templates](#templates.list.md).
 
 For example you may want content of every type to be shown on the
@@ -2351,7 +2372,7 @@ To create a new view simple create a template in each of your different
 content type directories with the view name. In the following example we
 have created a "li" view and a "summary" view for our two content types
 of post and project. As you can see these sit next to the [single
-content view](/templates/content) template "single.html". You can even
+content view](#templates.content.md) template "single.html". You can even
 provide a specific view for a given type and continue to use the
 \_default/single.html for the primary view.
 
@@ -2399,7 +2420,7 @@ the list will be needed.
 ### rendering view inside of a list
 
 Using the summary view (defined below) inside of a ([list
-templates](/templates/list)). 
+templates](#templates.list.md)). 
 
     <section id="main">
     <div>
@@ -2420,7 +2441,7 @@ change the render line to `{{ .Render "li" }}`.
 ### li.html
 
 Hugo will pass the entire page object to the view template. See [page
-variables](/templates/variables) for a complete list.
+variables](#templates.variables.md) for a complete list.
 
 This content template is used for [spf13.com](http://spf13.com).
 
@@ -2432,7 +2453,7 @@ This content template is used for [spf13.com](http://spf13.com).
 ### summary.html
 
 Hugo will pass the entire page object to the view template. See [page
-variables](/templates/variables) for a complete list.
+variables](#templates.variables.md) for a complete list.
 
 This content template is used for [spf13.com](http://spf13.com).
 
@@ -2450,9 +2471,10 @@ This content template is used for [spf13.com](http://spf13.com).
 
 
 
+<a name="templates.partials.md"></a>
+
 #Partial Templates
 
-<a name="templates.partials.md"></a>
 
 In practice, it's very convenient to split out common template portions into a
 partial template that can be included anywhere. As you create the rest of your
@@ -2475,7 +2497,7 @@ like good names to use for inclusion in your other templates.
           header.html
           footer.html
 
-By ensuring that we only reference [variables](#layout.variables/.md)
+By ensuring that we only reference [variables](#layout.variables.md)
 used for both nodes and pages, we can use the same partials for both.
 
 ## Partial vs Template 
@@ -2543,11 +2565,12 @@ This footer template is used for [spf13.com](http://spf13.com):
     </html>
 
 **For examples of referencing these templates, see [single content
-templates](/templates/content), [list templates](#templates.list.md) and [homepage templates](#templates.homepage.md).**
+templates](#templates.content.md), [list templates](#templates.list.md) and [homepage templates](#templates.homepage.md).**
+
+<a name="templates.rss.md"></a>
 
 #RSS (feed) Templates
 
-<a name="templates.rss.md"></a>
 
 Like all other templates, you can use a single RSS template to generate
 all of your RSS feeds, or you can create a specific template for each
@@ -2556,7 +2579,7 @@ individual feed. Unlike other templates, *Hugo ships with its own ATOM
 template will not need to be provided by the user.*
 
 RSS pages are of the type "node" and have all the [node
-variables](/layout/variables/) available to use in the templates.
+variables](#layout.variables.md) available to use in the templates.
 
 
 ## Which Template will be rendered?
@@ -2635,16 +2658,17 @@ on render… please don't include this in the template as it's not valid HTML.*
 
     <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 
+<a name="templates.sitemap.md"></a>
+
 #Sitemap Template
 
-<a name="templates.sitemap.md"></a>
 
 A single Sitemap template is used to generate the `sitemap.xml` file.
 Hugo automatically comes with this template file. **No work is needed on
 the users part unless they want to customize the sitemap.xml.**
 
 This page is of the type "node" and have all the [node
-variables](/layout/variables/) available to use in this template
+variables](#layout.variables.md) available to use in this template
 along with Sitemap-specific ones:
 
 **.Sitemap.ChangeFreq** The page change frequency<br>
@@ -2677,15 +2701,16 @@ on render...please don't include this in the template as it's not valid HTML.*
 
     <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 
+<a name="templates.404.md"></a>
+
 #404.html Templates
 
-<a name="templates.404.md"></a>
 
 When using Hugo with [GitHub Pages](http://pages.github.com/) you can provide
 your own 404 template by creating a 404.html file in the root.
 
 404 pages are of the type "node" and have all the [node
-variables](/layout/variables/) available to use in the templates.
+variables](#layout.variables.md) available to use in the templates.
 
 In addition to the standard node variables, the homepage has access to
 all site content accessible from .Data.Pages
@@ -2708,9 +2733,10 @@ This is a basic example of a 404.html template:
     {{ partial "footer.html" }}
 
 
+<a name="taxonomies.overview.md"></a>
+
 #Taxonomy Overview
 
-<a name="taxonomies.overview.md"></a>
 
 Hugo includes support for user defined groupings of content called
 taxonomies. Taxonomies give us a way to classify our content so we can
@@ -2788,9 +2814,10 @@ the data and labels used are the same:
         ...
 
 
+<a name="taxonomies.usage.md"></a>
+
 #Using Taxonomies
 
-<a name="taxonomies.usage.md"></a>
 
 ## Defining taxonomies for a site
 
@@ -2853,9 +2880,10 @@ and assign all terms you want to apply to this content.
         "project_url": "http://github.com/spf13/hugo"
     }
 
+<a name="taxonomies.displaying.md"></a>
+
 #Displaying Taxonomies
 
-<a name="taxonomies.displaying.md"></a>
 
 There are four common ways you can display the data in your
 taxonomies in addition to the automatic taxonomy pages created by hugo
@@ -2963,25 +2991,27 @@ This example will list all taxonomies, each of their keys and all the content as
     </section>
 
 
+<a name="taxonomies.templates.md"></a>
+
 #Taxonomy Templates
 
-<a name="taxonomies.templates.md"></a>
 
 There are two different templates that the use of taxonomies will require you to provide.
 
 Both templates are covered in detail in the templates section.
 
-A [list template](#templates.list/.md) is any template that will be used to render multiple pieces of
+A [list template](#templates.list.md) is any template that will be used to render multiple pieces of
 content in a single html page. This template will be used to generate
 all the automatically created taxonomy pages.
 
-A [taxonomy terms template](#templates.terms/.md) is a template used to
+A [taxonomy terms template](#templates.terms.md) is a template used to
 generate the list of terms for a given template.
 
 
+<a name="taxonomies.ordering.md"></a>
+
 #Ordering Taxonomies
 
-<a name="taxonomies.ordering.md"></a>
 
 Hugo provides the ability to both:
 
@@ -3011,7 +3041,7 @@ Taxonomies can be ordered by either alphabetical key or by the number of content
     </ul>
 
 
-[See Also Taxonomy Lists](#taxonomies.lists/.md)
+[See Also Taxonomy Lists](#taxonomies.lists.md)
 
 ## Ordering Content within Taxonomies
 
@@ -3046,9 +3076,10 @@ With this the same piece of content can appear in different positions in differe
 
 Currently taxonomies only support the default ordering of content which is weight -> date.
 
+<a name="taxonomies.methods.md"></a>
+
 #Using Taxonomies
 
-<a name="taxonomies.methods.md"></a>
 
 Hugo makes a set of values and methods available on the various Taxonomy structures.
 
@@ -3075,7 +3106,7 @@ Each element of the slice has:
 **.Term**  The Term used.<br>
 **.WeightedPages**  A slice of Weighted Pages.<br>
 **.Count** The number of pieces of content assigned to this term.<br>
-**.Pages**  All Pages assigned to this term. All [list methods](#templates.list/.md) are available to this.<br>
+**.Pages**  All Pages assigned to this term. All [list methods](#templates.list.md) are available to this.<br>
 
 ## WeightedPages
 
@@ -3084,7 +3115,7 @@ WeightedPages is simply a slice of WeightedPage.
     type WeightedPages []WeightedPage
 
 **.Count(term)** The number of pieces of content assigned to this term.<br>
-**.Pages** Returns a slice of pages, which then can be ordered using any of the [list methods](#templates.list/.md). <br>
+**.Pages** Returns a slice of pages, which then can be ordered using any of the [list methods](#templates.list.md). <br>
 
 
 
@@ -3092,10 +3123,11 @@ WeightedPages is simply a slice of WeightedPage.
 
 
 
+
+<a name="extras.aliases.md"></a>
 
 #Aliases
 
-<a name="extras.aliases.md"></a>
 
 For people migrating existing published content to Hugo, there's a good chance
 you need a mechanism to handle redirecting old URLs.
@@ -3123,9 +3155,10 @@ complete filename or directory.*
 2. *Aliases are rendered prior to any content and will be overwritten by
 any content with the same location.*
 
+<a name="extras.builders.md"></a>
+
 #Hugo Builders
 
-<a name="extras.builders.md"></a>
 
 Hugo provides the functionality to quickly get a site, theme or page
 started.
@@ -3176,9 +3209,10 @@ I typically keep two different terminals open, one to run `hugo server
 
 
 
+<a name="extras.comments.md"></a>
+
 #Comments in Hugo
 
-<a name="extras.comments.md"></a>
 
 As Hugo is a static site generator, the content produced is static and
 doesn’t interact with the users. The most common interaction people ask
@@ -3269,9 +3303,10 @@ please help by contributing whether via a pull request, an issue or even
 just a tweet. Everything helps.
 
 
+<a name="extras.livereload.md"></a>
+
 #Live Reload
 
-<a name="extras.livereload.md"></a>
 
 Hugo may not be the first static site generator to utilize live reload
 technology, but it’s the first to do it right.
@@ -3324,9 +3359,10 @@ live reload functionality.
 
 
 
+<a name="extras.menus.md"></a>
+
 #Menus
 
-<a name="extras.menus.md"></a>
 
 Hugo has a simple yet powerful menu system that permits content to be
 placed in menus with a good degree of control without a lot of work. 
@@ -3496,9 +3532,10 @@ The following is an example:
     </aside>
     <!--sidebar end-->
 
+<a name="extras.permalinks.md"></a>
+
 #Permalinks
 
-<a name="extras.permalinks.md"></a>
 
 By default, content is laid out into the target `publishdir` (public)
 namespace matching its layout within the `contentdir` hierarchy.
@@ -3540,9 +3577,10 @@ All references to time are dependent on the content's date.
   * **:filename** the content's filename (without extension)
 
 
+<a name="extras.shortcodes.md"></a>
+
 #Shortcodes
 
-<a name="extras.shortcodes.md"></a>
 
 Hugo uses Markdown for its simple content format. However, there’s a lot
 of things that Markdown doesn’t support well.
@@ -3686,7 +3724,7 @@ to the user.
 
 The variable `.Params` contains the list of parameters in case you need to do more complicated things than `.Get`.
 
-You can also use the variable `.Page` to access all the normal [Page Variables](#templates.variables/.md). 
+You can also use the variable `.Page` to access all the normal [Page Variables](#templates.variables.md). 
 
 ## Single Positional Example: youtube
 
@@ -3769,9 +3807,10 @@ called `highlight` which uses Pygments to add the highlighting code.
 
 More shortcode examples can be found at [spf13.com](https://github.com/spf13/spf13.com/tree/master/layouts/shortcodes).
 
+<a name="extras.highlighting.md"></a>
+
 #Syntax Highlighting
 
-<a name="extras.highlighting.md"></a>
 
 Hugo provides the ability for you to highlight source code in two different
 ways &mdash; either pre-processed server side from your content, or to defer
@@ -3863,9 +3902,10 @@ You can of course use your own copy of these files, typically in `./static/`.
 
 Please see individual libraries documentation for how to implement the JavaScript-based libraries.
 
+<a name="extras.toc.md"></a>
+
 #Table of Contents
 
-<a name="extras.toc.md"></a>
 
 Hugo will automatically parse the Markdown for your content and create
 a Table of Contents you can use to guide readers to the sections within
@@ -3894,9 +3934,10 @@ This is example code of a [single.html template](#layout.content.md).
 
 
 
+<a name="extras.urls.md"></a>
+
 #URLs
 
-<a name="extras.urls.md"></a>
 
 ## Pretty URLs
 
@@ -3912,7 +3953,7 @@ ability to create your entire site with ugly URLs. Simply use the
 
 If you want a specific piece of content to have an exact URL, you can
 specify this in the front matter under the url key. See [Content
-Organization](/content/organization/) for more details. 
+Organization](#content.organization.md) for more details. 
 
 ## Canonicalization
 
@@ -3930,9 +3971,10 @@ Benefits of non-canonicalization include being able to have resource inclusion
 be scheme-relative, so that http vs https can be decided based on how this
 page was retrieved.
 
+<a name="tutorials.github_pages_blog.md"></a>
+
 #Hosting on GitHub Pages
 
-<a name="tutorials.github_pages_blog.md"></a>
 
 ## Intro
 
@@ -4080,7 +4122,7 @@ Now, as you add new posts to your blog, you will follow steps that look somethin
 * Push the `master` branch
 * Push the public subtree to the remote `gh-pages` branch
 
-The first two items in the previous list are simply a way to conveniently preview your content as you write. This is a dynamic and fairly streamlined process. All the remaining items, however, are the same every time you want to add new content to the website. To make this repetitive process easier, I have adapted a script from the source repository for the [Chimer Arta & Maker Space](https://github.com/chimera/chimeraarts.org) website that is highlighted in the [Hugo Showcase](/showcase). The script lives in a file called `deploy.sh` and has the following contents:
+The first two items in the previous list are simply a way to conveniently preview your content as you write. This is a dynamic and fairly streamlined process. All the remaining items, however, are the same every time you want to add new content to the website. To make this repetitive process easier, I have adapted a script from the source repository for the [Chimer Arta & Maker Space](https://github.com/chimera/chimeraarts.org) website that is highlighted in the [Hugo Showcase](#showcase). The script lives in a file called `deploy.sh` and has the following contents:
 
 **Note:**
 
@@ -4096,7 +4138,7 @@ To build all draft posts *(If you only have drafts, no site will be generated)*
 
 **Deploy.sh:**
 
-    #!/bin/bash
+    #!.bin/bash
 
     echo -e "\033[0;32mDeploying updates to GitHub...\033[0m"
 
@@ -4121,4 +4163,5 @@ Now I can replace the last four items from our workflow list with a single comma
 
 ## Conclusion
 
-Hopefully this tutorial helped you get your website off its feet and out into the open! If you have any further questions feel free to contact the community through the [mailing lists](#community.mailing-list.md).
+Hopefully this tutorial helped you get your website off its feet and out into the open! If you have any further questions feel free to contact the community through the [mailing lists](/community/mailing-list.md).
+
