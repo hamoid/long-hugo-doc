@@ -60,7 +60,7 @@ This is the documentation of [Hugo](http://gohugo.io/) condensed into one long p
 
 <a name="overview.introduction.md"></a>
 
-#Introduction to Hugo
+# Introduction to Hugo
 
 
 ## What is Hugo?
@@ -180,7 +180,7 @@ as I have writing it.
 
 <a name="overview.quickstart.md"></a>
 
-#Hugo Quickstart Guide
+# Hugo Quickstart Guide
 
 
 _This quickstart depends on features introduced in hugo v0.11. If you
@@ -332,7 +332,7 @@ Things to try:
  * Create a [new content type](#content.types.md)
 <a name="overview.installing.md"></a>
 
-#Installing Hugo
+# Installing Hugo
 
 
 Hugo is written in Go with support for Windows, Linux, FreeBSD and OS&nbsp;X.
@@ -392,7 +392,7 @@ placed in your path.
 Please see the [contributing guide](#doc.contributing.md).
 <a name="overview.usage.md"></a>
 
-#Using Hugo
+# Using Hugo
 
 
 Make sure either hugo is in your path or provide a path to it.
@@ -472,7 +472,7 @@ all browsers (including mobile).
 
 <a name="overview.configuration.md"></a>
 
-#Configuring Hugo
+# Configuring Hugo
 
 
 The directory structure and templates provide the majority of the
@@ -532,7 +532,7 @@ Config changes do not reflect with [Live Reload](#extras.livereload.md).
 Please restart `hugo server --watch` whenever you make a config change.
 <a name="overview.source-directory.md"></a>
 
-#Source Organization
+# Source Organization
 
 
 Hugo takes a single directory and uses it as the input for creating a complete
@@ -613,7 +613,7 @@ This directory structure tells us a lot about this site:
 3. It will be displaying content in 3 different views: a list, a summary and a full page view.
 <a name="content.organization.md"></a>
 
-#Content Organization
+# Content Organization
 
 
 Hugo uses markdown files with headers commonly called the front matter. Hugo
@@ -768,7 +768,7 @@ When a url is provided it will be used exactly. Using url will ignore the
 
 <a name="content.front-matter.md"></a>
 
-#Front Matter
+# Front Matter
 
 
 The front matter is one of the features that gives Hugo its strength. It enables
@@ -855,7 +855,7 @@ Field names are always normalized to lowercase (e.g. `camelCase: true` is availa
 
 <a name="content.sections.md"></a>
 
-#Sections
+# Sections
 
 
 Hugo thinks that you organize your content with a purpose. The same structure
@@ -899,7 +899,7 @@ be used instead provided it exists.
 
 <a name="content.types.md"></a>
 
-#Content Types
+# Content Types
 
 
 Hugo has full support for different types of content. A content type can have a
@@ -968,7 +968,7 @@ Create a file called `type`.md in the /archetypes directory *Eg /archetypes/post
 More details about archetypes can be found at the [archetypes docs](#content.archetypes.md)
 <a name="content.archetypes.md"></a>
 
-#Archetypes
+# Archetypes
 
 
 Hugo v0.11 introduced the concept of a content builder. Using the
@@ -1037,7 +1037,7 @@ type to create using the `--kind` flag during creation.
 
 <a name="content.ordering.md"></a>
 
-#Ordering Content
+# Ordering Content
 
 
 Hugo provides you with all the flexibility you need to organize how your content is ordered.
@@ -1069,7 +1069,7 @@ guaranteed.
 Please see the [Taxonomy Ordering Documentation](#taxonomies.ordering.md).
 <a name="content.example.md"></a>
 
-#Example Content File
+# Example Content File
 
 
 Some things are better shown than explained. The following is a very basic example of a content file:
@@ -1108,7 +1108,7 @@ Some things are better shown than explained. The following is a very basic examp
 
 <a name="templates.overview.md"></a>
 
-#Hugo Templates
+# Hugo Templates
 
 
 Hugo uses the excellent Go html/template library for its template engine.
@@ -1169,7 +1169,7 @@ This template will create a 404.html page used when hosting on GitHub Pages
 
 <a name="templates.go-templates.md"></a>
 
-#Go Template Primer
+# Go Template Primer
 
 
 Hugo uses the excellent [Go][] [html/template][gohtmltemplate] library for
@@ -1539,7 +1539,7 @@ the future:
     {{ end }}
 <a name="templates.functions.md"></a>
 
-#Hugo Template Functions
+# Hugo Template Functions
 
 
 Hugo uses the excellent Go html/template library for its template engine.
@@ -1694,7 +1694,7 @@ Take a string of code and a language, uses Pygments to return the syntax
 highlighted code in HTML. Used in the [highlight shortcode](#extras.highlighting.md).
 <a name="templates.content.md"></a>
 
-#Single Content Template
+# Single Content Template
 
 
 The primary view of content in Hugo is the single view. Hugo, for every
@@ -1846,7 +1846,7 @@ easily generate new content of this type with these keys ready use
 [content archetypes](#content.archetypes.md).
 <a name="templates.list.md"></a>
 
-#Content List Template
+# Content List Template
 
 
 A list template is any template that will be used to render multiple pieces of
@@ -2175,7 +2175,7 @@ These are both template functions and work on not only
 [terms](#templates.terms.md) and [groups](#templates.list.md).
 <a name="templates.homepage.md"></a>
 
-#Homepage
+# Homepage
 
 
 The home page of a website is often formatted differently than the other
@@ -2244,7 +2244,7 @@ It makes use of [partial templates](#templates.partials.md) and uses a similar a
     {{ partial "footer.html" }}
 <a name="templates.terms.md"></a>
 
-#Taxonomy Terms Template
+# Taxonomy Terms Template
 
 
 A unique template is needed to create a list of the terms for a given
@@ -2393,7 +2393,7 @@ number of content assigned to that key or alphabetically.
 
 <a name="templates.views.md"></a>
 
-#Content Views
+# Content Views
 
 
 In addition to the [single content template](#templates.content.md), Hugo can render alternative views of
@@ -2512,7 +2512,7 @@ This content template is used for [spf13.com](http://spf13.com).
 
 <a name="templates.partials.md"></a>
 
-#Partial Templates
+# Partial Templates
 
 
 In practice, it's very convenient to split out common template portions into a
@@ -2607,7 +2607,7 @@ This footer template is used for [spf13.com](http://spf13.com):
 templates](#templates.content.md), [list templates](#templates.list.md) and [homepage templates](#templates.homepage.md).**
 <a name="templates.rss.md"></a>
 
-#RSS (feed) Templates
+# RSS (feed) Templates
 
 
 Like all other templates, you can use a single RSS template to generate
@@ -2697,7 +2697,7 @@ on render… please don't include this in the template as it's not valid HTML.*
     <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <a name="templates.sitemap.md"></a>
 
-#Sitemap Template
+# Sitemap Template
 
 
 A single Sitemap template is used to generate the `sitemap.xml` file.
@@ -2739,7 +2739,7 @@ on render...please don't include this in the template as it's not valid HTML.*
     <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <a name="templates.404.md"></a>
 
-#404.html Templates
+# 404.html Templates
 
 
 When using Hugo with [GitHub Pages](http://pages.github.com/) you can provide
@@ -2770,7 +2770,7 @@ This is a basic example of a 404.html template:
 
 <a name="taxonomies.overview.md"></a>
 
-#Taxonomy Overview
+# Taxonomy Overview
 
 
 Hugo includes support for user defined groupings of content called
@@ -2850,7 +2850,7 @@ the data and labels used are the same:
 
 <a name="taxonomies.usage.md"></a>
 
-#Using Taxonomies
+# Using Taxonomies
 
 
 ## Defining taxonomies for a site
@@ -2915,7 +2915,7 @@ and assign all terms you want to apply to this content.
     }
 <a name="taxonomies.displaying.md"></a>
 
-#Displaying Taxonomies
+# Displaying Taxonomies
 
 
 There are four common ways you can display the data in your
@@ -3025,7 +3025,7 @@ This example will list all taxonomies, each of their keys and all the content as
 
 <a name="taxonomies.templates.md"></a>
 
-#Taxonomy Templates
+# Taxonomy Templates
 
 
 There are two different templates that the use of taxonomies will require you to provide.
@@ -3041,7 +3041,7 @@ generate the list of terms for a given template.
 
 <a name="taxonomies.ordering.md"></a>
 
-#Ordering Taxonomies
+# Ordering Taxonomies
 
 
 Hugo provides the ability to both:
@@ -3108,7 +3108,7 @@ With this the same piece of content can appear in different positions in differe
 Currently taxonomies only support the default ordering of content which is weight -> date.
 <a name="taxonomies.methods.md"></a>
 
-#Using Taxonomies
+# Using Taxonomies
 
 
 Hugo makes a set of values and methods available on the various Taxonomy structures.
@@ -3155,7 +3155,7 @@ WeightedPages is simply a slice of WeightedPage.
 
 <a name="extras.aliases.md"></a>
 
-#Aliases
+# Aliases
 
 
 For people migrating existing published content to Hugo, there's a good chance
@@ -3185,7 +3185,7 @@ complete filename or directory.*
 any content with the same location.*
 <a name="extras.builders.md"></a>
 
-#Hugo Builders
+# Hugo Builders
 
 
 Hugo provides the functionality to quickly get a site, theme or page
@@ -3238,7 +3238,7 @@ I typically keep two different terminals open, one to run `hugo server
 
 <a name="extras.comments.md"></a>
 
-#Comments in Hugo
+# Comments in Hugo
 
 
 As Hugo is a static site generator, the content produced is static and
@@ -3331,7 +3331,7 @@ just a tweet. Everything helps.
 
 <a name="extras.livereload.md"></a>
 
-#Live Reload
+# Live Reload
 
 
 Hugo may not be the first static site generator to utilize live reload
@@ -3386,7 +3386,7 @@ live reload functionality.
 
 <a name="extras.menus.md"></a>
 
-#Menus
+# Menus
 
 
 Hugo has a simple yet powerful menu system that permits content to be
@@ -3558,7 +3558,7 @@ The following is an example:
     <!--sidebar end-->
 <a name="extras.permalinks.md"></a>
 
-#Permalinks
+# Permalinks
 
 
 By default, content is laid out into the target `publishdir` (public)
@@ -3602,7 +3602,7 @@ All references to time are dependent on the content's date.
 
 <a name="extras.shortcodes.md"></a>
 
-#Shortcodes
+# Shortcodes
 
 
 Hugo uses Markdown for its simple content format. However, there’s a lot
@@ -3831,7 +3831,7 @@ called `highlight` which uses Pygments to add the highlighting code.
 More shortcode examples can be found at [spf13.com](https://github.com/spf13/spf13.com/tree/master/layouts/shortcodes).
 <a name="extras.highlighting.md"></a>
 
-#Syntax Highlighting
+# Syntax Highlighting
 
 
 Hugo provides the ability for you to highlight source code in two different
@@ -3925,7 +3925,7 @@ You can of course use your own copy of these files, typically in `./static/`.
 Please see individual libraries documentation for how to implement the JavaScript-based libraries.
 <a name="extras.toc.md"></a>
 
-#Table of Contents
+# Table of Contents
 
 
 Hugo will automatically parse the Markdown for your content and create
@@ -3956,7 +3956,7 @@ This is example code of a [single.html template](#layout.content.md).
 
 <a name="extras.urls.md"></a>
 
-#URLs
+# URLs
 
 
 ## Pretty URLs
