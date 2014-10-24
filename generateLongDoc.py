@@ -62,7 +62,7 @@ for folder in folders:
         content = re.sub(linksBeforeRe, r'[\1](#\2.\3.md)', content)
 
         # add title, named anchor, content (indexed by weight)
-        documents[weight] = '<a name="%s.%s"></a>\n\n#%s\n\n%s' % (folder, mdfile, title, content)
+        documents[weight] = '<a name="%s.%s"></a>\n\n# %s\n\n%s' % (folder, mdfile, title, content)
         index[weight] = '  * <a href="#%s.%s">%s</a>\n' % (folder, mdfile, linktitle or title)
 
     for key in sorted(documents):
