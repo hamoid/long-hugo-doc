@@ -3,20 +3,20 @@
 
 # To generate the one page documentation:
 # 1. Get the hugo source from https://github.com/spf13/hugo
-# 2. Place this script into docs/content/
-# 3. Run this script with: ./generateLongDoc.py > hugodoc.md
+# 2. Run this script like:
+#    ./generateLongDoc.py --input=hugo/docs/content/ --output=README.md
 
 # Why? I find one long doc easier to navigate (less clicks) and
 # it's also searchable within the browser (CTRL+F)
 
-import re, os
+import re, os, argparse
+
+parser = argparse.ArgumentParser(description='Generate Hugo documentation in one file')
+parser.add_argument('--input', default="./", help='Input path (.../hugo/docs/content/)')
+parser.add_argument('--output', default="README.md", help='Output file')
+args = parser.parse_args()
 
 folders = ["overview", "content", "templates", "taxonomies", "extras"]
-
-def writeFile(path, content):
-  f = open(path, "w")
-  f.write(content)
-  f.close()
 
 titleRe = re.compile(r'^title: (.*)')
 linktitleRe = re.compile(r'^linktitle: (.*)')
@@ -32,9 +32,16 @@ for folder in folders:
     index = {}
 
     fullIndex = fullIndex + "\n## " + folder + "\n\n"
+    fullPath = args.input + folder
 
-    for mdfile in os.listdir(folder):
-        mdFilePath = folder + "/" + mdfile
+    if not os.path.isdir(fullPath):
+        print("\nFolder \"" + fullPath + "\"" + " not found.\nUse --in to specify the input path.\n")
+        quit()
+
+    for mdfile in os.listdir(fullPath):
+        mdFilePath = fullPath + "/" + mdfile
+
+        print("Reading " + mdFilePath)
 
         dividerCount = 0
         title = ""
@@ -79,7 +86,8 @@ for folder in folders:
         fullDocument = fullDocument + documents[key]
         fullIndex = fullIndex + index[key]
 
-print("This is the documentation of [Hugo](http://gohugo.io/) condensed into one long page. I did this to make the documentation easier to search and navigate. This page was automatically generated using a Python script using the documentation available at Hugo's GitHub repository.\n")
-print(fullIndex)
-print(fullDocument)
-
+f = open(args.output, "w")
+f.write("This is the documentation of [Hugo](http://gohugo.io/) condensed into one long page. I did this to make the documentation easier to search and navigate. This page was automatically generated using a Python script using the documentation available at Hugo's GitHub repository.\n")
+f.write(fullIndex)
+f.write(fullDocument)
+f.close()
