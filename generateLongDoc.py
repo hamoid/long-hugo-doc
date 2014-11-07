@@ -61,6 +61,16 @@ for folder in folders:
         # fix internal links
         content = re.sub(linksBeforeRe, r'[\1](#\2.\3.md)', content)
 
+        # find a unique weight so documents are not overwritten
+        found = False
+        while not found:
+            try:
+                index[weight]
+                weight = weight + 1
+            except KeyError:
+                # This is what we're looking for: a weight that's not used yet
+                found = True
+
         # add title, named anchor, content (indexed by weight)
         documents[weight] = '<a name="%s.%s"></a>\n\n# %s\n\n%s' % (folder, mdfile, title, content)
         index[weight] = '  * <a href="#%s.%s">%s</a>\n' % (folder, mdfile, linktitle or title)
