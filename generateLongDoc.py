@@ -35,7 +35,7 @@ for folder in folders:
     fullPath = args.input + folder
 
     if not os.path.isdir(fullPath):
-        print("\nFolder \"" + fullPath + "\"" + " not found.\nUse --in to specify the input path.\n")
+        print("\nFolder \"" + fullPath + "\"" + " not found.\nUse --input to specify the input path.\n")
         quit()
 
     for mdfile in os.listdir(fullPath):
