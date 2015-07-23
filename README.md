@@ -25,6 +25,8 @@ This is the documentation of [Hugo](http://gohugo.io/) condensed into one long p
 
   * <a href="#templates.overview.md">Overview</a>
   * <a href="#templates.go-templates.md">Go Template Primer</a>
+  * <a href="#templates.ace.md">Ace templates</a>
+  * <a href="#templates.amber.md">Amber templates</a>
   * <a href="#templates.functions.md">Functions</a>
   * <a href="#templates.variables.md">Variables</a>
   * <a href="#templates.content.md">Single Content</a>
@@ -36,6 +38,7 @@ This is the documentation of [Hugo](http://gohugo.io/) condensed into one long p
   * <a href="#templates.rss.md">RSS</a>
   * <a href="#templates.sitemap.md">Sitemap</a>
   * <a href="#templates.404.md">Custom 404 page</a>
+  * <a href="#templates.debugging.md">Debugging</a>
 
 ## taxonomies
 
@@ -55,8 +58,12 @@ This is the documentation of [Hugo](http://gohugo.io/) condensed into one long p
   * <a href="#extras.livereload.md">LiveReload</a>
   * <a href="#extras.menus.md">Menus</a>
   * <a href="#extras.permalinks.md">Permalinks</a>
+  * <a href="#extras.scratch.md">Scratch</a>
   * <a href="#extras.shortcodes.md">Shortcodes</a>
+  * <a href="#extras.pagination.md">Pagination</a>
   * <a href="#extras.highlighting.md">Syntax Highlighting</a>
+  * <a href="#extras.datafiles.md">Data Files</a>
+  * <a href="#extras.datadrivencontent.md">Data-driven Content</a>
   * <a href="#extras.toc.md">Table of Contents</a>
   * <a href="#extras.urls.md">URLs</a>
 <a name="overview.introduction.md"></a>
@@ -70,20 +77,21 @@ Hugo is a general-purpose website framework. Technically speaking, Hugo is
 a static site generator. This means that, unlike systems like WordPress,
 Ghost and Drupal, which run on your web server expensively building a page
 every time a visitor requests one, Hugo does the building when you create
-your content. Since websites are viewed far more often then they are
+your content. Since websites are viewed far more often than they are
 edited, Hugo is optimized for website viewing while providing a great
 writing experience.
 
 Sites built with Hugo are extremely fast and very secure. Hugo sites can
 be hosted anywhere, including [Heroku][], [GoDaddy][], [DreamHost][],
-[GitHub Pages][], [Amazon S3][] and [CloudFront][], and work well with CDNs.
+[GitHub Pages][], [Google Cloud Storage][], [Amazon S3][] and [CloudFront][], and work well with CDNs.
 Hugo sites run without dependencies on expensive runtimes like Ruby,
 Python or PHP and without dependencies on any databases.
 
 [Heroku]: https://www.heroku.com/
 [GoDaddy]: https://www.godaddy.com/
 [DreamHost]: http://www.dreamhost.com/
-[GitHub Pages]: http://www.dreamhost.com/cloud/
+[GitHub Pages]: https://pages.github.com/
+[Google Cloud Storage]: http://cloud.google.com/storage/
 [Amazon S3]: http://aws.amazon.com/s3/
 [CloudFront]: http://aws.amazon.com/cloudfront/ "Amazon CloudFront"
 
@@ -91,6 +99,51 @@ We think of Hugo as the ideal website creation tool. With nearly instant
 build times and the ability to rebuild whenever a change is made, Hugo
 provides a very fast feedback loop. This is essential when you are
 designing websites, but also very useful when creating content.
+
+## What makes Hugo different?
+
+Web site generators render content into HTML files. Most are "dynamic
+site generators." That means the HTTP
+server (which is the program running on your website that the user's
+browser talks to) runs the generator to create a new HTML file
+each and every time a user wants to view a page.
+
+Creating the page dynamically means that the computer hosting
+the HTTP server has to have enough memory and CPU to effectively run
+the generator around the clock. If not, then the user has to wait
+in a queue for the page to be generated.
+
+Nobody wants users to wait longer than needed, so the dynamic site
+generators programmed their systems to cache the HTML files. When
+a file is cached, a copy of it is temporarily stored on the computer.
+It is much faster for the HTTP server to send that copy the next time
+the page is requested than it is to generate it from scratch.
+
+Hugo takes caching a step further. All HTML files are rendered on your
+computer. You can review the files before you copy them to the computer
+hosting the HTTP server. Since the HTML files aren't generated dynamically,
+we say that Hugo is a "static site generator."
+
+Not running a web site generator on your HTTP server has many benefits.
+The most noticeable is performance - HTTP servers are very good at
+sending files. So good that you can effectively serve the same number
+of pages with a fraction of the memory and CPU needed for a dynamic site.
+
+Hugo has two components to help you build and test your web site. The
+one that you'll probably use most often is the built-in HTTP server.
+When you run `hugo server`, Hugo renders all of your content into
+HTML files and then runs a HTTP server on your computer so that you
+can see what the pages look like.
+
+The second component is used when you're ready to publish your web
+site to the computer running your website. Running Hugo without any
+actions will rebuild your entire web site using the `baseurl` setting
+from your site's configuration file. That's required to have your page
+links work properly with most hosting companies.
+
+## How fast is Hugo?
+
+{{% youtube CdiDYZ51a2o %}}
 
 ## What does Hugo do?
 
@@ -113,7 +166,7 @@ Hugo boasts the following features:
   * Straightforward [organization](#content.organization.md)
   * Support for [website sections](#content.sections.md)
   * Completely customizable [URLs](#extras.urls.md)
-  * Support for configurable [taxonomies](#indexes.overview.md) which includes categories and tags.  Create your own custom organization of content
+  * Support for configurable [taxonomies](#taxonomies.overview.md) which includes categories and tags.  Create your own custom organization of content
   * Ability to [sort content](#content.ordering.md) as you desire
   * Automatic [table of contents](#extras.toc.md) generation
   * Dynamic menu creation
@@ -189,8 +242,8 @@ as I have writing it.
  * [Install Hugo](#overview.installing.md)
  * [Quick start](#overview.quickstart.md)
  * [Join the Mailing List](#community.mailing-list.md)
- * [Star us on GitHub](http://github.com/spf13/hugo)
- * [Discussion Forum](http://discuss.gohugo.io)
+ * [Star us on GitHub](https://github.com/spf13/hugo)
+ * [Discussion Forum](http://discuss.gohugo.io/)
 
 <a name="overview.quickstart.md"></a>
 
@@ -198,6 +251,8 @@ as I have writing it.
 
 
 > _Note: This quickstart depends on features introduced in Hugo v0.11.  If you have an earlier version of Hugo, you will need to [upgrade](#overview.installing.md) before proceeding._
+
+{{% youtube w7Ft2ymGmfc %}}
 
 ## Step 1. Install Hugo
 
@@ -267,7 +322,8 @@ We still lack any templates to tell us how to display the content.
 
 ## Step 4. Install some themes
 
-Hugo has rich theme support and a growing set of themes to choose from:
+Hugo has rich theme support and a growing set of themes to choose from.
+To install all of the available Hugo themes, simply clone the entire **hugoThemes** repository from within your working directory:
 
 ```bash
 $ git clone --recursive https://github.com/spf13/hugoThemes themes
@@ -286,7 +342,7 @@ your content:
     in 5 ms
     Serving pages from exampleHugoSite/public
     Web Server is available at http://localhost:1313
-    Press ctrl+c to stop
+    Press Ctrl+C to stop
 
 We specified two options here:
 
@@ -318,9 +374,9 @@ Stop the Hugo process by hitting <kbd>Ctrl</kbd>+<kbd>C</kbd>. Then run the foll
     Watching for changes in exampleHugoSite/content
     Serving pages from exampleHugoSite/public
     Web Server is available at http://localhost:1313
-    Press ctrl+c to stop
+    Press Ctrl+C to stop
 
-Open your [favorite editor](http://vim.spf13.com), edit and save your content, and watch as Hugo rebuilds and reloads automatically.
+Open your [favorite editor](http://vim.spf13.com/), edit and save your content, and watch as Hugo rebuilds and reloads automatically.
 
 It’s especially productive to leave a browser open on a second monitor
 and just glance at it whenever you save. You don’t even need to tab to
@@ -354,14 +410,17 @@ Things to try:
 # Installing Hugo
 
 
-Hugo is written in Go with support for multiple platforms.
+Hugo is written in [Go][] with support for multiple platforms.
 
 The latest release can be found at [Hugo Releases](https://github.com/spf13/hugo/releases).
-We currently build for <i class="fa fa-windows"></i>&nbsp;Windows,
+We currently provide pre-built binaries for
+<i class="fa fa-windows"></i>&nbsp;Windows,
 <i class="fa fa-linux"></i>&nbsp;Linux,
 <i class="fa freebsd-19px"></i>&nbsp;FreeBSD
-and <i class="fa fa-apple"></i>&nbsp;OS&nbsp;X
-for x64 and i386 architectures.
+and <i class="fa fa-apple"></i>&nbsp;OS&nbsp;X (Darwin)
+for x64, i386 and ARM architectures.
+
+Hugo may also be compiled from source wherever the Go compiler tool chain can run, e.g. for other operating systems including DragonFly BSD, OpenBSD, Plan&nbsp;9 and Solaris.  See http://golang.org/doc/install/source for the full set of supported combinations of target operating systems and compilation architectures.
 
 ## Installing Hugo (binary)
 
@@ -374,7 +433,7 @@ where you don't have a privileged account.
 Ideally, you should install it somewhere in your `PATH` for easy use.
 `/usr/local/bin` is the most probable location.
 
-On OS&nbsp;X, if you have [Homebrew](http://brew.sh), installation is even
+On OS&nbsp;X, if you have [Homebrew](http://brew.sh/), installation is even
 easier: just run `brew install hugo`.
 
 ### Installing Pygments (optional)
@@ -382,7 +441,7 @@ easier: just run `brew install hugo`.
 The Hugo executable has one *optional* external dependency for source code highlighting (Pygments).
 
 If you want to have source code highlighting using the [highlight shortcode](#extras.highlighting.md),
-you need to install the Python-based Pygments program. The procedure is outlined on the [Pygments home page](http://pygments.org).
+you need to install the Python-based Pygments program. The procedure is outlined on the [Pygments home page](http://pygments.org/).
 
 ## Upgrading Hugo
 
@@ -392,12 +451,11 @@ placed in your `PATH`.
 
 ## Installing from source
 
-### Dependencies
+### Prerequisite tools for downloading and building source code
 
-* Git
-* Go 1.1+ (Go 1.4+ on Windows, see Go [Issue #8090](https://code.google.com/p/go/issues/detail?id=8090))
-* Mercurial
-* Bazaar
+* [Git](http://git-scm.com/)
+* [Mercurial](http://mercurial.selenic.com/)
+* [Go][] 1.3+ (Go 1.4+ on Windows, see Go [Issue #8090](https://code.google.com/p/go/issues/detail?id=8090))
 
 ### Get directly from GitHub
 
@@ -407,11 +465,17 @@ placed in your `PATH`.
 `go get` will then fetch Hugo and all its dependent libraries to your
 `$GOPATH/src` directory, and compile everything into the final `hugo`
 (or `hugo.exe`) executable, which you will find sitting in the
-`$GOPATH/bin/hugo` directory, all ready to go!
+`$GOPATH/bin/` directory, all ready to go!
+
+You may run `go get` with the `-u` option to update Hugo's dependencies:
+
+    $ go get -u -v github.com/spf13/hugo
 
 ## Contributing
 
 Please see the [contributing guide](#doc.contributing.md).
+
+[Go]: http://golang.org/
 <a name="overview.usage.md"></a>
 
 # Using Hugo
@@ -419,77 +483,166 @@ Please see the [contributing guide](#doc.contributing.md).
 
 Make sure either `hugo` is in your `PATH` or provide a path to it.
 
-    $ hugo help
-    A Fast and Flexible Static Site Generator
-    built with love by spf13 and friends in Go.
+<pre><code class="hljs nohighlight">$ hugo help
+	
+Hugo is a Fast and Flexible Static Site Generator built with love by spf13 and friends in Go.
 
-    Complete documentation is available at http://gohugo.io
+Complete documentation is available at http://gohugo.io
 
-    Usage:
-      hugo [flags]
-      hugo [command]
+Usage: 
+  hugo [flags]
+  hugo [command]
 
-    Available Commands:
-      server                    Hugo runs its own webserver to render the files
-      version                   Print the version number of Hugo
-      check                     Check content in the source directory
-      benchmark                 Benchmark hugo by building a site a number of times
-      new [path]                Create new content for your site
-      help [command]            Help about any command
+Available Commands: 
+  server          Hugo runs its own webserver to render the files
+  version         Print the version number of Hugo
+  config          Print the site configuration
+  check           Check content in the source directory
+  benchmark       Benchmark hugo by building a site a number of times
+  new             Create new content for your site
+  undraft         Undraft changes the content's draft status from 'True' to 'False'
+  genautocomplete Generate shell autocompletion script for Hugo
+  gendoc          Generate Markdown documentation for the Hugo CLI.
+  help            Help about any command
 
-     Available Flags:
-      -b, --baseUrl="": hostname (and path) to the root eg. http://spf13.com/
-      -D, --buildDrafts=false: build content marked as draft
-      -F, --buildFuture=false: build content with PublishDate in the future
-          --config="": config file (default is path/config.yaml|json|toml)
-      -d, --destination="": filesystem path to write files to
-          --disableRSS=false: Do not build RSS files
-          --disableSitemap=false: Do not build Sitemap file
-          --log=false: Enable Logging
-          --logFile="": Log File path (if set, logging enabled automatically)
-      -s, --source="": filesystem path to read files relative from
-          --stepAnalysis=false: display memory and timing of different steps of the program
-      -t, --theme="": theme to use (located in /themes/THEMENAME/)
-          --uglyUrls=false: if true, use /filename.html instead of /filename/
-      -v, --verbose=false: verbose output
-          --verboseLog=false: verbose logging
-      -w, --watch=false: watch filesystem for changes and recreate as needed
+Flags:
+  -b, --baseUrl="": hostname (and path) to the root eg. http://spf13.com/
+  -D, --buildDrafts=false: include content marked as draft
+  -F, --buildFuture=false: include content with publishdate in the future
+      --cacheDir="": filesystem path to cache directory. Defaults: $TMPDIR/hugo_cache/
+      --config="": config file (default is path/config.yaml|json|toml)
+  -d, --destination="": filesystem path to write files to
+      --disableRSS=false: Do not build RSS files
+      --disableSitemap=false: Do not build Sitemap file
+      --editor="": edit new content with this editor, if provided
+  -h, --help=false: help for hugo
+      --ignoreCache=false: Ignores the cache directory for reading but still writes to it
+      --log=false: Enable Logging
+      --logFile="": Log File path (if set, logging enabled automatically)
+      --noTimes=false: Don't sync modification time of files
+      --pluralizeListTitles=true: Pluralize titles in lists using inflect
+  -s, --source="": filesystem path to read files relative from
+      --stepAnalysis=false: display memory and timing of different steps of the program
+  -t, --theme="": theme to use (located in /themes/THEMENAME/)
+      --uglyUrls=false: if true, use /filename.html instead of /filename/
+  -v, --verbose=false: verbose output
+      --verboseLog=false: verbose logging
+  -w, --watch=false: watch filesystem for changes and recreate as needed
 
-    Use "hugo help [command]" for more information about that command.
+
+Additional help topics:
+ hugo convert         Convert will modify your content to different formats hugo list            Listing out various types of content
+
+Use "hugo help [command]" for more information about a command.
+</code></pre>
 
 ## Common Usage Example
 
-The most common use is probably to run `hugo` with your current
-directory being the input directory.
+The most common use is probably to run `hugo` with your current directory being the input directory:
 
     $ hugo
-    > X pages created
-      in 8 ms
+    0 draft content
+    0 future content
+    99 pages created
+    0 paginator pages created
+    16 tags created
+    0 groups created
+    in 120 ms
 
-If you are working on things and want to see the changes
-immediately, tell Hugo to watch for changes.
+This generates your web site to the `public/` directory,
+ready to be deployed to your web server.
 
-Hugo will watch the filesystem for changes, rebuild your site as soon as a file
-is saved.
 
-    $ hugo -s ~/mysite --watch
-       28 pages created
-       in 18 ms
-       Watching for changes in /Users/spf13/Code/hugo/docs/content
-       Press ctrl+c to stop
+## Instant feedback as you develop your web site
 
-Hugo can even run a server and create your site at the same time! Hugo
-implements [LiveReload](#extras.livereload.md) technology to automatically reload any open pages in
-all browsers (including mobile).
+If you are working on things and want to see the changes immediately, tell Hugo to watch for changes.
+Hugo will watch the filesystem for changes, and rebuild your site as soon as a file is saved:
 
-    $ hugo server -ws ~/mysite
-       Watching for changes in /Users/spf13/Code/hugo/docs/content
-       Web Server is available at http://localhost:1313
-       Press ctrl+c to stop
-       28 pages created
-       0 tags created
-       in 18 ms
+    $ hugo -s ~/Code/hugo/docs --watch
+    0 draft content
+    0 future content
+    99 pages created
+    0 paginator pages created
+    16 tags created
+    0 groups created
+    in 120 ms
+    Watching for changes in /Users/spf13/Code/hugo/docs/content
+    Press Ctrl+C to stop
 
+Hugo can even run a server and create a site preview at the same time!
+Hugo implements [LiveReload](#extras.livereload.md) technology to automatically
+reload any open pages in all JavaScript-enabled browsers, including mobile.
+This is the easiest and most common way to develop a Hugo web site:
+
+    $ hugo server -ws ~/Code/hugo/docs
+    0 draft content
+    0 future content
+    99 pages created
+    0 paginator pages created
+    16 tags created
+    0 groups created
+    in 120 ms
+    Watching for changes in /Users/spf13/Code/hugo/docs/content
+    Serving pages from /Users/spf13/Code/hugo/docs/public
+    Web Server is available at http://localhost:1313/
+    Press Ctrl+C to stop
+
+
+## Deploying your web site
+
+After running `hugo server` for local web development,
+you need to do a final `hugo` run **without the `server` command**
+and **without `--watch` or `-w`** to rebuild your site.
+You may then **deploy your site** by copying the `public/` directory
+(by FTP, SFTP, WebDAV, Rsync, git push, etc.) to your production web server.
+
+Since Hugo generates a static website, your site can be hosted anywhere,
+including [Heroku][], [GoDaddy][], [DreamHost][], [GitHub Pages][],
+[Amazon S3][] and [CloudFront][], or any other cheap or even free
+static web hosting services.
+
+[Apache][], [nginx][], [IIS][]...  Any web server software would do!
+
+[Apache]: http://httpd.apache.org/ "Apache HTTP Server"
+[nginx]: http://nginx.org/
+[IIS]: http://www.iis.net/
+[Heroku]: https://www.heroku.com/
+[GoDaddy]: https://www.godaddy.com/
+[DreamHost]: http://www.dreamhost.com/
+[GitHub Pages]: https://pages.github.com/
+[Amazon S3]: http://aws.amazon.com/s3/
+[CloudFront]: http://aws.amazon.com/cloudfront/ "Amazon CloudFront"
+
+
+### Alternatively, serve your web site with Hugo!
+
+Yes, that's right!  Because Hugo is so blazingly fast both in web site creation
+*and* in web serving (thanks to its concurrent and multi-threaded design and
+its Go heritage), some users actually prefer using Hugo itself to serve their
+web site *on their production server*!
+
+No other web server software (Apache, nginx, IIS...) is necessary.
+
+Here is the command:
+
+    hugo server --watch \
+                --baseUrl=http://yoursite.org/ --port=80 \
+                --appendPort=false
+		--bind=87.245.198.50
+
+Note the `bind` option, which is the interface to which the server will bind (defaults to `127.0.0.1`, which is fine for most development use cases). Some hosts, like Amazon WS, runs network address translation and it can sometimes be hard to figure out the actual IP address. Using `--bind=0.0.0.0` will bind to all interfaces.
+
+This way, you may actually deploy just the source files,
+and Hugo on your server will generate the resulting web site
+on-the-fly and serve them at the same time.
+
+You may optionally add `--disableLiveReload=true` if you do not want
+the JavaScript code for LiveReload to be added to your web pages.
+
+Interested? Here are some great tutorials contributed by Hugo users:
+
+* [hugo, syncthing](http://fredix.ovh/2014/10/hugo-syncthing/) (French) by Frédéric Logier (@fredix)
+* [服务器上 hugo 的安装和配置 <small>(Installing and configuring Hugo on the server)</small>](http://hucsmn.com/post/hugo-tutorial-make-it-work/) (Chinese) by hucsmn
 <a name="overview.configuration.md"></a>
 
 # Configuring Hugo
@@ -522,11 +675,11 @@ The following is an example of a toml config file with some of the default value
     builddrafts = false
     baseurl = "http://yoursite.example.com/"
     canonifyurls = true
-
-    [indexes]
+    
+    [taxonomies]
       category = "categories"
       tag = "tags"
-       
+    
     [params]
       description = "Tesla's Awesome Hugo Site"
       author = "Nikola Tesla"
@@ -549,11 +702,95 @@ Here is a yaml configuration file which sets a few more options
       SidebarRecentLimit: 5
     ...
 
+## Configuration variables
+
+Following is a list of Hugo-defined variables that you can configure and their current default values:
+
+    ---
+    archetypedir:               "archetype"
+    # hostname (and path) to the root eg. http://spf13.com/
+    baseURL:                    ""
+    # include content marked as draft
+    buildDrafts:                false
+    # include content with publishdate in the future
+    buildFuture:                false
+    # enable this to make all relative URLs relative to content root. Note that this does not affect absolute URLs.
+    relativeURLs: 		false
+    canonifyURLs:               false
+    # config file (default is path/config.yaml|json|toml)
+    config:                     "config.toml"
+    contentdir:                 "content"
+    dataDir:                    "data"
+    defaultExtension:           "html"
+    defaultLayout:              "post"
+    # filesystem path to write files to
+    destination:                ""
+    disableLiveReload:          false
+    # Do not build RSS files
+    disableRSS:                 false
+    # Do not build Sitemap file
+    disableSitemap:             false
+    # edit new content with this editor, if provided
+    editor:                     ""
+    footnoteAnchorPrefix:       ""
+    footnoteReturnLinkContents: ""
+    languageCode:               ""
+    layoutdir:                  "layouts"
+    # Enable Logging
+    log:                        false
+    # Log File path (if set, logging enabled automatically)
+    logFile:                    ""
+    # "yaml", "toml", "json"
+    metaDataFormat:             "toml"
+    newContentEditor:           ""
+    # Don't sync modification time of files
+    noTimes:                    false
+    paginate:                   10
+    paginatePath:               "page"
+    permalinks:
+    # Pluralize titles in lists using inflect
+    pluralizeListTitles:         true
+    publishdir:                 "public"
+    # color-codes for highlighting derived from this style
+    pygmentsStyle:              "monokai"
+    # true: use pygments-css or false: color-codes directly
+    pygmentsUseClasses:         false
+    sitemap:                    ""
+    # filesystem path to read files relative from
+    source:                     ""
+    staticdir:                  "static"
+    # display memory and timing of different steps of the program
+    stepAnalysis:               false
+    # theme to use (located in /themes/THEMENAME/)
+    theme:                      ""
+    title:                      ""
+    # if true, use /filename.html instead of /filename/
+    uglyURLs:                   false
+    # verbose output
+    verbose:                    false
+    # verbose logging
+    verboseLog:                 false
+    # watch filesystem for changes and recreate as needed
+    watch:                      false
+    ---
+
+## Ignore files on build
+
+The following inside `config.toml` will ignore files ending with `.foo` and `.boo` when building with `hugo`.
+
+```
+ignoreFiles = [ "\\.foo$", "\\.boo$" ]
+```
+
+The above is is a list of Reqular Expressions, but note the escaping of the `\` to make TOML happy.
+
+
+
 ## Configure Blackfriday rendering
 
 [Blackfriday](https://github.com/russross/blackfriday) is the [Markdown](http://daringfireball.net/projects/markdown/) rendering engine used in Hugo. The Blackfriday configuration in Hugo is mostly a set of sane defaults that should fit most use cases.
 
-But Hugo does expose some options---as listed in the table below, matched with the corresponding flag in the [Blackfriday source](https://github.com/russross/blackfriday/blob/master/html.go):
+But Hugo does expose some options---as listed in the table below, matched with the corresponding flag in the Blackfriday source ([html.go](https://github.com/russross/blackfriday/blob/master/html.go) and [markdown.go](https://github.com/russross/blackfriday/blob/master/markdown.go)):
 
 <table class="table table-bordered">
 <thead>
@@ -574,6 +811,41 @@ But Hugo does expose some options---as listed in the table below, matched with t
 </tr>
 
 <tr>
+<td><code>fractions</code></td>
+<td><code>true</code></td>
+<td><code>HTML_SMARTYPANTS_FRACTIONS</code></td>
+</tr>
+<tr>
+<td class="purpose-title">Purpose:</td>
+<td class="purpose-description" colspan="2">Enable smart fractions
+<small>(e.g.&nbsp;<code>5/12</code> renders to <sup>5</sup>&frasl;<sub>12</sub> (<code>&lt;sup&gt;5&lt;/sup&gt;&amp;frasl;&lt;sub&gt;12&lt;/sub&gt;</code>))
+<strong>Caveat:</strong> Even with <code>fractions = false</code>,
+Blackfriday would still convert 1/2, 1/4 and 3/4 to ½&nbsp;(<code>&amp;frac12;</code>),
+¼&nbsp;(<code>&amp;frac14;</code>) and ¾&nbsp;(<code>&amp;frac34;</code>) respectively,
+but only these three.</small></td>
+</tr>
+
+<tr>
+<td><code>hrefTargetBlank</code></td>
+<td><code>false</code></td>
+<td><code>HTML_HREF_TARGET_BLANK</code></td>
+</tr>
+<tr>
+<td class="purpose-title">Purpose:</td>
+<td class="purpose-description" colspan="2">Open external links in a new window/tab.</small></td>
+</tr>
+
+<tr>
+<td><code>latexDashes</code></td>
+<td><code>true</code></td>
+<td><code>HTML_SMARTYPANTS_LATEX_DASHES</code></td>
+</tr>
+<tr>
+<td class="purpose-title">Purpose:</td>
+<td class="purpose-description" colspan="2">Disable LaTeX style dashes.</small></td>
+</tr>
+
+<tr>
 <td><code>plainIdAnchors</code></td>
 <td><code>false</code></td>
 <td><code>FootnoteAnchorPrefix</code> and <code>HeaderIDSuffix</code></td>
@@ -582,6 +854,26 @@ But Hugo does expose some options---as listed in the table below, matched with t
 <td class="purpose-title">Purpose:</td>
 <td class="purpose-description" colspan="2">If <code>true</code>, then header and footnote IDs are generated without the document ID <small>(e.g.&nbsp;<code>#my-header</code> instead of <code>#my-header:bec3ed8ba720b9073ab75abcf3ba5d97</code>)</small></td>
 </tr>
+
+<tr>
+<td><code>extensions</code></td>
+<td><code>[]</code></td>
+<td><code>EXTENSION_*</code></td>
+</tr>
+<tr>
+<td class="purpose-title">Purpose:</td>
+<td class="purpose-description" colspan="2">Use non-default additional extensions <small>(e.g.&nbsp;Add <code>"hardLineBreak"</code> to use <code>EXTENSION_HARD_LINE_BREAK</code>)</small></td>
+</tr>
+
+<tr>
+<td><code>extensionsmask</code></td>
+<td><code>[]</code></td>
+<td><code>EXTENSION_*</code></td>
+</tr>
+<tr>
+<td class="purpose-title">Purpose:</td>
+<td class="purpose-description" colspan="2">Extensions in this option won't be loaded. <small>(e.g.&nbsp;Add <code>"autoHeaderIds"</code> to disable <code>EXTENSION_AUTO_HEADER_IDS</code>)</small></td>
+</tr>
 </tbody>
 </table>
 
@@ -589,19 +881,28 @@ But Hugo does expose some options---as listed in the table below, matched with t
 **Note** that these flags must be grouped under the `blackfriday` key and can be set on **both site and page level**. If set on page, it will override the site setting.  Example:
 
 <table class="table">
+<thead>
 <tr>
 <th>TOML</th><th>YAML</th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td><pre><code>[blackfriday]
-    angledQuotes = true
-    plainIdAnchors = true
+  angledQuotes = true
+  fractions = false
+  plainIdAnchors = true
+  extensions = ["hardLineBreak"]
 </code></pre></td>
 <td><pre><code>blackfriday:
   angledQuotes: true
+  fractions: false
   plainIdAnchors: true
+  extensions:
+    - hardLineBreak
 </code></pre></td>
 </tr>
+</tbody>
 </table>
 
 ## Notes
@@ -622,6 +923,7 @@ The top level of a source directory will typically have the following elements:
 
     ▸ archetypes/
     ▸ content/
+    ▸ data/
     ▸ layouts/
     ▸ static/
     ▸ themes/
@@ -630,6 +932,7 @@ The top level of a source directory will typically have the following elements:
 Learn more about the different directories and what their purpose is:
 
 * [config](#overview.configuration.md)
+* [data](#extras.datafiles.md)
 * [archetypes](#content.archetypes.md)
 * [content](#content.organization.md)
 * [layouts](#layout.overview.md)
@@ -652,6 +955,7 @@ An example directory may look like:
     |   └── quote
     |   |   ├── first.md
     |   |   └── second.md
+    ├── data
     ├── layouts
     |   ├── _default
     |   |   ├── single.html
@@ -687,8 +991,8 @@ An example directory may look like:
 
 This directory structure tells us a lot about this site:
 
-1. The website intends to have two different types of content: posts and quotes.
-2. It will also apply two different indexes to that content: categories and tags.
+1. The website intends to have two different types of content: *posts* and *quotes*.
+2. It will also apply two different taxonomies to that content: *categories* and *tags*.
 3. It will be displaying content in 3 different views: a list, a summary and a full page view.
 <a name="content.organization.md"></a>
 
@@ -750,7 +1054,7 @@ This isn't in the front matter, but is the actual name of the file minus the
 extension. This will be the name of the file in the destination.
 
 ### slug
-Defined in the front matter, the slug can take the place of the filename for the
+Defined in the front matter, the `slug` can take the place of the filename for the
 destination.
 
 ### filepath
@@ -758,18 +1062,18 @@ The actual path to the file on disk. Destination will create the destination
 with the same path. Includes [section](#content.sections.md).
 
 ### section
-section can be provided in the front matter overriding the section derived from
+`section` can be provided in the front matter overriding the section derived from
 the source content location on disk. See [section](#content.sections.md).
 
 ### path
-path can be provided in the front matter. This will replace the actual
+`path` can be provided in the front matter. This will replace the actual
 path to the file on disk. Destination will create the destination with the same
 path. Includes [section](#content.sections.md).
 
 ### url
 A complete URL can be provided. This will override all the above as it pertains
-to the end destination. This must be the path from the baseurl (starting with a "/").
-When a url is provided, it will be used exactly. Using url will ignore the
+to the end destination. This must be the path from the baseURL (starting with a "/").
+When a `url` is provided, it will be used exactly. Using `url` will ignore the
 `--uglyUrls` setting.
 
 
@@ -799,27 +1103,27 @@ When a url is provided, it will be used exactly. Using url will ignore the
     http://spf13.com/projects/hugo
 
 
-       baseUrl       section  slug
+       baseURL       section  slug
     ⊢-----^--------⊣ ⊢--^---⊣ ⊢-^⊣
     http://spf13.com/projects/hugo
 
 
-       baseUrl       section          slug
+       baseURL       section          slug
     ⊢-----^--------⊣ ⊢--^--⊣        ⊢--^--⊣
     http://spf13.com/extras/indexes/example
 
 
-       baseUrl            path       slug
+       baseURL            path       slug
     ⊢-----^--------⊣ ⊢------^-----⊣ ⊢--^--⊣
     http://spf13.com/extras/indexes/example
 
 
-       baseUrl            url
+       baseURL            url
     ⊢-----^--------⊣ ⊢-----^-----⊣
     http://spf13.com/projects/hugo
 
 
-       baseUrl               url
+       baseURL               url
     ⊢-----^--------⊣ ⊢--------^-----------⊣
     http://spf13.com/extras/indexes/example
 
@@ -864,7 +1168,7 @@ Supported formats:
 [YAML]: http://www.yaml.org/ "YAML Ain't Markup Language"
 [JSON]: http://www.json.org/ "JavaScript Object Notation"
 
-### TOML Example
+## TOML Example
 
     +++
     title = "spf13-vim 3.0 release and new website"
@@ -880,7 +1184,7 @@ Supported formats:
     
     Content of the file goes Here
 
-### YAML Example
+## YAML Example
 
     ---
     title: "spf13-vim 3.0 release and new website"
@@ -895,7 +1199,7 @@ Supported formats:
     
     Content of the file goes Here
 
-### JSON Example
+## JSON Example
 
     {
         "title": "spf13-vim 3.0 release and new website",
@@ -995,7 +1299,7 @@ be used instead provided it exists.
 
 
 Hugo has full support for different types of content. A content type can have a
-unique set of meta data, template and can be automatically created by the new
+unique set of meta data, template and can be automatically created by the `hugo new`
 command through using content [archetypes](#content.archetypes.md).
 
 A good example of when multiple types are needed is to look at [Tumblr](https://www.tumblr.com/). A piece
@@ -1069,7 +1373,7 @@ you can start a content file with the date and title automatically set.
 While this is a welcome feature, active writers need more.
 
 Hugo presents the concept of archetypes, which are archetypal content files
-with pre-configured [front matter](content/front-matter) which will
+with pre-configured [front matter](#content.front-matter.md) which will
 populate each new content file whenever you run the `hugo new` command.
 
 
@@ -1194,7 +1498,7 @@ By default, Hugo automatically takes the first 70 words of your content as its s
 
 ## User-defined: manual summary split:
 
-Alternatively, you may adding the <code>&#60;&#33;&#45;&#45;more&#45;&#45;&#62;</code> summary divider[^1] where you want to split the article.  Content prior to the summary divider will be used as that content's summary, and stored into the `.Summary` variable with all HTML formatting intact.
+Alternatively, you may add the <code>&#60;&#33;&#45;&#45;more&#45;&#45;&#62;</code> summary divider[^1] where you want to split the article.  Content prior to the summary divider will be used as that content's summary, and stored into the `.Summary` variable with all HTML formatting intact.
 
 [^1]: The **summary divider** is also called "more tag", "excerpt separator", etc. in other literature.
 
@@ -1576,6 +1880,10 @@ illustration of how to use the pipes.
 
 Access the page parameter called "disqus_url" and escape the HTML.
 
+The `index` function is a [Go][] built-in, and you can read about it [here][gostdlibpkgtexttemplate]. `index`:
+
+> ...returns the result of indexing its first argument by the following arguments. Thus "index x 1 2 3" is, in Go syntax, `x[1][2][3]`. Each indexed item must be a map, slice, or array.
+
 **Example 3:**
 
     {{ if or (or (isset .Params "title") (isset .Params "caption")) (isset .Params "attr")}}
@@ -1592,14 +1900,14 @@ Could be rewritten as
 
 By default, Go Templates remove HTML comments from output. This has the unfortunate side effect of removing Internet Explorer conditional comments. As a workaround, use something like this:
 
-    {{ "<!--[if lt IE 9]>" | safeHtml }}
+    {{ "<!--[if lt IE 9]>" | safeHTML }}
       <script src="html5shiv.js"></script>
-    {{ "<![endif]-->" | safeHtml }}
+    {{ "<![endif]-->" | safeHTML }}
 
 Alternatively, use the backtick (`` ` ``) to quote the IE conditional comments, avoiding the tedious task of escaping every double quotes (`"`) inside, as demonstrated in the [examples](http://golang.org/pkg/text/template/#hdr-Examples) in the Go text/template documentation, e.g.:
 
 ```
-{{ `<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->` | safeHtml }}
+{{ `<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->` | safeHTML }}
 ```
 
 ## Context (a.k.a. the dot)
@@ -1711,7 +2019,7 @@ January 1st, instead of hunting through your templates.
 
 ```
 {{if .Site.Params.CopyrightHTML}}<footer>
-<div class="text-center">{{.Site.Params.CopyrightHTML | safeHtml}}</div>
+<div class="text-center">{{.Site.Params.CopyrightHTML | safeHTML}}</div>
 </footer>{{end}}
 ```
 
@@ -1739,10 +2047,6 @@ so, such as in this example:
 </nav>
 ```
 
-
-[go]: http://golang.org/
-[gohtmltemplate]: http://golang.org/pkg/html/template/
-
 # Template example: Show only upcoming events
 
 Go allows you to do more than what's shown here.  Using Hugo's
@@ -1762,6 +2066,82 @@ the future:
         </li>
       {{ end }}
     {{ end }}
+
+[go]: http://golang.org/
+[gohtmltemplate]: http://golang.org/pkg/html/template/
+[gostdlibpkgtexttemplate]: http://golang.org/pkg/text/template/
+<a name="templates.ace.md"></a>
+
+# Ace Templates
+
+
+In addition to [Go templates](#templates.go-templates.md) and [Amber](#templates.amber-templates.md) templates, Hugo supports the powerful Ace templates.
+
+For template documentation, follow the links from the [Ace project](https://github.com/yosssi/ace). 
+
+* Ace templates must be named with the ace-suffix, e.g. `list.ace`
+* It's possible to use both Go templates and Ace templates side-by-side, and include one into the other
+* Full Go template syntax support, including all the useful helper funcs
+* Partials can be included both with the Ace and the Go template syntax:
+	* `= include partials/foo.html .`[^ace-theme]
+	* `{{ partial "foo" . }}`
+
+
+One noticeable difference between Ace and the others is the inheritance support through [base and inner templates](https://github.com/yosssi/ace/tree/master/examples/base_inner_template).
+
+In Hugo the base template will be chosen in the following order:
+
+```
+1. <current-path>/<template-name>-baseof.ace, e.g. list-baseof.ace
+2. <current-path>/baseof.ace
+3. _default/<template-name>-baseof.ace, e.g. list-baseof.ace.
+4. _default/baseof.ace	
+5. <themedir>/layouts/_default/<template-name>-baseof.ace
+6. <themedir>/layouts/_default/baseof.ace
+```
+
+In the above, `current-path` is where the corresponding inner template lives, `list.ace`, `single.ace`, `index.ace` ...
+
+```
+.:
+index.ace
+
+./blog:
+single.ace
+baseof.ace
+
+./_default:
+baseof.ace  list.ace  single.ace  single-baseof.ace
+```
+
+Some examples for the layout files above:
+
+* Home page: `./index.ace` +  `./_default/baseof.ace` 
+* Single page in the `blog` section: `./blog/single.ace` +  `./blog/baseof.ace`
+* Single page in another section: `./_default/single.ace` +  `./_default/single-baseof.ace`
+* Taxonomy page in any section: `./_default/list.ace` +  `./_default/baseof.ace`
+
+**Note:** In most cases one `baseof.ace` in `_default` will suffice.
+**Note:** An Ace template without a reference to a base section, e.g. `= content`, will be handled as a standalone template.
+
+
+[^ace-theme]: Note that the `html` suffix is needed, even if the filename is suffixed `ace`. This does not work from inside a theme, see [issue 763](https://github.com/spf13/hugo/issues/763).
+
+<a name="templates.amber.md"></a>
+
+# Amber Templates
+
+
+Amber templates are another template type which Hugo supports, in addition to [Go templates](#templates.go-templates.md) and [Ace templates](#templates.ace-templates.md) templates.
+
+For template documentation, follow the links from the [Amber project](https://github.com/eknkc/amber)
+
+* Amber templates must be named with the amber-suffix, e.g. `list.amber`
+* Partials in Amber or HTML can be included with the Amber template syntax:
+	* `import ../partials/test.html `
+	* `import ../partials/test_a.amber `
+
+
 <a name="templates.functions.md"></a>
 
 # Hugo Template Functions
@@ -1781,16 +2161,35 @@ and other basic tools; these are listed in the
 
 ## General
 
-### isset
-Return true if the parameter is set.
-Takes either a slice, array or channel and an index or a map and a key as input.
+### delimit
+Loops through any array, slice or map and returns a string of all the values separated by the delimiter. There is an optional third parameter that lets you choose a different delimiter to go between the last two values.
+Maps will be sorted by the keys, and only a slice of the values will be returned, keeping a consistent output order.
 
-e.g. `{{ if isset .Params "project_url" }} {{ index .Params "project_url" }}{{ end }}`
+Works on [lists](#templates.list.md), [taxonomies](#taxonomies.displaying.md), [terms](#templates.terms.md), [groups](#templates.list.md)
+
+e.g.
+
+    // Front matter
+    +++
+    tags: [ "tag1", "tag2", "tag3" ]
+    +++
+
+    // Used anywhere in a template
+    Tags: {{ delimit .Params.tags ", " }}
+
+    // Outputs Tags: tag1, tag2, tag3
+
+    // Example with the optional "last" parameter
+    Tags: {{ delimit .Params.tags ", " " and " }}
+
+    // Outputs Tags: tag1, tag2 and tag3
+
 
 ### echoParam
 If parameter is set, then echo it.
 
 e.g. `{{echoParam .Params "project_url" }}`
+
 
 ### eq
 Return true if the parameters are equal.
@@ -1798,6 +2197,7 @@ Return true if the parameters are equal.
 e.g.
 
     {{ if eq .Section "blog" }}current{{ end }}
+
 
 ### first
 Slices an array to only the first X elements.
@@ -1809,6 +2209,140 @@ e.g.
     {{ range first 10 .Data.Pages }}
         {{ .Render "summary" }}
     {{ end }}
+
+### last
+Slices an array to only the last X elements.
+
+Works on [lists](#templates.list.md), [taxonomies](#taxonomies.displaying.md), [terms](#templates.terms.md), [groups](#templates.list.md)
+
+e.g.
+
+    {{ range last 10 .Data.Pages }}
+        {{ .Render "summary" }}
+    {{ end }}
+
+### after
+Slices an array to only the items after the Xth item. Use this in 
+combination with `first` use both halves of an array split a item
+X.
+
+Works on [lists](#templates.list.md), [taxonomies](#taxonomies.displaying.md), [terms](#templates.terms.md), [groups](#templates.list.md)
+
+e.g.
+
+    {{ range after 10 .Data.Pages }}
+        {{ .Render "title" }}
+    {{ end }}
+
+### getenv
+Returns the value of an environment variable.
+
+Takes a string containing the name of the variable as input. Returns
+an empty string if the variable is not set, otherwise returns the
+value of the variable. Note that in Unix-like environments, the
+variable must also be exported in order to be seen by `hugo`.
+
+e.g.
+
+    {{ getenv "HOME" }}
+
+
+### in
+Checks if an element is in an array (or slice) and returns a boolean.  The elements supported are strings, integers and floats (only float64 will match as expected).  In addition, it can also check if a substring exists in a string.
+
+e.g.
+
+    {{ if in .Params.tags "Git" }}Follow me on GitHub!{{ end }}
+
+or
+
+    {{ if in "this string contains a substring" "substring" }}Substring found!{{ end }}
+
+
+### intersect
+Given two arrays (or slices), this function will return the common elements in the arrays.  The elements supported are strings, integers and floats (only float64).
+
+A useful example of this functionality is a 'similar posts' block.  Create a list of links to posts where any of the tags in the current post match any tags in other posts.
+
+e.g.
+
+    <ul>
+    {{ $page_link := .Permalink }}
+    {{ $tags := .Params.tags }}
+    {{ range .Site.Recent }}
+        {{ $page := . }}
+        {{ $has_common_tags := intersect $tags .Params.tags | len | lt 0 }}
+        {{ if and $has_common_tags (ne $page_link $page.Permalink) }}
+            <li><a href="{{ $page.Permalink }}">{{ $page.Title }}</a></li>
+        {{ end }}
+    {{ end }}
+    </ul>
+
+
+### isset
+Return true if the parameter is set.
+Takes either a slice, array or channel and an index or a map and a key as input.
+
+e.g. `{{ if isset .Params "project_url" }} {{ index .Params "project_url" }}{{ end }}`
+
+### seq
+
+Seq creates a sequence of integers. It's named and used as GNU's seq.
+
+Some examples:
+
+* `3` => `1, 2, 3`
+* `1 2 4` => `1, 3`
+* `-3` => `-1, -2, -3`
+* `1 4` => `1, 2, 3, 4`
+* `1 -2` => `1, 0, -1, -2`
+
+### sort
+Sorts maps, arrays and slices, returning a sorted slice. A sorted array of map values will be returned, with the keys eliminated. There are two optional arguments, which are `sortByField` and `sortAsc`. If left blank, sort will sort by keys (for maps) in ascending order.
+
+Works on [lists](#templates.list.md), [taxonomies](#taxonomies.displaying.md), [terms](#templates.terms.md), [groups](#templates.list.md)
+
+e.g.
+
+    // Front matter
+    +++
+    tags: [ "tag3", "tag1", "tag2" ]
+    +++
+
+    // Site config
+    +++
+    [params.authors]
+      [params.authors.Derek]
+        "firstName"  = "Derek"
+        "lastName"   = "Perkins"
+      [params.authors.Joe]
+        "firstName"  = "Joe"
+        "lastName"   = "Bergevin"
+      [params.authors.Tanner]
+        "firstName"  = "Tanner"
+        "lastName"   = "Linsley"
+    +++
+
+    // Use default sort options - sort by key / ascending
+    Tags: {{ range sort .Params.tags }}{{ . }} {{ end }}
+
+    // Outputs Tags: tag1 tag2 tag3
+
+    // Sort by value / descending
+    Tags: {{ range sort .Params.tags "value" "desc" }}{{ . }} {{ end }}
+
+    // Outputs Tags: tag3 tag2 tag1
+
+    // Use default sort options - sort by value / descending
+    Authors: {{ range sort .Site.Params.authors }}{{ .firstName }} {{ end }}
+
+    // Outputs Authors: Derek Joe Tanner
+
+    // Use default sort options - sort by value / descending
+    Authors: {{ range sort .Site.Params.authors "lastName" "desc" }}{{ .lastName }} {{ end }}
+
+    // Outputs Authors: Perkins Linsley Bergevin
+
 
 ### where
 Filters an array to only elements containing a matching value for a given field.
@@ -1859,105 +2393,6 @@ Following operators are now available
        {{ .Content }}
     {{ end }}
 
-### delimit
-Loops through any array, slice or map and returns a string of all the values separated by the delimiter. There is an optional third parameter that lets you choose a different delimiter to go between the last two values.
-Maps will be sorted by the keys, and only a slice of the values will be returned, keeping a consistent output order.
-
-Works on [lists](#templates.list.md), [taxonomies](#taxonomies.displaying.md), [terms](#templates.terms.md), [groups](#templates.list.md)
-
-e.g.
-
-    // Front matter
-    +++
-    tags: [ "tag1", "tag2", "tag3" ]
-    +++
-
-    // Used anywhere in a template
-    Tags: {{ delimit .Params.tags ", " }}
-
-    // Outputs Tags: tag1, tag2, tag3
-
-    // Example with the optional "last" parameter
-    Tags: {{ delimit .Params.tags ", " " and " }}
-
-    // Outputs Tags: tag1, tag2 and tag3
-
-### sort
-Sorts maps, arrays and slices, returning a sorted slice. A sorted array of map values will be returned, with the keys eliminated. There are two optional arguments, which are `sortByField` and `sortAsc`. If left blank, sort will sort by keys (for maps) in ascending order.
-
-Works on [lists](#templates.list.md), [taxonomies](#taxonomies.displaying.md), [terms](#templates.terms.md), [groups](#templates.list.md)
-
-e.g.
-
-    // Front matter
-    +++
-    tags: [ "tag3", "tag1", "tag2" ]
-    +++
-
-    // Site config
-    +++
-    [params.authors]
-      [params.authors.Derek]
-        "firstName"  = "Derek"
-        "lastName"   = "Perkins"
-      [params.authors.Joe]
-        "firstName"  = "Joe"
-        "lastName"   = "Bergevin"
-      [params.authors.Tanner]
-        "firstName"  = "Tanner"
-        "lastName"   = "Linsley"
-    +++
-
-    // Use default sort options - sort by key / ascending
-    Tags: {{ range sort .Params.tags }}{{ . }} {{ end }}
-
-    // Outputs Tags: tag1 tag2 tag3
-
-    // Sort by value / descending
-    Tags: {{ range sort .Params.tags "value" "desc" }}{{ . }} {{ end }}
-
-    // Outputs Tags: tag3 tag2 tag1
-
-    // Use default sort options - sort by value / descending
-    Authors: {{ range sort .Site.Params.authors }}{{ .firstName }} {{ end }}
-
-    // Outputs Authors: Derek Joe Tanner
-
-    // Use default sort options - sort by value / descending
-    Authors: {{ range sort .Site.Params.authors "lastName" "desc" }}{{ .lastName }} {{ end }}
-
-    // Outputs Authors: Perkins Linsley Bergevin
-
-### in
-Checks if an element is in an array (or slice) and returns a boolean.  The elements supported are strings, integers and floats (only float64 will match as expected).  In addition, it can also check if a substring exists in a string.
-
-e.g.
-
-    {{ if in .Params.tags "Git" }}Follow me on GitHub!{{ end }}
-
-or
-
-    {{ if in "this string contains a substring" "substring" }}Substring found!{{ end }}
-
-### intersect
-Given two arrays (or slices), this function will return the common elements in the arrays.  The elements supported are strings, integers and floats (only float64).
-
-A useful example of this functionality is a 'similar posts' block.  Create a list of links to posts where any of the tags in the current post match any tags in other posts.
-
-e.g.
-
-    <ul>
-    {{ $page_link := .Permalink }}
-    {{ $tags := .Params.tags }}
-    {{ range .Site.Recent }}
-        {{ $page := . }}
-        {{ $has_common_tags := intersect $tags .Params.tags | len | lt 0 }}
-        {{ if and $has_common_tags (ne $page_link $page.Permalink) }}
-            <li><a href="{{ $page.Permalink }}">{{ $page.Title }}</a></li>
-        {{ end }}
-    {{ end }}
-    </ul>
-
 
 ## Math
 
@@ -1978,18 +2413,6 @@ e.g.
 </tr>
 
 <tr>
-<td><code>sub</code></td>
-<td>Subtracts two integers.</td>
-<td><code>{{sub 3 2}}</code> → 1</td>
-</tr>
-
-<tr>
-<td><code>mul</code></td>
-<td>Multiplies two integers.</td>
-<td><code>{{mul 2 3}}</code> → 6</td>
-</tr>
-
-<tr>
 <td><code>div</code></td>
 <td>Divides two integers.</td>
 <td><code>{{div 6 3}}</code> → 2</td>
@@ -2006,18 +2429,61 @@ e.g.
 <td>Boolean of modulus of two integers.  <code>true</code> if modulus is 0.</td>
 <td><code>{{modBool 15 3}}</code> → true</td>
 </tr>
+
+<tr>
+<td><code>mul</code></td>
+<td>Multiplies two integers.</td>
+<td><code>{{mul 2 3}}</code> → 6</td>
+</tr>
+
+<tr>
+<td><code>sub</code></td>
+<td>Subtracts two integers.</td>
+<td><code>{{sub 3 2}}</code> → 1</td>
+</tr>
+
 </tbody>
 </table>
 
 
 ## Strings
 
-### urlize
-Takes a string and sanitizes it for usage in URLs, converts spaces to "-".
+### chomp
+Removes any trailing newline characters. Useful in a pipeline to remove newlines added by other processing (including `markdownify`).
 
-e.g. `<a href="/tags/{{ . | urlize }}">{{ . }}</a>`
+e.g., `{{chomp "<p>Blockhead</p>\n"` → `"<p>Blockhead</p>"`
 
-### safeHtml
+
+### dateFormat
+Converts the textual representation of the datetime into the other form or returns it of Go `time.Time` type value. These are formatted with the layout string.
+
+e.g. `{{ dateFormat "Monday, Jan 2, 2006" "2015-01-21" }}` →"Wednesday, Jan 21, 2015"
+
+
+### highlight
+Take a string of code and a language, uses Pygments to return the syntax highlighted code in HTML. Used in the [highlight shortcode](#extras.highlighting.md).
+
+
+### lower
+Convert all characters in string to lowercase.
+
+e.g. `{{lower "BatMan"}}` → "batman"
+
+
+### markdownify
+
+This will run the string through the Markdown processesor. The result will be declared as "safe" so Go templates will not filter it.
+
+e.g. `{{ .Title | markdownify }}`
+
+
+### replace
+Replace all occurences of the search string with the replacement string.
+
+e.g. `{{ replace "Batman and Robin" "Robin" "Catwoman" }}` → "Batman and Catwoman"
+
+
+### safeHTML
 Declares the provided string as a "safe" HTML document fragment
 so Go html/template will not filter it.  It should not be used
 for HTML from a third-party, or HTML with unclosed tags or comments.
@@ -2026,11 +2492,11 @@ Example: Given a site-wide `config.toml` that contains this line:
 
     copyright = "© 2015 Jane Doe.  <a href=\"http://creativecommons.org/licenses/by/4.0/\">Some rights reserved</a>."
 
-`{{ .Site.Copyright | safeHtml }}` would then output:
+`{{ .Site.Copyright | safeHTML }}` would then output:
 
 > © 2015 Jane Doe.  <a href="http://creativecommons.org/licenses/by/4.0/">Some rights reserved</a>.
 
-However, without the `safeHtml` function, html/template assumes
+However, without the `safeHTML` function, html/template assumes
 `.Site.Copyright` to be unsafe, escaping all HTML tags,
 rendering the whole string as plain-text like this:
 
@@ -2039,7 +2505,7 @@ rendering the whole string as plain-text like this:
 </blockquote>
 
 <!--
-### safeHtmlAttr
+### safeHTMLAttr
 Declares the provided string as a "safe" HTML attribute
 from a trusted source, for example, ` dir="ltr"`,
 so Go html/template will not filter it.
@@ -2050,11 +2516,12 @@ Example: Given a site-wide `config.toml` that contains this menu entry:
         name = "IRC: #golang at freenode"
         url = "irc://irc.freenode.net/#golang"
 
-* `<a href="{{ .Url }}">` ⇒ `<a href="#ZgotmplZ">` (Bad!)
-* `<a {{ printf "href=%q" .Url | safeHtmlAttr }}>` ⇒ `<a href="irc://irc.freenode.net/#golang">` (Good!)
+* `<a href="{{ .URL }}">` ⇒ `<a href="#ZgotmplZ">` (Bad!)
+* `<a {{ printf "href=%q" .URL | safeHTMLAttr }}>` ⇒ `<a href="irc://irc.freenode.net/#golang">` (Good!)
 -->
 
-### safeCss
+
+### safeCSS
 Declares the provided string as a known "safe" CSS string
 so Go html/templates will not filter it.
 "Safe" means CSS content that matches any of:
@@ -2066,13 +2533,98 @@ so Go html/templates will not filter it.
 
 Example: Given `style = "color: red;"` defined in the front matter of your `.md` file:
 
-* `<p style="{{ .Params.style | safeCss }}">…</p>` ⇒ `<p style="color: red;">…</p>` (Good!)
+* `<p style="{{ .Params.style | safeCSS }}">…</p>` ⇒ `<p style="color: red;">…</p>` (Good!)
 * `<p style="{{ .Params.style }}">…</p>` ⇒ `<p style="ZgotmplZ">…</p>` (Bad!)
 
 Note: "ZgotmplZ" is a special value that indicates that unsafe content reached a
 CSS or URL context.
 
-### safeUrl
+### slicestr
+
+Slicing in Slicestr is done by specifying a half-open range with two indices, start and end. 1 and 4 creates a slice including elements 1 through 3. 
+The end index can be omitted, it defaults to the string's length.
+
+e.g. 
+
+* `{{slicestr "BatMan" 3}}` → "Man"
+* `{{slicestr "BatMan" 0 3}}` → "Bat"
+
+### substr
+
+ Substr extracts parts of a string, beginning at the character at the specified
+ position, and returns the specified number of characters.
+
+ It normally takes two parameters: `start` and `length`.
+ It can also take one parameter: `start`, i.e. `length` is omitted, in which case
+ the substring starting from start until the end of the string will be returned.
+
+ To extract characters from the end of the string, use a negative start number.
+
+ In addition, borrowing from the extended behavior described at http://php.net/substr,
+ if `length` is given and is negative, then that many characters will be omitted from
+ the end of string.
+
+e.g.
+
+* `{{substr "BatMan" 0 -3}}` → "Bat"
+* `{{substr "BatMan" 3 3}}` → "Man"
+
+### title
+Convert all characters in string to titlecase.
+
+e.g. `{{title "BatMan"}}` → "Batman"
+
+
+### trim
+Trim returns a slice of the string with all leading and trailing characters contained in cutset removed.
+
+e.g. `{{ trim "++Batman--" "+-" }}` → "Batman"
+
+
+### upper
+Convert all characters in string to uppercase.
+
+e.g. `{{upper "BatMan"}}` → "BATMAN"
+
+
+
+
+## Urls
+
+### absURL, relURL
+
+Both `absURL` and `relURL` considers the configured value of `baseURL`, so given a `baseURL` set to `http://mysite.com/hugo/`:
+
+* `{{ "mystyle.css" | absURL }}` → "http://mysite.com/hugo/mystyle.css"
+* `{{ "mystyle.css" | relURL }}` → "/hugo/mystyle.css"
+* `{{ "http://gohugo.io/" | relURL }}` →  "http://gohugo.io/"
+* `{{ "http://gohugo.io/" | absURL }}` →  "http://gohugo.io/"
+
+The last two examples may look funky, but is useful if you, say, have a list of images, some of them hosted externally, some locally:
+
+```
+<script type="application/ld+json">
+{
+    "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "image" : {{ apply .Params.images "absURL" "." }}
+}
+</script>
+```
+
+The above also exploits the fact that the Go template parser JSON-encodes objects inside `script` tags.
+
+
+
+**Note:** These functions are smart about missing slashes, but will not add one to the end if not present.
+
+
+### ref, relref
+Looks up a content page by relative path or logical name to return the permalink (`ref`) or relative permalink (`relref`). Requires a Node or Page object (usually satisfied with `.`). Used in the [`ref` and `relref` shortcodes]({{% ref "extras/crossreferences.md" %}}).
+
+e.g. {{ ref . "about.md" }}
+
+### safeURL
 Declares the provided string as a "safe" URL or URL substring (see [RFC 3986][]).
 A URL like `javascript:checkThatFormNotEditedBeforeLeavingPage()` from a trusted
 source should go in the page, but by default dynamic `javascript:` URLs are
@@ -2080,7 +2632,7 @@ filtered out since they are a frequently exploited injection vector.
 
 [RFC 3986]: http://tools.ietf.org/html/rfc3986
 
-Without `safeUrl`, only the URI schemes `http:`, `https:` and `mailto:`
+Without `safeURL`, only the URI schemes `http:`, `https:` and `mailto:`
 are considered safe by Go.  If any other URI schemes, e.g.&nbsp;`irc:` and
 `javascript:`, are detected, the whole URL would be replaced with
 `#ZgotmplZ`.  This is to "defang" any potential attack in the URL,
@@ -2096,68 +2648,42 @@ The following template:
 
     <ul class="sidebar-menu">
       {{ range .Site.Menus.main }}
-      <li><a href="{{ .Url }}">{{ .Name }}</a></li>
+      <li><a href="{{ .URL }}">{{ .Name }}</a></li>
       {{ end }}
     </ul>
 
 would produce `<li><a href="#ZgotmplZ">IRC: #golang at freenode</a></li>`
 for the `irc://…` URL.
 
-To fix this, add ` | safeUrl` after `.Url` on the 3rd line, like this:
+To fix this, add ` | safeURL` after `.URL` on the 3rd line, like this:
 
-      <li><a href="{{ .Url | safeUrl }}">{{ .Name }}</a></li>
+      <li><a href="{{ .URL | safeURL }}">{{ .Name }}</a></li>
 
 With this change, we finally get `<li><a href="irc://irc.freenode.net/#golang">IRC: #golang at freenode</a></li>`
 as intended.
 
-### markdownify
 
-This will run the string through the Markdown processesor. The result will be declared as "safe" so Go templates will not filter it.
+### urlize
+Takes a string and sanitizes it for usage in URLs, converts spaces to "-".
 
-e.g. `{{ .Title | markdownify }}`
+e.g. `<a href="/tags/{{ . | urlize }}">{{ . }}</a>`
 
-### lower
-Convert all characters in string to lowercase.
 
-e.g. `{{lower "BatMan"}}` → "batman"
 
-### upper
-Convert all characters in string to uppercase.
+## Content Views
 
-e.g. `{{upper "BatMan"}}` → "BATMAN"
+### Render
+Takes a view to render the content with.  The view is an alternate layout, and should be a file name that points to a template in one of the locations specified in the documentation for [Content Views](#templates.views.md).
 
-### title
-Convert all characters in string to titlecase.
+This function is only available on a piece of content, and in list context.
 
-e.g. `{{title "BatMan"}}` → "Batman"
+This example could render a piece of content using the content view located at `/layouts/_default/summary.html`:
 
-### chomp
-Removes any trailing newline characters. Useful in a pipeline to remove newlines added by other processing (including `markdownify`).
+    {{ range .Data.Pages }}
+        {{ .Render "summary"}}
+    {{ end }}
 
-e.g., `{{chomp "<p>Blockhead</p>\n"` → `"<p>Blockhead</p>"`
 
-### trim
-Trim returns a slice of the string with all leading and trailing characters contained in cutset removed.
-
-e.g. `{{ trim "++Batman--" "+-" }}` → "Batman"
-
-### replace
-Replace all occurences of the search string with the replacement string.
-
-e.g. `{{ replace "Batman and Robin" "Robin" "Catwoman" }}` → "Batman and Catwoman"
-
-### dateFormat
-Converts the textual representation of the datetime into the other form or returns it of Go `time.Time` type value. These are formatted with the layout string.
-
-e.g. `{{ dateFormat "Monday, Jan 2, 2006" "2015-01-21" }}` →"Wednesday, Jan 21, 2015"
-
-### highlight
-Take a string of code and a language, uses Pygments to return the syntax highlighted code in HTML. Used in the [highlight shortcode](#extras.highlighting.md).
-
-### ref, relref
-Looks up a content page by relative path or logical name to return the permalink (`ref`) or relative permalink (`relref`). Requires a Node or Page object (usually satisfied with `.`). Used in the [`ref` and `relref` shortcodes]({{% ref "extras/crossreferences.md" %}}).
-
-e.g. {{ ref . "about.md" }}
 
 ## Advanced
 
@@ -2238,6 +2764,8 @@ The following is a list of most of the accessible variables which can be
 defined for a piece of content. Many of these will be defined in the front
 matter, content or derived from file location.
 
+**See also:** [Scratch](#extras.scratch.md) for page-scoped writable variables.
+
 **.Title**  The title for the content.<br>
 **.Content** The content itself, defined below the front matter.<br>
 **.Summary** A generated summary of the content for easily showing a snippet in a summary view. Note that the breakpoint can be set manually by inserting <code>&lt;!&#x2d;&#x2d;more&#x2d;&#x2d;&gt;</code> at the appropriate place in the content page.  See [Summaries](#content.summaries.md) for more details.<br>
@@ -2250,9 +2778,9 @@ matter, content or derived from file location.
 **.Section** The [section](#content.sections.md) this content belongs to.<br>
 **.Permalink** The Permanent link for this page.<br>
 **.RelPermalink** The Relative permanent link for this page.<br>
-**.LinkTitle** Access when creating links to this content. Will use linktitle if set in front-matter, else title.<br>
-**.Taxonomies** These will use the field name of the plural form of the index (see tags and categories above).<br>
-**.RSSLink** Link to the indexes' rss link.<br>
+**.LinkTitle** Access when creating links to this content. Will use `linktitle` if set in front matter, else `title`.<br>
+**.Taxonomies** These will use the field name of the plural form of the taxonomy (see tags and categories below).<br>
+**.RSSLink** Link to the taxonomies' RSS link.<br>
 **.TableOfContents** The rendered table of contents for this content.<br>
 **.Prev** Pointer to the previous content (based on pub date).<br>
 **.Next** Pointer to the following content (based on pub date).<br>
@@ -2260,48 +2788,64 @@ matter, content or derived from file location.
 **.NextInSection** Pointer to the following content within the same section (based on pub date)<br>
 **.FuzzyWordCount** The approximate number of words in the content.<br>
 **.WordCount** The number of words in the content.<br>
+**.RuneCount** The number of [runes](http://blog.golang.org/strings) in the content, excluding any whitespace. This may be a good alternative to `.WordCount`  for Japanese and other CJK languages where a word-split by spaces makes no sense.
 **.ReadingTime** The estimated time it takes to read the content in minutes.<br>
 **.Weight** Assigned weight (in the front matter) to this content, used in sorting.<br>
+**.RawContent** Raw Markdown content without the metadata header. Useful with [remarkjs.com](http://remarkjs.com)<br>
 **.IsNode** Always false for pages.<br>
 **.IsPage** Always true for page.<br>
-**.Site** See site variables below.<br>
-**.Hugo** See Hugo variables below<br>
+**.Site** See [Site Variables]({{< relref "#site-variables" >}}) below.<br>
+**.Hugo** See [Hugo Variables]({{< relref "#hugo-variables" >}}) below.<br>
 
 ## Page Params
 
-Any other value defined in the front matter, including indexes will be made available under `.Params`.
-Take for example I'm using tags and categories as my indexes. The following would be how I would access them:
+Any other value defined in the front matter, including taxonomies, will be made available under `.Params`.
+Take for example I'm using *tags* and *categories* as my taxonomies. The following would be how I would access them:
 
-**.Params.tags** <br>
-**.Params.categories** <br>
-<br>
-**All Params are only accessible using all lowercase characters**<br>
+* **.Params.tags**
+* **.Params.categories**
+
+**All Params are only accessible using all lowercase characters.**
 
 ## Node Variables
-In Hugo a node is any page not rendered directly by a content file. This
-includes indexes, lists and the homepage.
+In Hugo, a node is any page not rendered directly by a content file. This
+includes taxonomies, lists and the homepage.
+
+**See also:** [Scratch](#extras.scratch.md) for global node variables.
 
 **.Title**  The title for the content.<br>
 **.Date** The date the content is published on.<br>
 **.Permalink** The Permanent link for this node<br>
-**.Url** The relative url for this node.<br>
+**.URL** The relative URL for this node.<br>
 **.Ref(ref)** Returns the permalink for `ref`. See [cross-references]({{% ref "extras/crossreferences.md" %}}). Does not handle in-page fragments correctly.<br>
 **.RelRef(ref)** Returns the relative permalink for `ref`. See [cross-references]({{% ref "extras/crossreferences.md" %}}). Does not handle in-page fragments correctly.<br>
-**.RSSLink** Link to the indexes' rss link <br>
+**.RSSLink** Link to the taxonomies' RSS link.<br>
 **.Data** The data specific to this type of node.<br>
 **.IsNode** Always true for nodes.<br>
 **.IsPage** Always false for nodes.<br>
-**.Site** See site variables below<br>
-**.Hugo** See site variables below<br>
+**.Site** See [Site Variables]({{< relref "#site-variables" >}}) below.<br>
+**.Hugo** See [Hugo Variables]({{< relref "#hugo-variables" >}}) below.<br>
+
+### Taxonomy Term Variables
+
+[Taxonomy Terms](#templates.terms.md) pages are of the type "node" and have the following additional variables.
+
+* **.Data.Singular** The singular name of the taxonomy
+* **.Data.Plural** The plural name of the taxonomy
+* **.Data.Terms** The taxonomy itself
+* **.Data.Terms.Alphabetical** The Terms alphabetized
+* **.Data.Terms.ByCount** The Terms ordered by popularity
+
+The last two can also be reversed: **.Data.Terms.Alphabetical.Reverse**, **.Data.Terms.ByCount.Reverse**.
 
 ## Site Variables
 
 Also available is `.Site` which has the following:
 
-**.Site.BaseUrl** The base URL for the site as defined in the site configuration file.<br>
-**.Site.Taxonomies** The indexes for the entire site.<br>
+**.Site.BaseURL** The base URL for the site as defined in the site configuration file.<br>
+**.Site.Taxonomies** The [taxonomies](#taxonomies.usage.md) for the entire site.  Replaces the now-obsolete `.Site.Indexes` since v0.11.<br>
 **.Site.LastChange** The date of the last change of the most recent content.<br>
-**.Site.Recent** Array of all content ordered by Date, newest first.<br>
+**.Site.Pages** Array of all content ordered by Date, newest first.  Replaces the now-deprecated `.Site.Recent` starting v0.13.<br>
 **.Site.Params** A container holding the values from the `params` section of your site configuration file. For example, a TOML config file might look like this:
 
     baseurl = "http://yoursite.example.com/"
@@ -2321,6 +2865,7 @@ Also available is `.Site` which has the following:
 **.Site.LastChange** A string representing the last time content has been updated.<br>
 **.Site.Permalinks** A string to override the default permalink format. Defined in the site configuration.<br>
 **.Site.BuildDrafts** A boolean (Default: false) to indicate whether to build drafts. Defined in the site configuration.<br>
+**.Site.Data**  Custom data, see [Data Files](#extras.datafiles.md).<br>
 
 ## Hugo Variables
 
@@ -2346,7 +2891,7 @@ rendering a specific page.
 Hugo will use the following prioritized list. If a file isn’t present,
 then the next one in the list will be used. This enables you to craft
 specific layouts when you want to without creating more templates
-than necessary. For most sites only the \_default file at the end of
+than necessary. For most sites, only the `_default` file at the end of
 the list will be needed.
 
 Users can specify the `type` and `layout` in the [front-matter](#content.front-matter.md). `Section`
@@ -2384,13 +2929,13 @@ same as the other types, but the directory must be called "\_default".
           single.html
 
 
-## post/single.html
-This content template is used for [spf13.com](http://spf13.com).
-It makes use of [partial templates](#layout.partials.md)
+### post/single.html
+This content template is used for [spf13.com](http://spf13.com/).
+It makes use of [partial templates](#templates.partials.md)
 
     {{ partial "header.html" . }}
     {{ partial "subheader.html" . }}
-    {{ $baseurl := .Site.BaseUrl }}
+    {{ $baseurl := .Site.BaseURL }}
 
     <section id="main">
       <h1 id="title">{{ .Title }}</h1>
@@ -2432,14 +2977,14 @@ It makes use of [partial templates](#layout.partials.md)
     {{ partial "footer.html" . }}
 
 
-## project/single.html
-This content template is used for [spf13.com](http://spf13.com).
-It makes use of [partial templates](#layout.partials.md)
+### project/single.html
+This content template is used for [spf13.com](http://spf13.com/).
+It makes use of [partial templates](#templates.partials.md)
 
 
     {{ partial "header.html" . }}
     {{ partial "subheader.html" . }}
-    {{ $baseurl := .Site.BaseUrl }}
+    {{ $baseurl := .Site.BaseURL }}
 
     <section id="main">
       <h1 id="title">{{ .Title }}</h1>
@@ -2475,7 +3020,7 @@ It makes use of [partial templates](#layout.partials.md)
     </div>
     {{ end }}
 
-    {{ partial "footer.html" }}
+    {{ partial "footer.html" . }}
 
 Notice how the project/single.html template uses an additional parameter unique
 to this template. This doesn't need to be defined ahead of time. If the key is
@@ -2510,7 +3055,7 @@ the list will be needed.
 
 ### Section Lists
 
-A Section will be rendered at /`SECTION`/
+A Section will be rendered at /`SECTION`/ (e.g.&nbsp;http://spf13.com/project/)
 
 * /layouts/section/`SECTION`.html
 * /layouts/\_default/section.html
@@ -2522,9 +3067,9 @@ A Section will be rendered at /`SECTION`/
 
 ### Taxonomy Lists
 
-A Taxonomy will be rendered at /`PLURAL`/`TERM`/
+A Taxonomy will be rendered at /`PLURAL`/`TERM`/ (e.g.&nbsp;http://spf13.com/topics/golang/) from:
 
-* /layouts/taxonomy/`SINGULAR`.html
+* /layouts/taxonomy/`SINGULAR`.html (e.g.&nbsp;`/layouts/taxonomy/topic.html`)
 * /layouts/\_default/taxonomy.html
 * /layouts/\_default/list.html
 * /themes/`THEME`/layouts/taxonomy/`SINGULAR`.html
@@ -2533,7 +3078,7 @@ A Taxonomy will be rendered at /`PLURAL`/`TERM`/
 
 ### Section RSS
 
-A Section’s RSS will be rendered at /`SECTION`/index.xml
+A Section’s RSS will be rendered at /`SECTION`/index.xml (e.g.&nbsp;http://spf13.com/project/index.xml)
 
 *Hugo ships with its own [RSS 2.0][] template. In most cases this will
 be sufficient, and an RSS template will not need to be provided by the
@@ -2549,7 +3094,7 @@ can have different RSS files for each section and taxonomy.
 
 ### Taxonomy RSS
 
-A Taxonomy’s RSS will be rendered at /`PLURAL`/`TERM`/index.xml
+A Taxonomy’s RSS will be rendered at /`PLURAL`/`TERM`/index.xml (e.g.&nbsp;http://spf13.com/topics/golang/index.xml)
 
 *Hugo ships with its own [RSS 2.0][] template. In most cases this will
 be sufficient, and an RSS template will not need to be provided by the
@@ -2572,12 +3117,12 @@ variables](#templates.variables.md) available to use in the templates.
 
 Taxonomy pages will additionally have:
 
-**.Data.`singular`** The taxonomy itself.<br>
+**.Data.`Singular`** The taxonomy itself.<br>
 
 ## Example List Template Pages
 
 ### Example section template (post.html)
-This content template is used for [spf13.com](http://spf13.com).
+This content template is used for [spf13.com](http://spf13.com/).
 It makes use of [partial templates](#templates.partials.md). All examples use a
 [view](#templates.views.md) called either "li" or "summary" which this example site
 defined.
@@ -2599,7 +3144,7 @@ defined.
     {{ partial "footer.html" . }}
 
 ### Example taxonomy template (tag.html)
-This content template is used for [spf13.com](http://spf13.com).
+This content template is used for [spf13.com](http://spf13.com/).
 It makes use of [partial templates](#templates.partials.md). All examples use a
 [view](#templates.views.md) called either "li" or "summary" which this example site
 defined.
@@ -2903,7 +3448,7 @@ the list will be needed.
 * /themes/`THEME`/layouts/\_default/single.html
 
 ## Example index.html
-This content template is used for [spf13.com](http://spf13.com).
+This content template is used for [spf13.com](http://spf13.com/).
 
 It makes use of [partial templates](#templates.partials.md) and uses a similar approach as a [List](#templates.list.md).
 
@@ -2914,7 +3459,7 @@ It makes use of [partial templates](#templates.partials.md) and uses a similar a
 
         {{ partial "meta.html" . }}
 
-        <base href="{{ .Site.BaseUrl }}">
+        <base href="{{ .Site.BaseURL }}">
         <title>{{ .Site.Title }}</title>
         <link rel="canonical" href="{{ .Permalink }}">
         <link href="{{ .RSSlink }}" rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
@@ -2933,7 +3478,7 @@ It makes use of [partial templates](#templates.partials.md) and uses a similar a
       </div>
     </section>
 
-    {{ partial "footer.html" }}
+    {{ partial "footer.html" . }}
 <a name="templates.terms.md"></a>
 
 # Taxonomy Terms Template
@@ -2941,34 +3486,38 @@ It makes use of [partial templates](#templates.partials.md) and uses a similar a
 
 A unique template is needed to create a list of the terms for a given
 taxonomy. This is different from the [list template](#templates.list.md)
-as that template is a list of content, where this is a list of meta data.
+as that template is a list of content, whereas this is a list of meta data.
 
 ## Which Template will be rendered?
 Hugo uses a set of rules to figure out which template to use when
 rendering a specific page.
 
-Hugo will use the following prioritized list. If a file isn’t present,
-then the next one in the list will be used. This enables you to craft
-specific layouts when you want to without creating more templates
-than necessary. For most sites only the \_default file at the end of
-the list will be needed.
-
 A Taxonomy Terms List will be rendered at /`PLURAL`/
+(e.g. http://spf13.com/topics/)
+from the following prioritized list:
 
-* /layouts/taxonomy/`SINGLE`.terms.html
+* /layouts/taxonomy/`SINGULAR`.terms.html (e.g. `/layouts/taxonomy/topic.terms.html`)
 * /layouts/\_default/terms.html
 
+If a file isn’t present,
+then the next one in the list will be used. This enables you to craft
+specific layouts when you want to without creating more templates
+than necessary. For most sites, only the `_default` file at the end of
+the list will be needed.
+
 If that neither file is found in either the /layouts or /theme/layouts
-directory than hugo will not render the taxonomy terms pages. It is also
+directory, then Hugo will not render the taxonomy terms pages. It is also
 common for people to render taxonomy terms lists on other pages such as
 the homepage or the sidebar (such as a tag cloud) and not have a
 dedicated page for the terms.
 
+
 ## Variables
 
-Taxonomy Terms pages are of the type "node" and have all the [node
-variables](#templates.variables.md) and [site
-variables](#templates.variables.md) available to use in the templates.
+Taxonomy Terms pages are of the type "node" and have all the
+[node variables](#templates.variables.md) and
+[site variables](#templates.variables.md)
+available to use in the templates.
 
 Taxonomy Terms pages will additionally have:
 
@@ -2978,19 +3527,22 @@ Taxonomy Terms pages will additionally have:
 * **.Data.Terms.Alphabetical** The Terms alphabetized
 * **.Data.Terms.ByCount** The Terms ordered by popularity
 
-## Example terms.html file
+The last two can also be reversed: **.Data.Terms.Alphabetical.Reverse**, **.Data.Terms.ByCount.Reverse**.
 
-List pages are of the type "node" and have all the [node
-variables](#templates.variables.md) and [site
-variables](#templates.variables.md) available to use in the templates.
+### Example terms.html files
 
-This content template is used for [spf13.com](http://spf13.com).
-It makes use of [partial templates](#templates.partials.md). The list of indexes
+List pages are of the type "node" and have all the
+[node variables](#templates.variables.md) and
+[site variables](#templates.variables.md)
+available to use in the templates.
+
+This content template is used for [spf13.com](http://spf13.com/).
+It makes use of [partial templates](#templates.partials.md). The list of taxonomy
 templates cannot use a [content view](#templates.views.md) as they don't display the content, but
 rather information about the content.
 
 This particular template lists all of the Tags used on
-[spf13.com](http://spf13.com) and provides a count for the number of pieces of
+[spf13.com](http://spf13.com/) and provides a count for the number of pieces of
 content tagged with each tag.
 
 `.Data.Terms` is an map of terms ⇒ [contents]
@@ -3000,89 +3552,87 @@ content tagged with each tag.
 
     <section id="main">
       <div>
-       <h1 id="title">{{ .Title }}</h1>
+        <h1 id="title">{{ .Title }}</h1>
 
-       <ul>
-       {{ $data := .Data }}
+        <ul>
+        {{ $data := .Data }}
         {{ range $key, $value := .Data.Terms }}
-        <li><a href="{{ $data.Plural }}/{{ $key | urlize }}"> {{ $key }} </a> {{ len $value }} </li>
+          <li><a href="{{ $data.Plural }}/{{ $key | urlize }}">{{ $key }}</a> {{ len $value }}</li>
         {{ end }}
        </ul>
       </div>
     </section>
 
-    {{ partial "footer.html" }}
+    {{ partial "footer.html" . }}
 
 
-Another example listing the content for each term (ordered by Date)
-
+Another example listing the content for each term (ordered by Date):
 
     {{ partial "header.html" . }}
     {{ partial "subheader.html" . }}
 
     <section id="main">
       <div>
-       <h1 id="title">{{ .Title }}</h1>
+        <h1 id="title">{{ .Title }}</h1>
 
         {{ $data := .Data }}
         {{ range $key,$value := .Data.Terms.ByCount }}
-        <h2><a href="{{ $data.Plural }}/{{ $value.Name | urlize }}"> {{ $value.Name }} </a> {{ $value.Count }} </h2>
+        <h2><a href="{{ $data.Plural }}/{{ $value.Name | urlize }}">{{ $value.Name }}</a> {{ $value.Count }}</h2>
         <ul>
-            {{ range $value.Pages.ByDate }}
-            <li>
-                <a href="{{ .Permalink }}">{{ .Title }}</a>
-            </li>
-            {{ end }}
+        {{ range $value.Pages.ByDate }}
+          <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+        {{ end }}
         </ul>
         {{ end }}
       </div>
     </section>
 
-    {{ partial "footer.html" }}
+    {{ partial "footer.html" . }}
+
 
 ## Ordering
 
-Hugo can order the meta data in two different ways. It can be ordered by the
-number of content assigned to that key or alphabetically.
+Hugo can order the meta data in two different ways. It can be ordered:
 
+* by the number of contents assigned to that key, or
+* alphabetically.
 
-## Example indexes.html file (alphabetical)
+### Example terms.html file (alphabetical)
 
     {{ partial "header.html" . }}
     {{ partial "subheader.html" . }}
 
     <section id="main">
       <div>
-       <h1 id="title">{{ .Title }}</h1>
-       <ul>
-       {{ $data := .Data }}
+        <h1 id="title">{{ .Title }}</h1>
+        <ul>
+        {{ $data := .Data }}
         {{ range $key, $value := .Data.Terms.Alphabetical }}
-        <li><a href="{{ $data.Plural }}/{{ $value.Name | urlize }}"> {{ $value.Name }} </a> {{ $value.Count }} </li>
+          <li><a href="{{ $data.Plural }}/{{ $value.Name | urlize }}">{{ $value.Name }}</a> {{ $value.Count }}</li>
         {{ end }}
-       </ul>
+        </ul>
       </div>
     </section>
-    {{ partial "footer.html" }}
+    {{ partial "footer.html" . }}
 
-## Example indexes.html file (ordered)
+### Example terms.html file (ordered by popularity)
 
     {{ partial "header.html" . }}
     {{ partial "subheader.html" . }}
 
     <section id="main">
       <div>
-       <h1 id="title">{{ .Title }}</h1>
-       <ul>
-       {{ $data := .Data }}
+        <h1 id="title">{{ .Title }}</h1>
+        <ul>
+        {{ $data := .Data }}
         {{ range $key, $value := .Data.Terms.ByCount }}
-        <li><a href="{{ $data.Plural }}/{{ $value.Name | urlize }}"> {{ $value.Name }} </a> {{ $value.Count }} </li>
+          <li><a href="{{ $data.Plural }}/{{ $value.Name | urlize }}">{{ $value.Name }}</a> {{ $value.Count }}</li>
         {{ end }}
-       </ul>
+        </ul>
       </div>
     </section>
 
-    {{ partial "footer.html" }}
-
+    {{ partial "footer.html" . }}
 <a name="templates.views.md"></a>
 
 # Content Views
@@ -3152,7 +3702,7 @@ the list will be needed.
 ### rendering view inside of a list
 
 Using the summary view (defined below) inside of a ([list
-templates](#templates.list.md)). 
+templates](#templates.list.md)).
 
     <section id="main">
     <div>
@@ -3175,7 +3725,7 @@ change the render line to `{{ .Render "li" }}`.
 Hugo will pass the entire page object to the view template. See [page
 variables](#templates.variables.md) for a complete list.
 
-This content template is used for [spf13.com](http://spf13.com).
+This content template is used for [spf13.com](http://spf13.com/).
 
     <li>
     <a href="{{ .Permalink }}">{{ .Title }}</a>
@@ -3187,7 +3737,7 @@ This content template is used for [spf13.com](http://spf13.com).
 Hugo will pass the entire page object to the view template. See [page
 variables](#templates.variables.md) for a complete list.
 
-This content template is used for [spf13.com](http://spf13.com).
+This content template is used for [spf13.com](http://spf13.com/).
 
     <article class="post">
     <header>
@@ -3209,7 +3759,7 @@ This content template is used for [spf13.com](http://spf13.com).
 
 In practice, it's very convenient to split out common template portions into a
 partial template that can be included anywhere. As you create the rest of your
-templates, you will include templates from the /layout/partials directory.
+templates, you will include templates from the /layout/partials directory, or from arbitrary subdirectories like /layout/partials/post/tag.
 
 Partials are especially important for themes as it gives users an opportunity
 to overwrite just a small part of your theme, while maintaining future compatibility.
@@ -3247,7 +3797,7 @@ the “partial/” path). The old approach would still work, but wouldn’t bene
 the ability to have users override the partial theme file with local layouts.
 
 ## Example header.html
-This header template is used for [spf13.com](http://spf13.com):
+This header template is used for [spf13.com](http://spf13.com/):
 
     <!DOCTYPE html>
     <html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
@@ -3256,7 +3806,7 @@ This header template is used for [spf13.com](http://spf13.com):
 
         {{ partial "meta.html" . }}
 
-        <base href="{{ .Site.BaseUrl }}">
+        <base href="{{ .Site.BaseURL }}">
         <title> {{ .Title }} : spf13.com </title>
         <link rel="canonical" href="{{ .Permalink }}">
         {{ if .RSSlink }}<link href="{{ .RSSlink }}" rel="alternate" type="application/rss+xml" title="{{ .Title }}" />{{ end }}
@@ -3266,7 +3816,7 @@ This header template is used for [spf13.com](http://spf13.com):
     <body lang="en">
 
 ## Example footer.html
-This footer template is used for [spf13.com](http://spf13.com):
+This footer template is used for [spf13.com](http://spf13.com/):
 
     <footer>
       <div>
@@ -3295,39 +3845,35 @@ This footer template is used for [spf13.com](http://spf13.com):
     </body>
     </html>
 
-**For examples of referencing these templates, see [single content
+To reference a partial template stored in a subfolder, e.g. `/layout/partials/post/tag/list.html`, call it this way: 
+
+     {{ partial "post/tag/list" . }}
+
+Note that the subdirectories you create under /layout/partials can be named whatever you like. 
+
+**For more examples of referencing these templates, see [single content
 templates](#templates.content.md), [list templates](#templates.list.md) and [homepage templates](#templates.homepage.md).**
 <a name="templates.rss.md"></a>
 
 # RSS (feed) Templates
 
 
-Like all other templates, you can use a single RSS template to generate
-all of your RSS feeds, or you can create a specific template for each
-individual feed. Unlike other templates, *Hugo ships with its own
-[RSS 2.0 template](#the-embedded-rss-xml:eceb479b7b3b2077408a2878a29e1320).
-In most cases this will be sufficient, and an RSS
-template will not need to be provided by the user.*
+Like all other templates, you can use a single RSS template to generate all of your RSS feeds, or you can create a specific template for each individual feed. 
 
-RSS pages are of the type "node" and have all the [node
-variables](#layout.variables.md) available to use in the templates.
+*Unlike other Hugo templates*, Hugo ships with its own [RSS 2.0 template](#the-embedded-rss-xml:eceb479b7b3b2077408a2878a29e1320). In most cases this will be sufficient, and an RSS template will not need to be provided by the user. But you can provide an rss template if you like, as you can see in the next section. 
 
+RSS pages are of the **type "node"** and have all the [node variables](#layout.variables.md) available to use in the templates.
 
 ## Which Template will be rendered?
-Hugo uses a set of rules to figure out which template to use when
-rendering a specific page.
+Hugo uses a set of rules to figure out which template to use when rendering a specific page.
 
-Hugo will use the following prioritized list. If a file isn’t present,
-then the next one in the list will be used. This enables you to craft
-specific layouts when you want to without creating more templates
-than necessary. For most sites only the \_default file at the end of
-the list will be needed.
+Hugo will use the following prioritized list. If a file isn’t present, then the next one in the list will be used. This enables you to craft specific layouts when you want to without creating more templates than necessary. For most sites only the `\_default` file at the end of the list will be needed.
 
 ### Main RSS
 
 * /layouts/rss.xml
 * /layouts/\_default/rss.xml
-* \__internal/rss.xml
+* [Embedded rss.xml](#the-embedded-rss-xml:eceb479b7b3b2077408a2878a29e1320)
 
 ### Section RSS
 
@@ -3335,7 +3881,7 @@ the list will be needed.
 * /layouts/\_default/rss.xml
 * /themes/`THEME`/layouts/section/`SECTION`.rss.xml
 * /themes/`THEME`/layouts/\_default/rss.xml
-* \__internal/rss.xml
+* [Embedded rss.xml](#the-embedded-rss-xml:eceb479b7b3b2077408a2878a29e1320)
 
 ### Taxonomy RSS
 
@@ -3343,13 +3889,12 @@ the list will be needed.
 * /layouts/\_default/rss.xml
 * /themes/`THEME`/layouts/taxonomy/`SINGULAR`.rss.xml
 * /themes/`THEME`/layouts/\_default/rss.xml
-* \__internal/rss.xml
+* [Embedded rss.xml](#the-embedded-rss-xml:eceb479b7b3b2077408a2878a29e1320)
 
 
 ## Configuring RSS
 
-If the following are provided in the site’s config file, then they
-will be included in the RSS output. Example values are provided.
+If the following values are specified in the site’s config file (`config.toml`), then they will be included in the RSS output. Example values are provided.
 
     languageCode = "en-us"
     copyright = "This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License."
@@ -3359,24 +3904,26 @@ will be included in the RSS output. Example values are provided.
 
 
 ## The Embedded rss.xml
-This is the RSS template that ships with Hugo. It adheres to the
-[RSS 2.0 Specification][RSS 2.0].
+This is the default RSS template that ships with Hugo. It adheres to the [RSS 2.0 Specification][RSS 2.0].
 
     <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
       <channel>
-          <title>{{ .Title }} on {{ .Site.Title }} </title>
-          <generator uri="https://gohugo.io">Hugo</generator>
+        <title>{{ with .Title }}{{.}} on {{ end }}{{ .Site.Title }}</title>
         <link>{{ .Permalink }}</link>
-        {{ with .Site.LanguageCode }}<language>{{.}}</language>{{end}}
-        {{ with .Site.Author.name }}<author>{{.}}</author>{{end}}
-        {{ with .Site.Copyright }}<copyright>{{.}}</copyright>{{end}}
-        <updated>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 MST" }}</updated>
+        <description>Recent content {{ with .Title }}in {{.}} {{ end }}on {{ .Site.Title }}</description>
+        <generator>Hugo -- gohugo.io</generator>{{ with .Site.LanguageCode }}
+        <language>{{.}}</language>{{end}}{{ with .Site.Author.email }}
+        <managingEditor>{{.}}{{ with $.Site.Author.name }} ({{.}}){{end}}</managingEditor>{{end}}{{ with .Site.Author.email }}
+        <webMaster>{{.}}{{ with $.Site.Author.name }} ({{.}}){{end}}</webMaster>{{end}}{{ with .Site.Copyright }}
+        <copyright>{{.}}</copyright>{{end}}{{ if not .Date.IsZero }}
+        <lastBuildDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>{{ end }}
+        <atom:link href="{{.URL}}" rel="self" type="application/rss+xml" />
         {{ range first 15 .Data.Pages }}
         <item>
           <title>{{ .Title }}</title>
           <link>{{ .Permalink }}</link>
-          <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 MST" }}</pubDate>
-          {{with .Site.Author.name}}<author>{{.}}</author>{{end}}
+          <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+          {{ with .Site.Author.email }}<author>{{.}}{{ with $.Site.Author.name }} ({{.}}){{end}}</author>{{end}}
           <guid>{{ .Permalink }}</guid>
           <description>{{ .Content | html }}</description>
         </item>
@@ -3384,11 +3931,32 @@ This is the RSS template that ships with Hugo. It adheres to the
       </channel>
     </rss>
 
-*Important: Hugo will automatically add the following header line to this file
-on render… please don't include this in the template as it's not valid HTML.*
+**Important**: _Hugo will automatically add the following header line to this file on render… please don't include this in the template as it's not valid HTML._
 
-    <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+~~~css
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+~~~
 
+## Referencing your RSS Feed in `<head>`
+
+In your `header.html` template, you can specify your RSS feed in your `<head></head>` tag like this: 
+
+~~~html
+{{ if .RSSlink }}
+  <link href="{{ .RSSlink }}" rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
+  <link href="{{ .RSSlink }}" rel="feed" type="application/rss+xml" title="{{ .Site.Title }}" />
+{{ end }}
+~~~
+
+... with the autodiscovery link specified by the line with `rel="alternate"`. 
+
+The `.RSSlink` will render the appropriate RSS feed URL for the section, whether it's everything, posts in a section, or a taxonomy. 
+
+**N.b.**, if you reference your RSS link, be sure to specify the mime type with `type="application/rss+xml"`. 
+
+~~~html
+<a href="{{ .URL }}" type="application/rss+xml" target="_blank">{{ .SomeText }}</a>
+~~~
 
 [RSS 2.0]: http://cyber.law.harvard.edu/rss/rss.html "RSS 2.0 Specification"
 <a name="templates.sitemap.md"></a>
@@ -3422,7 +3990,7 @@ Protocol](http://www.sitemaps.org/protocol.html).
       {{ range .Data.Pages }}
       <url>
         <loc>{{ .Permalink }}</loc>
-        <lastmod>{{ safeHtml ( .Date.Format "2006-01-02T15:04:05-07:00" ) }}</lastmod>{{ with .Sitemap.ChangeFreq }}
+        <lastmod>{{ safeHTML ( .Date.Format "2006-01-02T15:04:05-07:00" ) }}</lastmod>{{ with .Sitemap.ChangeFreq }}
         <changefreq>{{ . }}</changefreq>{{ end }}{{ if ge .Sitemap.Priority 0.0 }}
         <priority>{{ .Sitemap.Priority }}</priority>{{ end }}
       </url>
@@ -3439,9 +4007,9 @@ on render. Please don't include this in the template as it's not valid HTML.*
 
 
 When using Hugo with [GitHub Pages](http://pages.github.com/), you can provide
-your own template for a [custom 404 error page](https://help.github.com/articles/custom-404-pages/) by creating a 404.html file in the root.
+your own template for a [custom 404 error page](https://help.github.com/articles/custom-404-pages/) by creating a 404.html template file in your `/layouts` folder. When Hugo generates your site, the `404.html` file will be placed in the root.
 
-404 pages are of the type "node" and have all the [node
+404 pages are of the type **"node"** and have all the [node
 variables](#layout.variables.md) available to use in the templates.
 
 In addition to the standard node variables, the 404 page has access to
@@ -3463,23 +4031,80 @@ This is a basic example of a 404.html template:
       </div>
     </section>
 
-    {{ partial "footer.html" }}
+    {{ partial "footer.html" . }}
 
+### Automatic Loading
+
+Your 404.html file can be set to load automatically when a visitor enters a mistaken URL path, dependent upon the web serving environment you are using. For example: 
+
+* _Github Pages_ - it's automatic. 
+* _Apache_ - one way is to specify `ErrorDocument 404 /404.html` in an `.htaccess` file in the root of your site.
+* _Nginx_ - you might specify `error_page   404  =  /404.html;` in your `nginx.conf` file. 
+* _Amazon AWS S3_ - when setting a bucket up for static web serving, you can specify the error file.
+
+<a name="templates.debugging.md"></a>
+
+# Template Debugging
+
+
+
+# Template Debugging
+
+Here are some snippets you can add to your template to answer some common questions.
+These snippets use the `printf` function available in all Go templates.  This function is
+an alias to the Go function, [fmt.Printf](http://golang.org/pkg/fmt/).
+
+### What type of page is this?
+
+Does Hugo consider this page to be a "Node" or a "Page"? (Put this snippet at
+the top level of your template. Don't use it inside of a `range` loop.)
+
+    {{ printf "%T" . }}
+
+
+### What variables are available in this context?
+
+You can use the template syntax, `$.`, to get the top-level template context
+from anywhere in your template.  This will print out all the values under, `.Site`.
+
+    {{ printf "%#v" $.Site }}
+
+This will print out the value of `.Permalink`, which is available on both Nodes
+and Pages.
+
+    {{ printf "%#v" .Permalink }}
+
+This will print out a list of all the variables scoped to the current context
+(a.k.a. The dot, "`.`").
+
+    {{ printf "%#v" . }}
+
+When writing a [Homepage](#templates.homepage.md), what does one of the pages
+you're looping through look like?
+
+```
+{{ range .Data.Pages }}
+    {{/* The context, ".", is now a Page */}}
+    {{ printf "%#v" . }}
+{{ end }}
+```
 <a name="taxonomies.overview.md"></a>
 
 # Taxonomy Overview
 
 
 Hugo includes support for user-defined groupings of content called
-taxonomies. Taxonomies give us a way to classify our content so we can
+taxonomies.[^1] Taxonomies give us a way to classify our content so we can
 demonstrate relationships in a variety of logical ways.
 
-The default taxonomies for Hugo are tags and categories. These
+[^1]: Taxonomies were called *indexes* in Hugo prior to v0.11.
+
+The default taxonomies for Hugo are *tags* and *categories*. These
 taxonomies are common to many website systems (e.g. WordPress, Drupal,
 Jekyll). Unlike all of those systems, Hugo makes it trivial to customize
 the taxonomies you will be using for your site however you wish. Another
 good use for taxonomies is to group a set of posts into a series. Other
-common uses would include categories, tags, groups, series and many
+common uses would include *categories*, *tags*, *groups*, *series* and many
 more.
 
 When taxonomies are used (and templates are provided), Hugo will
@@ -3556,18 +4181,33 @@ Taxonomies must be defined in the site configuration before they can be
 used throughout the site. You need to provide both the plural and
 singular labels for each taxonomy.
 
-Here is an example configuration in YAML that specifies three taxonomies
-(the default two, plus `series`).
+Here is an example configuration in TOML and YAML
+that specifies three taxonomies (the default two, plus `series`).
 
-Notice the format is **singular key** : *plural value*. 
-### config.yaml
+Notice the format is <code><strong>singular key</strong> = &quot;<em>plural value</em>&quot;</code> for TOML,
+or <code><strong>singular key</strong>: &quot;<em>plural value</em>&quot;</code> for YAML:
 
-    ---
-    Taxonomies:
-        tag: "tags"
-        category: "categories"
-        series: "series"
-    ---
+<table class="table">
+<thead>
+<tr>
+<th>config.toml excerpt:</th><th>config.yaml excerpt:</th>
+</tr>
+</thead>
+<tbody>
+<tr valign="top">
+<td><pre><code>[taxonomies]
+  tag = "tags"
+  category = "categories"
+  series = "series"
+</code></pre></td>
+<td><pre><code class="language-yaml">taxonomies:
+  tag: "tags"
+  category: "categories"
+  series: "series"
+</code></pre></td>
+</tr>
+</tbody>
+</table>
 
 ## Assigning taxonomy values to content
 
@@ -3588,7 +4228,7 @@ and assign all terms you want to apply to this content.
     categories = [ "Development" ]
     series = [ "Go Web Dev" ]
     slug = "hugo"
-    project_url = "http://github.com/spf13/hugo"
+    project_url = "https://github.com/spf13/hugo"
     +++
 
 ### Front Matter Example (in JSON)
@@ -3608,7 +4248,7 @@ and assign all terms you want to apply to this content.
             "Go Web Dev"
         ],
         "slug": "hugo",
-        "project_url": "http://github.com/spf13/hugo"
+        "project_url": "https://github.com/spf13/hugo"
     }
 <a name="taxonomies.displaying.md"></a>
 
@@ -3655,7 +4295,7 @@ content.
 
     <ul>
       {{ range .Site.Taxonomies.series.golang }}
-        <li><a href="{{ .Url }}">{{ .Name }}</a></li>
+        <li><a href="{{ .URL }}">{{ .Name }}</a></li>
       {{ end }}
     </ul>
 
@@ -3683,7 +4323,7 @@ different terms to the content.
 
 ## 4. Rendering a Site's Taxonomies
 
-If you wish to display the list of all keys for an taxonomy, you can find retrieve
+If you wish to display the list of all keys for a taxonomy, you can find retrieve
 them from the `.Site` variable which is available on every page.
 
 This may take the form of a tag cloud, a menu or simply a list.
@@ -3743,14 +4383,14 @@ generate the list of terms for a given template.
 
 Hugo provides the ability to both:
 
- 1. Order the way the keys for an taxonomy are displayed
+ 1. Order the way the keys for a taxonomy are displayed
  2. Order the way taxonomyed content appears
 
 
 ## Ordering Taxonomies
 Taxonomies can be ordered by either alphabetical key or by the number of content pieces assigned to that key.
 
-### Order Alphabetically Example:
+### Order Alphabetically Example
 
     <ul>
     {{ $data := .Data }}
@@ -3759,7 +4399,7 @@ Taxonomies can be ordered by either alphabetical key or by the number of content
     {{ end }}
     </ul>
 
-### Order by Popularity Example:
+### Order by Popularity Example
 
     <ul>
     {{ $data := .Data }}
@@ -3855,37 +4495,44 @@ WeightedPages is simply a slice of WeightedPage.
 # Aliases
 
 
-For people migrating existing published content to Hugo, there's a good chance
-you need a mechanism to handle redirecting old URLs.
+For people migrating existing published content to Hugo, there's a good chance you need a mechanism to handle redirecting old URLs.
 
-Luckily, this can be handled easily with aliases in Hugo.
+Luckily, redirects can be handled easily with _aliases_ in Hugo.
 
 ## Example
-**content/posts/my-awesome-blog-post.md**
 
-<table class="table">
-<tr>
-<th>TOML</th><th>YAML</th>
-</tr>
-<tr valign="top">
-<td><pre><code>---
-aliases:
-    - /posts/my-original-url/
-    - /2010/even-earlier-url.html
----
-</code></pre></td>
-<td><pre><code>+++
+Given a post on your current Hugo site, with a path of: 
+
+``content/posts/my-awesome-blog-post.md``
+
+... you create an "aliases" section in the frontmatter of your post, and add previous paths to that. 
+
+### TOML frontmatter
+
+~~~yaml
++++
+        ...
 aliases = [
     "/posts/my-original-url/",
-    "/2010/even-earlier-url.html"
+    "/2010/01/01/even-earlier-url.html"
 ]
+        ...
 +++
-</code></pre></td>
-</tr>
-</table>
+~~~
 
-Now when you go to any of the aliases locations, they
-will redirect to the page.
+### YAML frontmatter
+
+~~~yaml
+---
+        ...
+aliases:
+    - /posts/my-original-url/
+    - /2010/01/01/even-earlier-url.html
+        ...
+---
+~~~
+
+Now when you visit any of the locations specified in aliases, _assuming the same site domain_, you'll be redirected to the page they are specified on. 
 
 ## Important Behaviors
 
@@ -3895,6 +4542,25 @@ complete filename or directory.*
 
 2. *Aliases are rendered prior to any content and will be overwritten by
 any content with the same location.*
+
+## How Hugo Aliases Work
+
+When aliases are specified, Hugo creates a physical folder structure to match the alias entry, and, an html file specifying the canonical URL for the page, and a redirect target. 
+
+Assuming a baseurl of `mysite.tld`, the contents of the html file will look something like: 
+
+~~~html
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="canonical" href="http://mysite.tld/posts/my-original-url"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="refresh" content="0;url=http://mysite.tld/posts/my-original-url"/>
+  </head>
+</html>
+~~~
+
+The `http-equiv="refresh"` line is what performs the redirect, in 0 seconds in this case.
 <a name="extras.builders.md"></a>
 
 # Hugo Builders
@@ -3951,26 +4617,19 @@ I typically keep two different terminals open, one to run `hugo server
 # Comments in Hugo
 
 
-As Hugo is a static site generator, the content produced is static and
-doesn’t interact with the users. The most common interaction people ask
-for is comment capability.
+As Hugo is a static site generator, the content produced is static and doesn’t interact with the users. The most common interaction people ask for is comment capability.
 
-Hugo ships with support for [Disqus](https://disqus.com), a third-party
-service that provides comment and community capabilities to website via
-JavaScript.
+Hugo ships with support for [Disqus](https://disqus.com/), a third-party service that provides comment and community capabilities to website via JavaScript.
 
-Your theme may already support Disqus, but even it if doesn’t, it is easy
-to add.
+Your theme may already support Disqus, but even it if doesn’t, it is easy to add.
 
 # Disqus Support
 
 ## Adding Disqus to a template
 
-Hugo comes with all the code you would need to include load Disqus.
-Simply include the following line where you want your comments to appear:
+Hugo comes with all the code you would need to include load Disqus. Simply include the following line where you want your comments to appear:
 
     {{ template "_internal/disqus.html" . }}
-
 
 ## Configuring Disqus
 
@@ -3985,12 +4644,11 @@ for a given piece of content:
  * **disqus_title**
  * **disqus_url**
 
-
 ## Conditional Loading of Disqus Comments
 
 Users have noticed that enabling Disqus comments when running the Hugo web server on localhost causes the creation of unwanted discussions on the associated Disqus account. In order to prevent this, a slightly tweaked partial template is required. So, rather than using the built-in `"_internal/disqus.html"` template referenced above, create a template in your `partials` folder that looks like this:
 
-```javascript
+```html
 <div id="disqus_thread"></div>
 <script type="text/javascript">
 
@@ -4007,7 +4665,7 @@ Users have noticed that enabling Disqus comments when running the Hugo web serve
 })();
 </script>
 <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 ```
 
 Notice that there is a simple `if` statement that detects when you are running on localhost and skips the initialization of the Disqus comment injection.
@@ -4019,25 +4677,27 @@ Now, reference the partial template from your page template:
 
 # Alternatives
 
-A few alternatives exist to [Disqus](https://disqus.com):
+A few alternatives exist to [Disqus](https://disqus.com/):
 
+* [Discourse](http://www.discourse.org)
 * [IntenseDebate](http://intensedebate.com/)
 * [Livefyre](http://livefyre.com/)
-* [Muut](http://muut.com)
+* [Muut](http://muut.com/)
 * [多说](http://duoshuo.com/) ([Duoshuo](http://duoshuo.com/), popular in China)
-* [Kaiju](http://github.com/spf13/kaiju)
+* [isso](http://posativ.org/isso/) (Self-hosted, Python)
+* [Kaiju](https://github.com/spf13/kaiju)
 
+## Kaiju 
 
-[Kaiju](http://github.com/spf13/kaiju) is an open-source project started
-by [spf13](http://spf13.com) (Hugo’s author) to bring easy and fast real
-time discussions to the web.
+[Kaiju](https://github.com/spf13/kaiju) is an open-source project started by [spf13](http://spf13.com/) (Hugo’s author) to bring easy and fast real time discussions to the web.
 
-Written using Go, Socket.io and MongoDB, it is very fast and easy to
-deploy.
+Written using Go, Socket.io and MongoDB, it is very fast and easy to deploy.
 
-It is in early development but shows promise. If you have interest,
-please help by contributing whether via a pull request, an issue or even
-just a tweet. Everything helps.
+It is in early development but shows promise. If you have interest, please help by contributing whether via a pull request, an issue or even just a tweet. Everything helps.
+
+## Discourse
+
+Additionally, you may recognize [Discourse](http://www.discourse.org) as the system that powers the [Hugo Discussion Forum](http://discuss.gohugo.io).
 
 <a name="extras.crossreferences.md"></a>
 
@@ -4209,6 +4869,7 @@ your:
 
  * static files
  * content
+ * data files
  * layouts
  * current theme
 
@@ -4242,6 +4903,9 @@ LiveReload functionality.
 Hugo has a simple yet powerful menu system that permits content to be
 placed in menus with a good degree of control without a lot of work. 
 
+
+*TIP:* If all you want is a simple menu for your sections, see [Section Menu for "the Lazy Blogger"]({{< relref "#section-menu-for-the-lazy-blogger" >}}).
+
 Some of the features of Hugo Menus:
 
 * Place content in one or many menus
@@ -4257,7 +4921,7 @@ access it via `.Site.Menus.main`.
 
 A menu entry has the following properties:
 
-* **Url**        string
+* **URL**        string
 * **Name**       string
 * **Menu**       string
 * **Identifier** string
@@ -4342,15 +5006,15 @@ And the equivalent example `config.yaml`:
             Pre: "<i class='fa fa-heart'></i>"
             Weight: -110
             Identifier: "about"
-            Url: "/about/"
+            URL: "/about/"
           - Name: "getting started"
             Pre: "<i class='fa fa-road'></i>"
             Weight: -100
-            Url: "/getting-started/"
+            URL: "/getting-started/"
     ---            
 
 
-**NOTE:** The urls must be relative to the context root. If the `BaseUrl` is `http://example.com/mysite/`, then the urls in the menu must not include the context root `mysite`. 
+**NOTE:** The URLs must be relative to the context root. If the `BaseURL` is `http://example.com/mysite/`, then the URLs in the menu must not include the context root `mysite`.
   
 ## Nesting
 
@@ -4394,12 +5058,12 @@ The following is an example:
                 </a>
                 <ul class="sub">
                     {{ range .Children }}
-                    <li{{if $currentNode.IsMenuCurrent "main" . }} class="active"{{end}}><a href="{{.Url}}"> {{ .Name }} </a> </li>
+                    <li{{if $currentNode.IsMenuCurrent "main" . }} class="active"{{end}}><a href="{{.URL}}"> {{ .Name }} </a> </li>
                     {{ end }}
                 </ul>
               {{else}}
                 <li>
-                <a class="" href="{{.Url}}">
+                <a class="" href="{{.URL}}">
                     {{ .Pre }}
                     <span>{{ .Name }}</span>
                 </a>
@@ -4413,6 +5077,45 @@ The following is an example:
         </div>
     </aside>
     <!--sidebar end-->
+
+
+## Section Menu for "the Lazy Blogger"
+
+To enable this menu, add this to your site config, i.e. `config.toml`:
+
+```
+SectionPagesMenu = "main"
+```
+
+The menu name can be anything, but take a note of what it is.
+
+This will create a menu with all the sections as menu items and all the sections' pages as "shadow-members". The _shadow_ implies that the pages isn't represented by a menu-item themselves, but this enables you to create a top-level menu like this:
+
+```
+  <nav class="sidebar-nav">
+        {{ $currentNode := . }}
+        {{ range .Site.Menus.main }}
+        <a class="sidebar-nav-item{{if or ($currentNode.IsMenuCurrent "main" .) ($currentNode.HasMenuCurrent "main" .) }} active{{end}}" href="{{.URL}}">{{ .Name }}</a>
+        {{ end }}
+    </nav>
+
+```
+
+In the above, the menu item is marked as active if on the current section's list page or on a page in that section.
+
+The above is all that's needed. But if you want custom menu items, e.g. changing weight or name, you can define them manually in the site config, i.e. `config.toml`: 
+
+```
+ [[menu.main]]
+        name = "This is the blog section"
+        weight = -110
+        identifier = "blog"
+        url = "/blog/"
+
+```
+
+**Note** that the `identifier` must match the section name.
+
 <a name="extras.permalinks.md"></a>
 
 # Permalinks
@@ -4457,12 +5160,48 @@ All references to time are dependent on the content's date.
   * **:slug** the content's slug (or title if no slug)
   * **:filename** the content's filename (without extension)
 
+<a name="extras.scratch.md"></a>
+
+# Scratch
+
+
+`Scratch` -- a "scratchpad" for your node- or page-scoped variables. In most cases you can do well without `Scratch`, but there are some use cases that aren't solvable with Go's templates without `Scratch`'s help, due to scoping issues.
+
+
+`Scratch` is added to both `Node` and `Page` -- with the three methods `Set`, `Get` and `Add`. `Set` and `Add` takes a `key` and the `value` to add. Get returns the `value` for the `key` given.
+
+`Set` can store values of any type. `Add` accepts values that support Go's `+` operator.
+
+The scope of the backing data is global for the given `Node` or `Page`, and spans partial and shortcode includes.
+
+## Sample usage
+
+The usage is best illustrated with some samples:
+
+```
+{{ $.Scratch.Add "a1" 12 }}
+{{ $.Scratch.Get "a1" }} {{/* => 12 */}}
+{{ $.Scratch.Add "a1" 1 }}
+{{ $.Scratch.Get "a1" }} // {{/* => 13 */}}
+
+{{ $.Scratch.Add "a2" "AB" }}
+{{ $.Scratch.Get "a2" }} {{/* => AB */}}
+{{ $.Scratch.Add "a2" "CD" }}
+{{ $.Scratch.Get "a2" }} {{/* => ABCD */}}
+
+{{ $.Scratch.Set "v1" 123 }}
+{{ $.Scratch.Get "v1" }}  {{/* => 123 */}}
+```
+
+**Note:** The examples above uses the special `$` variable, which refers to the top-level node. This is the behavior you most likely want, and will help remove some confusion when using `Scratch` inside page range loops -- and you start inadvertently calling the wrong `Scratch`. But there may be use cases for `{{ .Scratch.Add "key" "some value" }}`.
+
+
 <a name="extras.shortcodes.md"></a>
 
 # Shortcodes
 
 
-Hugo uses Markdown for its simple content format. However, there’s a lot
+Hugo uses Markdown for its simple content format. However, there are a lot
 of things that Markdown doesn’t support well.
 
 We are unwilling to accept being constrained by our simple format. Also
@@ -4563,6 +5302,7 @@ closing shortcode.
  * link
  * title
  * caption
+ * class
  * attr (attribution)
  * attrlink
  * alt
@@ -4642,6 +5382,10 @@ If a closing shortcode is used, the variable `.Inner` will be populated with all
 of the content between the opening and closing shortcodes. If a closing
 shortcode is required, you can check the length of `.Inner` and provide a warning
 to the user.
+
+A shortcode with `.Inner` content can be used wihout the inline content, and without the closing shortcode, by using the self-closing syntax:
+
+    {{</* innershortcode /*/>}}
 
 The variable `.Params` contains the list of parameters in case you need to do more complicated things than `.Get`.
 
@@ -4726,68 +5470,187 @@ Please notice that this template makes use of a Hugo-specific template function
 called `highlight` which uses Pygments to add the highlighting code.
 
 More shortcode examples can be found at [spf13.com](https://github.com/spf13/spf13.com/tree/master/layouts/shortcodes).
+<a name="extras.pagination.md"></a>
+
+# Pagination
+
+
+Hugo supports pagination for the home page, sections and taxonomies. It's built to be easy use, but with loads of flexibility when needed. The real power shines when you combine it with [`where`](#templates.functions.md), with its SQL-like operators, `first` and others --- you can even [order the content](#templates.list.md) the way you've become used to with Hugo.
+
+## Configuration
+
+Pagination can be configured in the site configuration (e.g. `config.toml`):
+
+* `Paginate` (default `10`) (this setting can be overridden in the template)
+* `PaginatePath` (default `page`)
+
+Setting `Paginate` to a positive value will split the list pages for the home page, sections and taxonomies into chunks of that size. But note that the generation of the pagination pages for sections, taxonomies and home page is *lazy* --- the pages will not be created if not referenced by a `.Paginator` (see below).
+
+`PaginatePath` is used to adapt the `URL` to the pages in the paginator (the default setting will produce URLs on the form `/page/1/`.
+
+## List the pages
+
+**A `.Paginator` is provided to help building a pager menu. This is only relevant for the templates for the home page and the list pages (sections and taxonomies).**
+
+There are two ways to configure and use a `.Paginator`:
+
+1. The simplest way is just to call `.Paginator.Pages` from a template. It will contain the pages for *that page* .
+2. Select a sub-set of the pages with the available template functions and ordering options, and pass the slice to `.Paginate`, e.g. `{{ range (.Paginate ( first 50 .Data.Pages.ByTitle )).Pages }}`.
+
+For a given **Node**, it's one of the options above. The `.Paginator` is static and cannot change once created.
+
+The global page size setting (`Paginate`) can be overridden by providing a positive integer as the last argument. The examples below will give five items per page:
+
+* `{{ range (.Paginator 5).Pages }}`
+* `{{ $paginator := .Paginate (where .Data.Pages "Type" "post") 5 }}`
+
+It is also possible to use the `GroupBy` functions in combination with pagination:
+
+```
+{{ range (.Paginate (.Data.Pages.GroupByDate "2006")).PageGroups  }}
+```
+
+## Build the navigation
+
+The `.Paginator` contains enough information to build a paginator interface.
+
+The easiest way to add this to your pages is to include the built-in template (with `Bootstrap`-compatible styles):
+
+```
+{{ template "_internal/pagination.html" . }}
+```
+
+**Note:** If you use any filters or ordering functions to create your `.Paginator` **and** you want the navigation buttons to be shown before the page listing, you must create the `.Paginator` before it's used:
+
+```
+{{ $paginator := .Paginate (where .Data.Pages "Type" "post") }}
+{{ template "_internal/pagination.html" . }}
+{{ range $paginator.Pages }}
+   {{ .Title }}
+{{ end }}
+```
+
+Without the where-filter, the above is simpler:
+
+```
+{{ template "_internal/pagination.html" . }}
+{{ range .Paginator.Pages }}
+   {{ .Title }}
+{{ end }}
+```
+
+If you want to build custom navigation, you can do so using the `.Paginator` object:
+
+* `PageNumber`: The current page's number in the pager sequence
+* `URL`: The relative URL to the current pager
+* `Pages`: The pages in the current pager
+* `NumberOfElements`: The number of elements on this page
+* `HasPrev`: Whether there are page(s) before the current
+* `Prev`: The pager for the previous page
+* `HasNext`: Whether there are page(s) after the current
+* `Next`: The pager for the next page
+* `First`: The pager for the first page
+* `Last`: The pager for the last page
+* `Pagers`: A list of pagers that can be used to build a pagination menu
+* `PageSize`: Size of each pager
+* `TotalPages`: The number of pages in the paginator
+* `TotalNumberOfElements`: The number of elements on all pages in this paginator
+
+## Additional information
+
+The pages are built on the following form (`BLANK` means no value):
+
+```
+[SECTION/TAXONOMY/BLANK]/index.html
+[SECTION/TAXONOMY/BLANK]/page/1/index.html => redirect to  [SECTION/TAXONOMY/BLANK]/index.html
+[SECTION/TAXONOMY/BLANK]/page/2/index.html
+....
+```
+
+
 <a name="extras.highlighting.md"></a>
 
 # Syntax Highlighting
 
 
-Hugo provides the ability for you to highlight source code in two different
-ways &mdash; either pre-processed server side from your content, or to defer
-the processing to the client side, using a JavaScript library. The advantage of
-server side is that it doesn’t depend on a JavaScript library and consequently
-works very well when read from an RSS feed. The advantage of client side is that
-it doesn’t cost anything when building your site and some of the highlighting 
-scripts available cover more languages than Pygments does.
+Hugo provides the ability for you to highlight source code in _two different ways_ &mdash; either pre-processed server side from your content, or to defer the processing to the client side, using a JavaScript library. 
 
-For the pre-processed approach, Highlighting is performed by an external
-Python-based program called [Pygments](http://pygments.org) and is triggered
-via an embedded shortcode. If Pygments is absent from the path, it will
-silently simply pass the content along unhighlighted.
+**The advantage of server side** is that it doesn’t depend on a JavaScript library and consequently works very well when read from an RSS feed. 
+
+**The advantage of client side** is that it doesn’t cost anything when building your site and some of the highlighting scripts available cover more languages than Pygments does.
 
 ## Server-side
 
-### Disclaimers
+For the pre-processed approach, highlighting is performed by an external Python-based program called [Pygments](http://pygments.org/) and is triggered via an embedded Hugo shortcode (see example below). If Pygments is absent from the path, it will silently simply pass the content along unhighlighted.
 
- * **Warning:** Pygments is relatively slow. Expect much longer build times when using server-side highlighting.
- * Languages available depends on your Pygments installation.
- * Styles are inline in order to be supported in syndicated content when references
-to style sheets are not carried over.
- * We have sought to have the simplest interface possible, which consequently
-limits configuration. An ambitious user is encouraged to extend the current
-functionality to offer more customization.
-* You can change appearance with config options `pygmentsstyle`(default
-`"monokai"`) and `pygmentsuseclasses`(defaut `false`).
+### Pygments
+
+If you have never worked with Pygments before, here is a brief primer:
+
++ Install Python from [python.org](https://www.python.org/downloads/). Version 2.7.x is already sufficient.
++ Run `pip install Pygments` in order to install Pygments. Once installed, Pygments gives you a command `pygmentize`. Make sure it sits in your PATH, otherwise Hugo cannot find it.
+
+On Debian and Ubuntu systems, you may also install Pygments by running `sudo apt-get install python3-pygments`.
+
+Hugo gives you two options that you can set with the variable `pygmentsuseclasses` (default `false`) in `config.toml` (or `config.yaml`).
+
+1. Color-codes for highlighting keywords are directly inserted if `pygmentsuseclasses = false` (default). See in the example below. The color-codes depend on your choice of the `pygmentsstyle` (default `"monokai"`). You can explore the different color styles on [pygments.org](http://pygments.org/) after inserting some example code.
+2. If you choose `pygmentsuseclasses = true`, Hugo includes class names in your code instead of color-codes. For class-names to be meaningful, you need to include a `.css`-file in your website representing your color-scheme. You can either generate this `.css`-files according to this [description](http://pygments.org/docs/cmdline/) or download the standard ones from the [GitHub pygments-css repository](https://github.com/richleland/pygments-css).
 
 ### Usage
-Highlight takes exactly one required parameter of language and requires a
-closing shortcode.
+
+Highlighting is carried out via the in-built shortcode `highlight`. `highlight` takes exactly one required parameter of language, and requires a closing shortcode. Note that `highlight` is _not_ used for client-side javascript highlighting. 
 
 ### Example
-Since this example is a code block, we use Github flavored Markdown's code fences, ```, to delimit the code. If you are using standard Markdown, instead of the code fence delimiters, each line must be preceeded by 4 spaces to identify each line as a line of code. Not doing either will result in the text being rendered as HTML. This will prevent Pygment highlighting from working.
- 
-```  
-{{%/* highlight html */%}}
+
+```
+{{</* highlight html */>}}
 <section id="main">
   <div>
     <h1 id="title">{{ .Title }}</h1>
     {{ range .Data.Pages }}
-        {{ .Render "summary"}}
+      {{ .Render "summary"}}
     {{ end }}
   </div>
 </section>
-{{%/* /highlight */%}}
+{{</* /highlight */>}}
 ```
 
 ### Example Output
 
-    <span style="color: #f92672">&lt;section</span> <span style="color: #a6e22e">id=</span><span style="color: #e6db74">&quot;main&quot;</span><span style="color: #f92672">&gt;</span>
-      <span style="color: #f92672">&lt;div&gt;</span>
-       <span style="color: #f92672">&lt;h1</span> <span style="color: #a6e22e">id=</span><span style="color: #e6db74">&quot;title&quot;</span><span style="color: #f92672">&gt;</span>{{ .Title }}<span style="color: #f92672">&lt;/h1&gt;</span>
-        {{ range .Data.Pages }}
-            {{ .Render &quot;summary&quot;}}
-        {{ end }}
-      <span style="color: #f92672">&lt;/div&gt;</span>
-    <span style="color: #f92672">&lt;/section&gt;</span>
+```
+<span style="color: #f92672">&lt;section</span> <span style="color: #a6e22e">id=</span><span style="color: #e6db74">&quot;main&quot;</span><span style="color: #f92672">&gt;</span>
+  <span style="color: #f92672">&lt;div&gt;</span>
+    <span style="color: #f92672">&lt;h1</span> <span style="color: #a6e22e">id=</span><span style="color: #e6db74">&quot;title&quot;</span><span style="color: #f92672">&gt;</span>{{ .Title }}<span style="color: #f92672">&lt;/h1&gt;</span>
+    {{ range .Data.Pages }}
+      {{ .Render &quot;summary&quot;}}
+    {{ end }}
+  <span style="color: #f92672">&lt;/div&gt;</span>
+<span style="color: #f92672">&lt;/section&gt;</span>
+```
+
+### Options
+
+Options to control highlighting can be added as a quoted, comma separated key-value list as the second argument in the shortcode. The example below will highlight as language `go` with inline line numbers, with line number 2 and 3 highlighted.
+
+```
+{{</* highlight go "linenos=inline,hl_lines=2 3" */>}}
+var a string
+var b string
+var c string
+var d string
+{{</* / highlight */>}}
+```
+
+Supported keywords:  `style`, `encoding`, `noclasses`, `hl_lines`, `linenos`. Note that `style` and `noclasses` will override the similar setting in the global config.
+
+The keywords are the same you would using with Pygments from the command line, see the [Pygments doc](http://pygments.org/docs/) for more info.
+
+
+### Disclaimers
+
+ * Pygments is relatively slow and _causes a performance hit when building your site_, but Hugo has been designed to cache the results to disk. 
+ * Languages available depends on your Pygments installation.
 
 ## Client-side
 
@@ -4797,30 +5660,312 @@ Client-side syntax highlighting is very simple to add. You'll need to pick
 a library and a corresponding theme. Some popular libraries are:
 
 - [Highlight.js]
+- [Prism]
 - [Rainbow]
 - [Syntax Highlighter]
 - [Google Prettify]
 
-This example uses the popular [Highlight.js] library, hosted by [Yandex], a
-popular Russian search engine.
+### Highlight.js example
 
-In your `./layouts/partials/` (or `./layouts/chrome/`) folder, depending on your specific theme, there
-will be a snippet that will be included in every generated HTML page, such
-as `header.html` or `header.includes.html`. Simply add:
+This example uses the popular [Highlight.js] library, hosted by [Yandex], a popular Russian search engine.
 
-    <link rel="stylesheet" href="https://yandex.st/highlightjs/8.0/styles/default.min.css">
-    <script src="https://yandex.st/highlightjs/8.0/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
+In your `./layouts/partials/` (or `./layouts/chrome/`) folder, depending on your specific theme, there will be a snippet that will be included in every generated HTML page, such as `header.html` or `header.includes.html`. Simply add the css and js to initialize [Highlight.js]:
 
-You can of course use your own copy of these files, typically in `./static/`.
+~~~
+<link rel="stylesheet" href="https://yandex.st/highlightjs/8.0/styles/default.min.css">
+<script src="https://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+~~~
 
+### Prism example
+
+Prism is another popular highlighter library, used on some major sites. Similar to Highlight.js, you simply load `prism.css` in your `<head>` via whatever Hugo partial template is creating that part of your pages, like so: 
+
+```html
+...
+<link href="/css/prism.css" rel="stylesheet" />
+...
+```
+
+... and add `prism.js` near the bottom of your `<body>` tag, again in whatever Hugo partial template is appropriate for your site or theme. 
+
+```html
+...
+<script src="/js/prism.js"></script>
+...
+</body>
+```
+
+In this example, the local paths indicate that your own copy of these files are being added to the site, typically under `./static/`.
+
+### Using Client-side highlighting
+
+To use client-side highlighting, most of these javascript libraries expect your code to be wrapped in semantically correct `<code>` tags, with the language expressed in a class attribute on the `<code>` tag, such as `class="language-abc"`, where the `abc` is the code the highlighter script uses to represent that language. 
+
+The script would be looking for classes like `language-go`, `language-html`, or `language-css`. If you look at the page's source, it would be marked up like so: 
+
+~~~html
+<pre>
+<code class="language-css">
+body {
+  font-family: "Noto Sans", sans-serif;
+}
+</code>
+</pre>
+~~~
+
+The markup in your content pages (e.g. `my-css-tutorial.md`) needs to look like the following, with the name of the language to be highlighted entered directly after the first "fence", in a fenced code block:
+
+<pre><code class="language-css">&#126;&#126;&#126;css
+body {
+  font-family: "Noto Sans", sans-serif;
+}
+&#126;&#126;&#126;</code></pre>
+
+When passed through the highlighter script, it would yield something like this output when viewed on your rendered page:
+
+~~~css
+body {
+  font-family: "Noto Sans", sans-serif;
+}
+~~~
+
+Please see individual libraries' documentation for how to implement each of the JavaScript-based libraries.
+
+[Prism]: http://prismjs.com
 [Highlight.js]: http://highlightjs.org/
 [Rainbow]: http://craig.is/making/rainbows
 [Syntax Highlighter]: http://alexgorbatchev.com/SyntaxHighlighter/
 [Google Prettify]: https://code.google.com/p/google-code-prettify/
 [Yandex]: http://yandex.ru/
 
-Please see individual libraries documentation for how to implement the JavaScript-based libraries.
+<a name="extras.datafiles.md"></a>
+
+# Data Files
+
+
+In addition to the [built-in variables](#templates.variables.md) available from Hugo, you can specify your own custom data that can be accessed via templates or shortcodes.
+
+Hugo supports loading data from [YAML](http://yaml.org/), [JSON](http://www.json.org/), and [TOML](https://github.com/toml-lang/toml) files located in the `data` directory.
+
+**It even works with [LiveReload](#extras.livereload.md).**
+
+Data Files can also be used in [themes](#themes.overview.md), but note: If the same `key` is used in both the main data folder and in the theme's data folder, the main one will win. So, for theme authors,  for theme specific data items that shouldn't be overridden, it can be wise to prefix the folder structure with a namespace, e.g. `mytheme/data/mytheme/somekey/...`. To check if any such duplicate exists, run hugo with the `-v` flag, e.g. `hugo -v`.
+
+## The Data Folder
+
+As explained in [Source Organization](#overview.source-directory.md), the `data` folder is where you can store additional data for Hugo to use when generating your site. These files must be YAML, JSON or TOML files (using either the `.yml`, `.yaml`, `.json` or `toml` extension) and the data will be accessible as a `map` in `.Site.Data`.
+
+**The keys in this map will be a dot chained set of _path_, _filename_ and _key_ in file (if applicable).** 
+
+This is best explained with an example:
+
+## Example: Jaco Pastorius' Solo Discography
+
+[Jaco Pastorius](http://en.wikipedia.org/wiki/Jaco_Pastorius_discography) was a great bass player, but his solo discography is short enough to use as an example. [John Patitucci](http://en.wikipedia.org/wiki/John_Patitucci) is another bass giant.
+
+The example below is a bit constructed, but it illustrates the flexibility of Data Files. It uses TOML as file format.
+
+Given the files:
+
+* `data/jazz/bass/jacopastorius.toml`
+* `data/jazz/bass/johnpatitucci.toml`
+
+`jacopastorius.toml` contains the content below, `johnpatitucci.toml` contains a similar list:
+
+```
+discography = [
+"1974 – Modern American Music … Period! The Criteria Sessions",
+"1974 – Jaco",
+"1976 - Jaco Pastorius",
+"1981 - Word of Mouth",
+"1981 - The Birthday Concert (released in 1995)",
+"1982 - Twins I & II (released in 1999)",
+"1983 - Invitation",
+"1986 - Broadway Blues (released in 1998)",
+"1986 - Honestly Solo Live (released in 1990)",
+"1986 - Live In Italy (released in 1991)",
+"1986 - Heavy'n Jazz (released in 1992)",
+"1991 - Live In New York City, Volumes 1-7.",
+"1999 - Rare Collection (compilation)",
+"2003 - Punk Jazz: The Jaco Pastorius Anthology (compilation)",
+"2007 - The Essential Jaco Pastorius (compilation)" 
+]
+```
+
+The list of bass players can be accessed via `.Site.Data.jazz.bass`, a single bass player by adding the filename without the suffix, e.g. `.Site.Data.jazz.bass.jacopastorius`.
+
+You can now render the list of recordings for all the bass players in a template:
+
+```
+{{ range $.Site.Data.jazz.bass }}
+   {{ partial "artist.html" . }}
+{{ end }}
+```
+
+And then in `partial/artist.html`:
+
+```
+<ul>
+{{ range .discography }}
+  <li>{{ . }}</li>
+{{ end }}
+</ul>
+```
+
+Discover a new favourite bass player? Just add another TOML-file.
+
+## Example: Accessing named values in a Data File
+
+Assuming you have the following YAML structure to your `User0123.yml` Data File located directly in `data/`
+
+```
+Name: User0123
+"Short Description": "He is a **jolly good** fellow."
+Achievements:
+  - "Can create a Key, Value list from Data File"
+  - "Learns Hugo"
+  - "Reads documentation"
+```
+
+To render the `Short Description` in your `layout` File following code is required.
+
+```
+<div>Short Description of {{.Site.Data.User0123.Name}}: <p>{{ index .Site.Data.User0123 "Short Description" | markdownify }}</p></div>
+```
+
+Note the use of the `markdownify` template function. This will send the description through the Blackfriday Markdown rendering engine.<a name="extras.datadrivencontent.md"></a>
+
+# Data-driven Content
+
+
+Data-driven content with a static site generator? Yes, it is possible!
+
+In addition to the [data files](#extras.datafiles.md) feature, we have also
+implemented the feature "Data-driven Content", which lets you load
+any [JSON](http://www.json.org/) or
+[CSV](http://en.wikipedia.org/wiki/Comma-separated_values) file
+from nearly any resource.
+
+"Data-driven Content" currently consists of two functions, `getJSON`
+and `getCSV`, which are available in **all template files**.
+
+## Implementation details
+
+### Calling the functions with an URL
+
+In any HTML template or Markdown document, call the functions like this:
+
+	{{ $dataJ := getJSON "url" }}
+	{{ $dataC := getCSV "separator" "url" }}
+
+or, if you use a prefix or postfix for the URL, the functions
+accept [variadic arguments](http://en.wikipedia.org/wiki/Variadic_function):
+
+	{{ $dataJ := getJSON "url prefix" "arg1" "arg2" "arg n" }}
+	{{ $dataC := getCSV  "separator" "url prefix" "arg1" "arg2" "arg n" }}
+
+The separator for `getCSV` must be put in the first position and can only
+be one character long.
+
+All passed arguments will be joined to the final URL; for example:
+
+	{{ $urlPre := "https://api.github.com" }}
+	{{ $gistJ := getJSON $urlPre "/users/GITHUB_USERNAME/gists" }}
+
+will resolve internally to:
+
+	{{ $gistJ := getJSON "https://api.github.com/users/GITHUB_USERNAME/gists" }}
+
+Finally, you can range over an array. This example will output the
+first 5 gists for a GitHub user:
+
+	<ul>
+	  {{ $urlPre := "https://api.github.com" }}
+	  {{ $gistJ := getJSON $urlPre "/users/GITHUB_USERNAME/gists" }}
+	  {{ range first 5 $gistJ }}
+	    {{ if .public }}
+	      <li><a href="{{ .html_url }}" target="_blank">{{ .description }}</a></li>
+	    {{ end }}
+	  {{ end }}
+	</ul>
+
+
+### Example for CSV files
+
+For `getCSV`, the one-character long separator must be placed in the
+first position followed by the URL.
+
+	<table>
+	  <thead>
+	    <tr>
+		<th>Name</th>
+		<th>Position</th>
+		<th>Salary</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	  {{ $url := "http://a-big-corp.com/finance/employee-salaries.csv" }}
+	  {{ $sep := "," }}
+	  {{ range $i, $r := getCSV $sep $url }}
+	    <tr>
+	      <td>{{ index $r 0 }}</td>
+	      <td>{{ index $r 1 }}</td>
+	      <td>{{ index $r 2 }}</td>
+	    </tr>
+	  {{ end }}
+	  </tbody>
+	</table>
+
+The expression `{{index $r number}}` must be used to output the nth-column from
+the current row.
+
+### Caching of URLs
+
+Each downloaded URL will be cached in the default folder `$TMPDIR/hugo_cache/`.
+The variable `$TMPDIR` will be resolved to your system-dependent
+temporary directory.
+
+With the command-line flag `--cacheDir`, you can specify any folder on
+your system as a caching directory.
+
+If you don't like caching at all, you can fully disable to read from the
+cache with the command line flag `--ignoreCache`. However, Hugo will always
+write, on each build of the site, to the cache folder (silent backup).
+
+### Authentication when using REST URLs
+
+Currently, you can only use those authentication methods that can
+be put into an URL. [OAuth](http://en.wikipedia.org/wiki/OAuth) or
+other authentication methods are not implemented.
+
+### Loading local files
+
+To load local files with the two functions `getJSON` and `getCSV`, the
+source files must reside within Hugo's working directory. The file
+extension does not matter but the content.
+
+It applies the same output logic as in the topic: *Calling the functions with an URL*.
+
+## LiveReload
+
+There is no chance to trigger a [LiveReload](#extras.livereload.md) when
+the content of an URL changes. However, when a local JSON/CSV file changes,
+then a LiveReload will be triggered of course. Symlinks not supported.
+
+**URLs and LiveReload**: If you change any local file and the LiveReload
+got triggered, Hugo will either read the URL content from the cache or, if
+you have disabled the cache, Hugo will re-download the content.
+This can create huge traffic and you may also reach API limits quickly.
+
+As downloading of content takes a while, Hugo stops with processing
+your Markdown files until the content has been downloaded.
+
+## Examples
+
+- Photo gallery JSON powered: [https://github.com/pcdummy/hugo-lightslider-example](https://github.com/pcdummy/hugo-lightslider-example)
+- GitHub Starred Repositories [in a posts](https://github.com/SchumacherFM/blog-cs/blob/master/content%2Fposts%2Fgithub-starred.md) with the related [short code](https://github.com/SchumacherFM/blog-cs/blob/master/layouts%2Fshortcodes%2FghStarred.html).
+- More?  Please tell us!
 <a name="extras.toc.md"></a>
 
 # Table of Contents
@@ -4877,20 +6022,14 @@ Organization](#content.organization.md) for more details.
 
 ## Canonicalization
 
-<!--
-By default, all relative URLs encountered in the input will be canonicalized
-using `baseurl`, so that a link `/css/foo.css` becomes
-`http://yoursite.example.com/css/foo.css`.
-
-By setting `canonifyurls` to `false` will prevent this canonicalization.
--->
 By default, all relative URLs encountered in the input are left unmodified,
-e.g. `/css/foo.css` would stay as `/css/foo.css`.
+e.g. `/css/foo.css` would stay as `/css/foo.css`,
+i.e. `canonifyurls` defaults to `false`.
 
 By setting `canonifyurls` to `true`, all relative URLs would instead
 be *canonicalized* using `baseurl`.  For example, assuming you have
 `baseurl = http://yoursite.example.com/` defined in the site-wide
-config.toml, the relative URL `/css/foo.css` would be turned into
+`config.toml`, the relative URL `/css/foo.css` would be turned into
 the absolute URL `http://yoursite.example.com/css/foo.css`.
 
 Benefits of canonicalization include fixing all URLs to be absolute, which may
@@ -4901,46 +6040,13 @@ Benefits of non-canonicalization include being able to have resource inclusion
 be scheme-relative, so that http vs https can be decided based on how this
 page was retrieved.
 
-### Caveat: Default of `canonifyurls` changed in v0.11
+> Note: In the May 2014 release of Hugo v0.11, the default value of `canonifyurls` was switched from `true` to `false`, which we think is the better default and should continue to be the case going forward. So, please verify and adjust your website accordingly if you are upgrading from v0.10 or older versions.
 
-<table class="table table-bordered">
-<thead>
-<tr>
-<th>Hugo Version</th>
-<th>Release Date</th>
-<th>Default</th>
-</tr>
-</thead>
+To find out the current value of `canonifyurls` for your website, you may use the handy `hugo config` command added in v0.13:
 
-<tbody>
-<tr>
-<td>v0.9</td>
-<td>2013-11-15</td>
-<td><code>canonifyurls = true</code> <small>(non-configurable)</small></td>
-</tr>
+    hugo config | grep -i canon
 
-<tr>
-<td>v0.10</td>
-<td>2014-03-01</td>
-<td><code>canonifyurls = true</code></td>
-</tr>
+Or, if you are on Windows and do not have `grep` installed:
 
-<tr>
-<td>v0.11</td>
-<td>2014-05-29</td>
-<td><code>canonifyurls = false</code></td>
-</tr>
+    hugo config | FINDSTR /I canon
 
-<tr>
-<td>v0.12</td>
-<td>2014-09-01</td>
-<td><code>canonifyurls = false</code></td>
-</tr>
-
-<tr>
-<td>v0.13-DEV</td>
-<td><small>in development</small></td>
-<td><code>canonifyurls = false</code> <small>(as of January 2015)</small></td>
-</tr>
-</tbody>
-</table>
