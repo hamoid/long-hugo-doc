@@ -16,11 +16,22 @@ parser.add_argument('--input', default="./", help='Input path (.../hugo/docs/con
 parser.add_argument('--output', default="README.md", help='Output file')
 args = parser.parse_args()
 
-folders = ["overview", "content", "templates", "taxonomies", "extras"]
+folders = ["about",
+           "getting-started",
+           "themes",
+           "content-management",
+           "templates",
+           "functions",
+           "variables",
+           "commands",
+           "troubleshooting",
+           "tools",
+           "hosting-and-deployment",
+           "contribute"]
 
 titleRe = re.compile(r'^title: (.*)')
 linktitleRe = re.compile(r'^linktitle: (.*)')
-weightRe = re.compile(r'^weight: (.*)')
+weightRe = re.compile(r'^weight: ([0-9]+)')
 dividerRe = re.compile(r'^---')
 linksBeforeRe = re.compile(r'\[(.*?)\]\(\/(.*?)\/(.*?)\/?\)', re.S)
 
