@@ -1,10 +1,10 @@
-#! /usr/bin/env python3.4
+#! /usr/bin/env python3
 # -*- coding: UTF-8 -*-
 
 # To generate the one page documentation:
-# 1. Get the hugo source from https://github.com/spf13/hugo
-# 2. Run this script like:
-#    ./generateLongDoc.py --input=hugo/docs/content/ --output=README.md
+# $ git clone git@github.com:gohugoio/hugoDocs.git
+# $ git clone git@github.com:hamoid/long-hugo-doc.git
+# $ long-hugo-doc/generateLongDoc.py --input=hugoDocs/content/ --output=long-hugo-doc/README.md
 
 # Why? I find one long doc easier to navigate (less clicks) and
 # it's also searchable within the browser (CTRL+F)
